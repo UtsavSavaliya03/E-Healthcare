@@ -1,0 +1,159 @@
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
+.login-container {
+    animation: fadeIn 1s;
+    background: url("../../Assets/Login-bg.png");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    width: 100vw;
+    height: 100vh;
+}
+
+.login-form-container {
+    max-width: 450px;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.login-form-wrapper {
+    display: flex;
+    width: 65%;
+    position: absolute;
+    right: 0;
+    top: 8%;
+    justify-content: center;
+    align-items: center;
+}
+
+.login-title {
+    text-transform: uppercase;
+    font-size: 3em;
+    font-weight: 600;
+    text-align: center;
+    letter-spacing: 1px;
+}
+
+.horizontal-separator {
+    width: 185px;
+    height: 4.5px;
+    background-image: linear-gradient(to right, #587ca0, #99ecf6);
+    margin: 5px 0px;
+}
+
+.welcome-message {
+    text-align: center;
+    font-size: 1.1em;
+    line-height: 28px;
+    margin: 17px 0;
+    color: #696969;
+}
+
+.login-form {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.form-control {
+    width: 100%;
+    position: relative;
+    outline: none;
+    border: none;
+    padding: 0;
+}
+
+.login-container input,
+.login-container .btn-submit,
+.login-container .btn-submit:focus {
+    border: none;
+    outline: none;
+    border-radius: 30px;
+    font-size: 1.1em;
+}
+
+input {
+    width: 100%;
+    background: #e6e6e6;
+    color: #333;
+    letter-spacing: 0.5px;
+    padding: 14px 64px;
+}
+
+input~i {
+    position: absolute;
+    left: 32px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #888;
+    transition: color 0.4s;
+}
+
+.form-control>input~i {
+    color: #8fb7df;
+}
+
+.invalid-input>input~i {
+    color: rgb(240, 128, 128);
+}
+
+.login-container .btn-submit {
+    color: #fff;
+    padding: 14px 64px;
+    margin: 32px auto;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    background-image: linear-gradient(to right, #587ca0, #99ecf6);
+    font-weight: bold;
+    cursor: pointer;
+    transition: opacity 0.4s;
+}
+
+.login-container .btn-submit:hover {
+    opacity: 0.9;
+}
+
+.link-container .additional-link {
+    text-decoration: none;
+    color: #597ea3;
+    font-size: 17px;
+    font-weight: 500;
+}
+
+.link-container .additional-link:hover {
+    color: #1b344c;
+}
+
+.login-error-message {
+    color: rgb(255, 104, 104);
+    font-weight: 400;
+    font-size: 14px;
+    height: 15px;
+}
+
+
+/* --------- Responsive --------- */
+@media (max-width: 780px) {
+    .login-form-wrapper {
+        height: 75%;
+        width: 100%;
+    }
+
+    .login-container {
+        background-image: none;
+    }
+
+    .title {
+        font-size: 2em;
+    }
+}
