@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import './Header.css';
 import Avatar from 'react-avatar';
 import { useRecoilState } from 'recoil';
-import { mainLoadingState, userState } from '../../Store/globalState';
+import { mainLoadingState, userState, sidebarStateAtom } from '../../Store/globalState';
 import useHeader from './Hooks/useHeader.jsx';
 import useLogin from './Hooks/useLogin.jsx';
 import { findMe } from './Services/userServices.jsx';
@@ -15,6 +15,7 @@ export default function Header() {
 
     const navigate = useNavigate();
     const [cookies, removeCookie] = useCookies();
+    const [isOpenSidebar, setIsOpenSidebar] = useRecoilState(sidebarStateAtom);
     const [user, setUser] = useRecoilState(userState);
     const [isLoading, setIsLoading] = useRecoilState(mainLoadingState);
     const userId = btoa(cookies.userId) || null;
@@ -46,10 +47,15 @@ export default function Header() {
     }
 
     const logoutHandler = () => {
+        setIsOpenSidebar(false);
         removeCookie('userId');
         removeCookie('token');
         setUser({});
         navigate('/login');
+    }
+
+    const sidebarHandler = () => {
+        setIsOpenSidebar(!isOpenSidebar);
     }
 
     return (
@@ -57,8 +63,9 @@ export default function Header() {
             {isVisibleHeader &&
                 (
                     <div className='header-container d-flex justify-content-between align-items-center'>
-                        <div>
-                            <h3>E-Healthcare</h3>
+                        <div className='d-flex justify-content-between align-items-center'>
+                            <i class="fas fa-bars fa-2x mx-2 header-bar" onClick={sidebarHandler}></i>
+                            <h3 className='mx-2'>E-Healthcare</h3>
                         </div>
                         <div className='d-flex justify-content-between align-items-center'>
                             <button className='mr-4 btn' onClick={logoutHandler}>Logout</button>

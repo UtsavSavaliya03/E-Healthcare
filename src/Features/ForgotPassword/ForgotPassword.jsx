@@ -48,6 +48,7 @@ export default function ForgotPassword() {
       </Helmet>
 
       <div className='password-container'>
+        <i class="fas fa-home fa-2x home-icon m-3" onClick={() => navigate('/')}></i>
         <div className="password-form-wrapper">
           <div className='password-form-container'>
             {isOtpSent ? (

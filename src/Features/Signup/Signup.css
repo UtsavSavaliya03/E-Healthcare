@@ -37,6 +37,17 @@
     letter-spacing: 1px;
 }
 
+.test {
+    position: relative;
+}
+
+.signup-container .home-icon {
+    color: #587ca0;
+    cursor: pointer;
+    position: absolute;
+    right: 0%;
+}
+
 .horizontal-separator {
     width: 185px;
     height: 4.5px;

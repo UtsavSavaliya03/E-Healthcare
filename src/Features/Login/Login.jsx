@@ -52,6 +52,7 @@ export default function Login() {
       </Helmet>
 
       <div className='login-container'>
+        <i class="fas fa-home fa-2x home-icon m-3" onClick={() => navigate('/')}></i>
         <div className="login-form-wrapper">
           <div className='login-form-container'>
             <p className="login-title">Welcome back</p>

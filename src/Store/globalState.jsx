@@ -9,3 +9,8 @@ export const mainLoadingState = atom({
     key: 'mainLoadingState',
     default: false,
 });
+
+export const sidebarStateAtom = atom({
+    key: 'sidebarStateAtom',
+    default: false,
+});

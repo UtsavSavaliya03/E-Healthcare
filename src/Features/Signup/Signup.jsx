@@ -1,7 +1,7 @@
 import React from 'react';
 import './Signup.css';
 import { signup } from './Services/SignupServices.jsx';
-import { useNavigate} from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { Formik, Field, Form } from 'formik';
 import { Helmet } from "react-helmet";
 import * as Yup from 'yup';
@@ -72,6 +72,9 @@ export default function Signup() {
         <meta name="description" content="Helmet application" />
       </Helmet>
       <div className='signup-container'>
+        <div className='test'>
+          <i class="fas fa-home fa-2x home-icon m-3" onClick={() => navigate('/')}></i>
+        </div>
         <div className="signup-form-wrapper">
           <div className='signup-form-container'>
             <p className="signup-title">Welcome to health horizon</p>
