@@ -44,6 +44,11 @@
     letter-spacing: 1px;
 }
 
+.login-container .home-icon {
+    color: #587ca0;
+    cursor: pointer;
+}
+
 .horizontal-separator {
     width: 185px;
     height: 4.5px;

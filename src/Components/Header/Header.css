@@ -1,0 +1,14 @@
+.header-container {
+    padding: 5px 20px 5px 0px;
+    height: 55px;
+    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+}
+
+.header-bar {
+    cursor: pointer;
+    color: rgb(89, 89, 89);
+}
+
+.header-bar:hover {
+    color: black;
+}
