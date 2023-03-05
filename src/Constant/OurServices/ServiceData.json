@@ -1,0 +1,32 @@
+[
+    { 
+        "title": "The Centralized Healthcare System",
+        "description": "A digital platform that integrates medical records, patient data, hospital workflows, and administrative functions to improve the quality of care and operational efficiency in healthcare facilities of the nation.",
+        "icon": "fa fa-globe-americas"
+    },
+    { 
+        "title": "The Hospital Management System",
+        "description": "A digital tool that streamlines and automates administrative, clinical, and financial operations in hospitals to enhance patient care, reduce costs, efficiently manage resources to provide better healthcare services.",
+        "icon": "fa fa-hospital"
+    },
+    { 
+        "title": "The E-Prescribing System For Doctor",
+        "description": "A digital platform that allows doctors to electronically create prescriptions, reducing errors and improving patient safety while increasing efficiency and convenience for both doctors and patients.",
+        "icon": "fa fa-notes-medical"
+    },
+    { 
+        "title": "The Digital Conversion Of Healthcare",
+        "description": "The integration of technology and data-driven solutions in healthcare to improve patient outcomes, enhance access to care, optimize operational efficiency, and reduce costs through innovative approaches.",
+        "icon": "fa fa-laptop-medical"
+    },
+    { 
+        "title": "The Doctor/Patient Management System",
+        "description": "A digital tool that allows doctors and patients to manage appointments, medical records, prescriptions, and communication in a centralized platform, improving patient engagement while streamlining healthcare operations.",
+        "icon": "fa fa-user-md"
+    },
+    { 
+        "title": "The Online Store for Medications",
+        "description": "A digital platform that provides customers with a wide range of medications and healthcare products for purchase online, with convenient delivery options and access to expert advice and support.",
+        "icon": "fa fa-capsules"
+    }
+]

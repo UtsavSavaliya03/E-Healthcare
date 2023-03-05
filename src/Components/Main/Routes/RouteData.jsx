@@ -3,7 +3,7 @@ import PublicRoute from '../../../Routers/PublicRoute.jsx';
 import Signup from '../../../Features/Signup/Signup.jsx';
 import Login from '../../../Features/Login/Login.jsx';
 import ForgotPassword from '../../../Features/ForgotPassword/ForgotPassword.jsx';
-import Home from '../../../Features/Home/Home.jsx';
+import Landing from '../../../Features/Landing/Landing.jsx';
 import Dashboard from '../../../Features/Dashboard/Dashboard.jsx';
 import Error404 from '../../../Features/Error 404/Error404.jsx';
 
@@ -26,7 +26,7 @@ export const routeData = [
     {
         path: "/",
         route: PublicRoute,
-        element: Home,
+        element: Landing,
     },
     {
         path: "/dashboard",
