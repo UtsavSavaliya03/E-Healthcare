@@ -1,0 +1,51 @@
+.main-container {
+  background: url("../../../Assets/Landing-bg.png");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  height: 100vh;
+  font-family: "Jost", sans-serif;
+}
+
+.logo-img {
+  width: 130px;
+  height: 70px;
+}
+
+.landing-nav-links .nav-link {
+  text-transform: uppercase;
+  font-size: 20px;
+  font-weight: 500;
+}
+
+.landing-title {
+  font-size: 90px;
+  line-height: 90%;
+}
+.description-container {
+  font-size: 20px;
+}
+.btnGetStarted {
+  color: white;
+  padding: 14px 50px;
+  text-transform: uppercase;
+  background-color: #0a609a;
+  cursor: pointer;
+  transition: opacity 0.4s;
+  border: 2px solid whitesmoke;
+  border-radius: 5px;
+  font-size: 17px;
+}
+.btnGetStarted:hover {
+  opacity: 0.9;
+}
+@media (max-width: 1000px) {
+  .main-container {
+    background-color: #0ba7ff;
+    background-image: none;
+    height: 100%;
+  }
+  .text-container {
+    width: 80%;
+  }
+}

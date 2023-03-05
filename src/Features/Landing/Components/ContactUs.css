@@ -1,0 +1,123 @@
+.contactus-container {
+  display: flex;
+  font-family: "Jost", sans-serif;
+}
+
+.contact-details-container {
+  background: url("../../../Assets/ContactUs-bg.png");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  width: 100%;
+  text-align: left;
+}
+
+.contactus-form-container {
+  width: 60%;
+}
+
+.contact-social-links {
+  width: 45%;
+  /* margin-top: 200px; */
+}
+.contact-icons {
+  color: #004aad;
+}
+
+/* ---------- Contact Us Form CSS ---------- */
+.contactus-form {
+  width: 100%;
+  /* display: flex; */
+  /* flex-direction: column; */
+  justify-content: center;
+  align-items: center;
+}
+
+.form-control {
+  width: 100%;
+  position: relative;
+  outline: none;
+  border: none;
+  padding: 0;
+}
+.contactus-form-title{
+  color: #07479c;
+}
+
+.contactus-form-container .input-field,
+.contactus-form-container textarea,
+.contactus-form-container .btn-submit,
+.contactus-form-container .btn-submit:focus {
+  border: none;
+  outline: none;
+  border-radius: 8px;
+  font-size: 1.1em;
+}
+
+.contactus-form-container .input-field {
+  width: 100%;
+  background: #f2f2f2;
+  color: #333;
+  letter-spacing: 0.5px;
+  padding: 14px 64px;
+}
+
+.contactus-form-container .input-field ~ i {
+  position: absolute;
+  left: 32px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #888;
+  transition: color 0.4s;
+}
+
+.form-control > .input-field ~ i {
+  color: #8fb7df;
+}
+
+.invalid-input > .input-field ~ i {
+  color: rgb(240, 128, 128);
+}
+
+.contactus-form-container .btn-submit {
+  color: #fff;
+  padding: 14px 64px;
+  margin: 32px auto;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  background-image: linear-gradient(to right, #587ca0, #99ecf6);
+  font-weight: bold;
+  cursor: pointer;
+  transition: opacity 0.4s;
+}
+
+.contactus-form-container .btn-submit:hover {
+  opacity: 0.9;
+}
+
+.contactus-error-message {
+  color: rgb(255, 104, 104);
+  font-weight: 400;
+  font-size: 14px;
+  height: 15px;
+}
+
+/* --------- Responsive --------- */
+@media (max-width: 780px) {
+  .contactus-form-wrapper {
+    width: 100%;
+  }
+  
+  .contactus-container{
+    display: flex;
+    justify-content: center;
+  }
+
+  .contactus-form-container {
+    width: 100%;
+  }
+
+  .contactus-title {
+    font-size: 2em;
+  }
+}
