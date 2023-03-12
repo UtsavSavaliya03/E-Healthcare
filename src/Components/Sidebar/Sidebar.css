@@ -1,4 +1,4 @@
-.sidebar_container {
+/* .sidebar_container {
     width: 250px;
     position: fixed;
     left: 0%;
@@ -8,17 +8,11 @@
     box-shadow: rgba(99, 99, 99, 0.2) 5px 10px 10px -3px, inset rgba(99, 99, 99, 0.2) 2px 2px 8px 0px;
 }
 
-.hide-sidebar {
-    left: -35%;
-}
+
 
 main {
     transition: all 500ms ease;
     padding-top: 0px;
-}
-
-.main-toggle {
-    padding-left: 250px;
 }
 
 .sidebar_container li a {
@@ -45,7 +39,7 @@ main {
 }
 
 /* --------- Responsive --------- */
-@media (max-width: 780px) {
+/* @media (max-width: 780px) {
     .main-toggle {
         padding-left: 0px;
     }
@@ -53,4 +47,100 @@ main {
     .hide-sidebar {
         left: -80%;
     }
+}  */
+
+ul {
+  list-style: none;
+}
+li {
+  list-style: none;
+}
+a {
+  text-decoration: none;
+}
+.sidebar-main-container {
+  display: flex;
+}
+.sidebar {
+  background: #0b8fdc;
+  color: white;
+  height: 100vh;
+  overflow-y: auto;
+}
+.hide-sidebar {
+  display: none;
+}
+.main-toggle {
+  width: 100%;
+}
+.sidebar-top-section {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.logo {
+  font-size: 18px;
+  line-height: 0;
+}
+.hide {
+  display: none;
+}
+
+.sidebar-routes {
+  margin-top: 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+.sidebar-link {
+  display: flex;
+  color: white;
+  gap: 10px;
+  padding: 5px 10px;
+  border-right: 4px solid transparent;
+  transition: 0.2s cubic-bezier(0.6, -0.28, 0.735, 0.045);
+}
+.sidebar-link:hover {
+  border-right: 4px solid white;
+  background: #0a609a;
+  transition: 0.2s cubic-bezier(0.6, -0.28, 0.735, 0.045);
+  text-decoration: none;
+  color: white;
+}
+.active {
+  border-right: 4px solid white;
+  background: #0a609a;
+}
+.sidebar-link-text {
+  white-space: nowrap;
+  font-size: 15px;
+}
+
+.sidebar-menu {
+  display: flex;
+  color: white;
+  padding: 5px 10px;
+  border-right: 4px solid transparent;
+  transition: 0.2s cubic-bezier(0.6, -0.28, 0.735, 0.045);
+  justify-content: space-between;
+}
+.sidebar-menu-item {
+  display: flex;
+  gap: 10px;
+}
+.sidebar-menu-container {
+  display: flex;
+  flex-direction: column;
+}
+.sidebar-menu-container .link {
+  padding-left: 20px;
+  border-bottom: #fff 0.5px solid;
+}
+.break-line-1{
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
 }

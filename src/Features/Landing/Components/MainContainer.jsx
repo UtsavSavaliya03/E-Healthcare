@@ -30,7 +30,7 @@ function MainContainer() {
           >
             <ul className="navbar-nav">
               <li className="nav-item">
-                <a className="nav-link text-light mx-4 px-3 active" href="/">
+                <a className="nav-link text-light mx-4 px-3" href="/">
                   Home
                 </a>
               </li>
