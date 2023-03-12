@@ -9,4 +9,9 @@ export const sidebarData = [
         title: 'Dashboard',
         icon : <i className="fas fa-lock px-3"></i>,
     },
+    {
+        path: '/main',
+        title: 'Doctor',
+        icon : <i className="fas fa-lock px-3"></i>,
+    },
 ]

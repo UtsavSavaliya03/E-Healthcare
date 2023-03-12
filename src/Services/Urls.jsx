@@ -39,3 +39,27 @@ export const EnquiryUrls = {
     },
 }
 
+export const NewsletterUrls = {
+    subscribe: () => {
+        return baseUrl + `/newsletter`;
+    },
+}
+
+export const DoctorUrls = {
+    addDoctor: () => {
+        return baseUrl + `/doctor`;
+    },
+    fetchDoctors: () => {
+        return baseUrl + `/doctor`;
+    },
+    fetchDoctorById: (id) => {
+        return baseUrl + `/doctor/${id}`;
+    },
+    updateDoctor: (id) => {
+        return baseUrl + `/doctor/${id}`;
+    },
+    deleteDoctor: (id) => {
+        return baseUrl + `/doctor/${id}`;
+    },
+}
+

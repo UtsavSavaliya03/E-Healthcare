@@ -1,6 +1,6 @@
 import React from "react";
 import "./MainContainer.css";
-import logo from "../../../Assets/Logo.png";
+import logo from "../../../Assets/Logos/Logo.png";
 import { useNavigate } from "react-router";
 
 function MainContainer() {

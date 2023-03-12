@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "./ContactUs.css";
 import * as Yup from "yup";
-import { Formik, Field, Form, useField } from "formik";
+import { Formik, Field, Form } from "formik";
 import { enquiry } from "../Services/EnuiryServices.jsx";
 import Alert from '../../../Components/Common/Alert/SweetAlert.jsx';
 
@@ -19,7 +19,7 @@ function ContactUs() {
     }
     const enquiryResponse = await enquiry(params);
     if (enquiryResponse?.status) {
-      alert.alert('success', 'Done!', 'Your message sent successfully.')
+      alert.alert('success', 'Done!', 'Your message sent successfully.');
     }
   };
 

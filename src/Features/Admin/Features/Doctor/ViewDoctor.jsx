@@ -1,7 +1,668 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import './ViewDoctor.css';
+import { fetchDoctorById } from '../../Services/doctorServices';
+import { useNavigate, useLocation } from 'react-router-dom';
+import { useCookies } from 'react-cookie';
+import profilePicture from '../../../../Assets/Icons/user.jpg';
+import Notificaion from '../../../../Components/Common/Notification/Notification.jsx';
+import { TextField, MenuItem, RadioGroup, FormControlLabel, Radio, FormLabel, FormControl, IconButton } from '@mui/material';
+import ContentCopyIcon from '@mui/icons-material/ContentCopy';
+import EditIcon from '@mui/icons-material/Edit';
+import ClearIcon from '@mui/icons-material/Clear';
+import { useFormik } from 'formik';
+import * as Yup from 'yup';
+import moment from 'moment';
+import { bloodGroupData } from '../../../../Constant/Doctor/doctorDetails.jsx';
+import { sidebarStateAtom, editDoctorStateAtom } from '../../../../Store/globalState.jsx';
+import { useRecoilState, useRecoilValue } from 'recoil';
+import { Spinner } from '../../../../Components/Common/Spinners/Spinners.jsx';
+let Country = require('country-state-city').Country;
+let State = require('country-state-city').State;
+let City = require('country-state-city').City;
 
 export default function ViewDoctor() {
+
+  const notification = new Notificaion;
+  const navigate = useNavigate();
+  const location = useLocation();
+  const isSidebarOpen = useRecoilValue(sidebarStateAtom);
+  const [cookies] = useCookies();
+  const token = cookies.token || null;
+  const [doctor, SetDoctor] = useState({});
+  const [isLoading, setIsLoading] = useState(true);
+  const [enableEdit, setEnableEdit] = useRecoilState(editDoctorStateAtom);
+  const Countries = Country.getAllCountries();
+  const [profileImg, setProfileImg] = useState(profilePicture);
+  const [imgFile, setImgFile] = useState(null);
+
+  const fetchDoctorHandler = async () => {
+    setIsLoading(true);
+    const pathArray = (location.pathname).split('/');
+    const doctorId = atob(pathArray[3]) || null;
+
+    const headers = {
+      'Authorization': token
+    }
+
+    const doctor = await fetchDoctorById(doctorId, headers);
+    SetDoctor(doctor.data);
+
+    if (!(doctor?.status)) {
+      navigate('/main/add-doctor');
+    }
+
+    setIsLoading(false);
+  }
+
+  useEffect(() => {
+    fetchDoctorHandler();
+
+    return(()=>{
+      setEnableEdit(false);
+    })
+  }, []);
+
+  const maxSelectFile = (event) => {
+    let files = event.target.files;
+    if (files.length > 1) {
+      notification.notify(false, 'Maximum 1 file is allowed...!');
+      event.target.value = null;
+      return false;
+    } else {
+      for (let i = 0; i < files.length; i++) {
+        if (files[i].size > 1000000) { // 1 MB
+          notification.notify(false, "Fiel must be less then 1 Mb...!")
+        }
+      }
+    }
+    return true;
+  }
+
+  const fileChangeHandler = (event) => {
+    const file = event.target.files[0];
+    if (file != null) {
+      if (maxSelectFile(event)) {
+        setProfileImg(URL.createObjectURL(file));
+        setImgFile(file);
+      }
+    }
+  }
+
+  const upload = () => {
+    document.getElementById("profileImgUrl").click()
+  }
+
+  const initialValues = {
+    // profileImgUrl: imgFile,
+    fName: doctor?.fName,
+    lName: doctor?.lName,
+    email: doctor?.email,
+    mobileNo: doctor?.mobileNo,
+    department: doctor?.department,
+    experience: doctor?.experience,
+    dateOfBirth: moment(doctor?.dateOfBirth).format("YYYY-MM-DD"),
+    bloodGroup: doctor?.bloodGroup,
+    gender: doctor?.gender,
+    shortBio: doctor?.shortBio,
+    addressLine: doctor?.addressLine,
+    country: doctor?.country?.isoCode,
+    state: doctor?.state?.isoCode,
+    city: doctor?.city?.name,
+    pincode: doctor?.pincode,
+  };
+
+  const DoctorSchema = Yup.object().shape({
+    fName: Yup.string()
+      .matches(/^[A-Z]+$/i, 'Allow only alphabets.')
+      .trim()
+      .required(' '),
+    lName: Yup.string()
+      .matches(/^[A-Z]+$/i, 'Allow only alphabets.')
+      .trim()
+      .required(' '),
+    email: Yup.string()
+      .email('Invalid email address.')
+      .trim()
+      .required(' '),
+    mobileNo: Yup.string()
+      .typeError("Invalid contact number")
+      .trim()
+      .matches(/^[1-9]{1}[0-9]{9}$/, 'Invalid phone number')
+      .required(' '),
+    department: Yup.string()
+      .trim()
+      .required(' '),
+    experience: Yup.number()
+      .required(' '),
+    dateOfBirth: Yup.date()
+      .min('01-01-1950')
+      .max(moment(new Date()).format("YYYY-MM-DD"))
+      .required(' '),
+    bloodGroup: Yup.string()
+      .required(' '),
+    gender: Yup.string()
+      .required('Required'),
+    shortBio: Yup.string()
+      .required(' '),
+    addressLine: Yup.string()
+      .required(' '),
+    country: Yup.string()
+      .required(' '),
+    state: Yup.string(),
+    city: Yup.string(),
+    pincode: Yup.string()
+      .typeError("Invalid pincode")
+      .trim()
+      .matches(/^[1-9]{1}[0-9]{5}$/, 'Invalid pincode')
+      .required(' '),
+  })
+
+  const updateHandler = async (doctorCredentials) => {
+    const country = Country.getCountryByCode(doctorCredentials?.country);
+    const state = State.getStateByCode(doctorCredentials?.state);
+    let cityObj;
+    const allCities = City.getCitiesOfState(country?.isoCode, state?.isoCode);
+
+    allCities?.filter((city) => {
+      if (city?.name == doctorCredentials?.city) {
+        cityObj = city;
+      }
+    })
+
+    const params = {
+      // profileImgUrl: imgFile,
+      fName: doctorCredentials?.fName,
+      lName: doctorCredentials?.lName,
+      email: doctorCredentials?.email,
+      mobileNo: doctorCredentials?.mobileNo,
+      department: doctorCredentials?.department,
+      experience: doctorCredentials?.experience,
+      dateOfBirth: doctorCredentials?.dateOfBirth,
+      bloodGroup: doctorCredentials?.bloodGroup,
+      gender: doctorCredentials?.gender,
+      shortBio: doctorCredentials?.shortBio,
+      addressLine: doctorCredentials?.addressLine,
+      country: country,
+      state: state,
+      city: cityObj,
+      pincode: doctorCredentials?.pincode,
+    }
+
+    console.log(params)
+
+  }
+
+  const AddDoctorForm = () => {
+    const formik = useFormik({
+      initialValues: initialValues,
+      validationSchema: DoctorSchema,
+      onSubmit: (values) => {
+        updateHandler(values)
+      },
+    });
+
+    return (
+      <div className='pb-4'>
+        <div className='view-doctore-profile'>
+          <div className='row py-4'>
+            <div className='col-sm-12 col-lg-2 py-2 px-5'>
+              <div className='doctor-profile-img-container'>
+                <img
+                  className='doctor-profile-img'
+                  src={profileImg}
+                />
+                <div className={`${enableEdit ? 'doctor-profile-icons' : 'd-none'}`}>
+                  <i className="fas fa-camera camera-icon mx-1" onClick={() => { upload() }}></i>
+                  <i className="fas fa-times remove-icon mx-1" onClick={() => { setProfileImg(profilePicture) }}></i>
+                  <input
+                    id="profileImgUrl"
+                    name='profileImgUrl'
+                    accept="image/*"
+                    hidden
+                    type="file"
+                    onChange={(event) => fileChangeHandler(event)}
+                  />
+                </div>
+              </div>
+            </div>
+            <div className={`col-sm-12 col-lg-10 pr-lg-5 px-5 mt-md-3 mt-lg-0 ${isSidebarOpen ? 'pl-lg-4' : 'pl-lg-2'}`}>
+              <div className='mb-3'>
+                <h4 className='title m-0'>{`${doctor?.fName} ${doctor?.lName}`}</h4>
+                <div className='d-flex justify-content-start align-items-center'>
+                  <p className='value m-0 break-line-1'>{doctor?.email}</p>
+                  <div className='doctor-card-copy-icon ml-1'>
+                    <IconButton
+                      size="small"
+                      onClick={() => { navigator.clipboard.writeText(doctor?.email) }}
+                    >
+                      <ContentCopyIcon fontSize="small" />
+                    </IconButton>
+                  </div>
+                </div>
+              </div>
+              <p className='text-muted m-0'>{doctor?.shortBio}</p>
+            </div>
+          </div>
+        </div>
+
+        <div className='view-doctore-edit-container my-5 pb-5'>
+          <div className='body-title py-3 px-4 d-flex justify-content-between align-items-center'>
+            <div>
+              <h5>About</h5>
+              <div className='horizontal-bar'></div>
+            </div>
+            <div className='edit-icon'>
+              {enableEdit ? (
+                <IconButton
+                  onClick={() => { setEnableEdit(false) }}
+                >
+                  <ClearIcon />
+                </IconButton>
+              ) : (
+                <IconButton
+                  onClick={() => { setEnableEdit(true) }}
+                >
+                  <EditIcon />
+                </IconButton>
+              )}
+            </div>
+          </div>
+          {
+            enableEdit ? (
+              <div className='fade-in'>
+                <form className='login-form' onSubmit={formik.handleSubmit} autoComplete="off">
+                  <div className='row px-4 my-md-1'>
+                    <div className='col-sm-3 my-3 my-md-0'>
+                      <div>
+                        <TextField
+                          className='w-100'
+                          name='fName'
+                          label="First Name"
+                          value={formik.values.fName}
+                          error={formik.touched.fName && Boolean(formik.errors.fName)}
+                          onChange={formik.handleChange}
+                        />
+                        <div className='add-doctor-error-message text-right mr-1'>
+                          {(formik.touched.fName) ? (formik.errors.fName) : null}
+                        </div>
+                      </div>
+                    </div>
+                    <div className='col-sm-3 my-3 my-md-0'>
+                      <TextField
+                        className='w-100'
+                        name='lName'
+                        label="Last Name"
+                        value={formik.values.lName}
+                        error={formik.touched.lName && Boolean(formik.errors.lName)}
+                        onChange={formik.handleChange}
+                      />
+                      <div className='add-doctor-error-message text-right mr-1'>
+                        {(formik.touched.lName) ? (formik.errors.lName) : null}
+                      </div>
+                    </div>
+                    <div className='col-sm-3 my-3 my-md-0'>
+                      <TextField
+                        className='w-100'
+                        name='email'
+                        label="Personal Email"
+                        value={formik.values.email}
+                        error={formik.touched.email && Boolean(formik.errors.email)}
+                        onChange={formik.handleChange}
+                      />
+                      <div className='add-doctor-error-message text-right mr-1'>
+                        {(formik.touched.email) ? (formik.errors.email) : null}
+                      </div>
+                    </div>
+                    <div className='col-sm-3 my-3 my-md-0'>
+                      <TextField
+                        className='w-100'
+                        type='number'
+                        name='mobileNo'
+                        label="Mobile Number"
+                        value={formik.values.mobileNo}
+                        error={formik.touched.mobileNo && Boolean(formik.errors.mobileNo)}
+                        onChange={formik.handleChange}
+                      />
+                      <div className='add-doctor-error-message text-right mr-1'>
+                        {(formik.touched.mobileNo) ? (formik.errors.mobileNo) : null}
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className='row px-4 my-md-1'>
+                    <div className='col-sm-3 my-3 my-md-0'>
+                      <TextField
+                        className='w-100'
+                        name='department'
+                        label="Department"
+                        select
+                        value={formik.values.department}
+                        error={formik.touched.department && Boolean(formik.errors.department)}
+                        onChange={formik.handleChange}
+                      >
+                        <MenuItem value='A+'>A+</MenuItem>
+                        <MenuItem value='A-'>A-</MenuItem>
+                        <MenuItem value='B+'>B+</MenuItem>
+                        <MenuItem value='B-'>B-</MenuItem>
+                      </TextField>
+                      <div className='add-doctor-error-message text-right mr-1'>
+                        {(formik.touched.department) ? (formik.errors.department) : null}
+                      </div>
+                    </div>
+                    <div className='col-sm-3 my-3 my-md-0'>
+                      <TextField
+                        className='w-100'
+                        type='number'
+                        name='experience'
+                        label="Experience"
+                        value={formik.values.experience}
+                        error={formik.touched.experience && Boolean(formik.errors.experience)}
+                        onChange={formik.handleChange}
+                      />
+                      <div className='add-doctor-error-message text-right mr-1'>
+                        {(formik.touched.experience) ? (formik.errors.experience) : null}
+                      </div>
+                    </div>
+                    <div className='col-sm-3 my-3 my-md-0'>
+                      <TextField
+                        type='date'
+                        className='w-100'
+                        name='dateOfBirth'
+                        label='Date Of Birth'
+                        InputLabelProps={{
+                          shrink: true
+                        }}
+                        value={formik.values.dateOfBirth}
+                        error={formik.touched.dateOfBirth && Boolean(formik.errors.dateOfBirth)}
+                        onChange={formik.handleChange}
+                      />
+                      <div className='add-doctor-error-message text-right mr-1'>
+                        {(formik.touched.dateOfBirth) ? (formik.errors.dateOfBirth) : null}
+                      </div>
+                    </div>
+                    <div className='col-sm-3 my-3 my-md-0'>
+                      <TextField
+                        className='w-100'
+                        name='bloodGroup'
+                        label='Blood Group'
+                        select
+                        value={formik.values.bloodGroup}
+                        error={formik.touched.bloodGroup && Boolean(formik.errors.bloodGroup)}
+                        onChange={formik.handleChange}
+                      >
+                        {
+                          bloodGroupData?.map((bloodGroup, index) => (
+                            <MenuItem key={index} value={bloodGroup?.value}>{bloodGroup?.label}</MenuItem>
+                          ))
+                        }
+                      </TextField>
+                      <div className='add-doctor-error-message text-right mr-1'>
+                        {(formik.touched.bloodGroup) ? (formik.errors.bloodGroup) : null}
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className='px-4'>
+                    <FormControl>
+                      <FormLabel id="demo-radio-buttons-group-label" className={`m-0 ${(formik.touched.gender && Boolean(formik.errors.gender) ? 'text-danger' : '')}`}>Gender</FormLabel>
+                      <RadioGroup
+                        row
+                        aria-labelledby="demo-radio-buttons-group-label"
+                        name="gender"
+                        value={formik.values.gender}
+                        onChange={formik.handleChange}
+                      >
+                        <FormControlLabel value="Male" control={<Radio />} label="Male" />
+                        <FormControlLabel value="Female" control={<Radio />} label="Female" />
+                        <FormControlLabel value="Transgender" control={<Radio />} label="Transgender" />
+                      </RadioGroup>
+                    </FormControl>
+                    <div className='add-doctor-gender-error-message'>
+                      {(formik.touched.gender) ? (formik.errors.gender) : null}
+                    </div>
+                  </div>
+
+                  <div className='row px-4 my-3'>
+                    <div className='col-sm-12'>
+                      <TextField
+                        multiline
+                        rows={5}
+                        className='w-100'
+                        name='shortBio'
+                        label="Short Biography"
+                        value={formik.values.shortBio}
+                        error={formik.touched.shortBio && Boolean(formik.errors.shortBio)}
+                        onChange={formik.handleChange}
+                      />
+                      <div className='add-doctor-error-message text-right mr-1'>
+                        {(formik.touched.shortBio) ? (formik.errors.shortBio) : null}
+                      </div>
+                    </div>
+                  </div>
+
+                  <hr className='mx-3' />
+                  <div className='body-title py-3 px-4'>
+                    <h5>Contact Information</h5>
+                    <div className='horizontal-bar'></div>
+                  </div>
+                  <div className='row px-4 my-sm-3 my-md-1'>
+                    <div className='col-sm-6 my-3 my-md-0'>
+                      <TextField
+                        className='w-100'
+                        name='addressLine'
+                        label="Address Line"
+                        value={formik.values.addressLine}
+                        error={formik.touched.addressLine && Boolean(formik.errors.addressLine)}
+                        onChange={formik.handleChange}
+                      />
+                      <div className='add-doctor-error-message text-right mr-1'>
+                        {(formik.touched.addressLine) ? (formik.errors.addressLine) : null}
+                      </div>
+                    </div>
+                    <div className='col-sm-3 my-3 my-md-0'>
+                      <TextField
+                        className='w-100'
+                        name='country'
+                        label="Country"
+                        select
+                        value={formik.values.country}
+                        error={formik.touched.country && Boolean(formik.errors.country)}
+                        onChange={formik.handleChange}
+                      >
+                        {
+                          (Countries?.length > 0) ? (
+                            Countries?.map((country, index) => (
+                              <MenuItem key={index} value={country?.isoCode}>{country?.name}</MenuItem>
+                            ))
+                          ) : (
+                            <h3>No Country</h3>
+                          )
+                        }
+                      </TextField>
+                      <div className='add-doctor-error-message text-right mr-1'>
+                        {(formik.touched.country) ? (formik.errors.country) : null}
+                      </div>
+                    </div>
+                    <div className='col-sm-3 my-3 my-md-0'>
+                      <TextField
+                        className='w-100'
+                        name='state'
+                        label="State"
+                        select
+                        value={formik.values.state}
+                        error={formik.touched.state && Boolean(formik.errors.state)}
+                        onChange={formik.handleChange}
+                      >
+                        {
+                          formik.values.country &&
+                            (State.getStatesOfCountry(formik.values.country)?.length > 0) ? (
+                            State.getStatesOfCountry(formik.values.country)?.map((stete, index) => (
+                              <MenuItem key={index} value={stete?.isoCode}>{stete?.name}</MenuItem>
+                            ))
+                          ) : (
+                            <p className='text-center m-0'>No State</p>
+                          )
+                        }
+                      </TextField>
+                      <div className='add-doctor-error-message text-right mr-1'>
+                        {(formik.touched.state) ? (formik.errors.state) : null}
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className='row px-4 my-sm-3 my-md-1'>
+                    <div className='col-sm-3 my-3 my-md-0'>
+                      <TextField
+                        className='w-100'
+                        name='city'
+                        label="City"
+                        select
+                        value={formik.values.city}
+                        error={formik.touched.city && Boolean(formik.errors.city)}
+                        onChange={formik.handleChange}
+                      >
+                        {
+                          formik.values.state &&
+                            (City.getCitiesOfState(formik.values.country, formik.values.state)?.length > 0) ? (
+                            City.getCitiesOfState(formik.values.country, formik.values.state)?.map((city, index) => (
+                              <MenuItem key={index} value={city?.name}>{city?.name}</MenuItem>
+                            ))
+                          ) : (
+                            <p className='text-center m-0'>No City</p>
+                          )
+                        }
+                      </TextField>
+                      <div className='add-doctor-error-message text-right mr-1'>
+                        {(formik.touched.city) ? (formik.errors.city) : null}
+                      </div>
+                    </div>
+                    <div className='col-sm-3 my-3 my-md-0'>
+                      <TextField
+                        className='w-100'
+                        name='pincode'
+                        label="Pincode"
+                        type='number'
+                        value={formik.values.pincode}
+                        error={formik.touched.pincode && Boolean(formik.errors.pincode)}
+                        onChange={formik.handleChange}
+                      />
+                      <div className='add-doctor-error-message text-right mr-1'>
+                        {(formik.touched.pincode) ? (formik.errors.pincode) : null}
+                      </div>
+                    </div>
+                  </div>
+                  <hr className='mx-3 mb-4' />
+                  <div className='w-100 text-right px-5'>
+                    <button className='btn-create-doctor' type='submit'>Update</button>
+                  </div>
+                </form>
+              </div>
+            ) : (
+              <DisplayDoctorInformation />
+            )
+          }
+        </div>
+      </div>
+    )
+  }
+
+  const DisplayDoctorInformation = () => {
+    return (
+      <div className='fade-in'>
+        <div className='row px-4 pb-lg-3'>
+          <div className='col-sm-3 my-3 my-md-0'>
+            <p className='label m-0'>First Name</p>
+            <p className='value m-0'>{doctor?.fName}</p>
+          </div>
+          <div className='col-sm-3 my-3 my-md-0'>
+            <p className='label m-0'>Last Name</p>
+            <p className='value m-0'>{doctor?.lName}</p>
+          </div>
+          <div className='col-sm-3 my-3 my-md-0'>
+            <p className='label m-0'>Personal Email</p>
+            <p className='value break-line-1 m-0'>{doctor?.email}</p>
+          </div>
+          <div className='col-sm-3 my-3 my-md-0'>
+            <p className='label m-0'>Mobile Number</p>
+            <p className='value m-0'>{doctor?.mobileNo}</p>
+          </div>
+        </div>
+
+        <div className='row px-4 py-md-3'>
+          <div className='col-sm-3 my-3 my-md-0'>
+            <p className='label m-0'>Department</p>
+            <p className='value m-0'>{doctor?.department}</p>
+          </div>
+          <div className='col-sm-3 my-3 my-md-0'>
+            <p className='label m-0'>Experience</p>
+            <p className='value m-0'>{doctor?.experience} {`${doctor?.experience > 1 ? 'Years' : 'Year'}`}</p>
+          </div>
+          <div className='col-sm-3 my-3 my-md-0'>
+            <p className='label m-0'>Date Of Birth</p>
+            <p className='value m-0'>{moment(doctor.dateOfBirth).format('LL')}</p>
+          </div>
+          <div className='col-sm-3 my-3 my-md-0'>
+            <p className='label m-0'>Blood Group</p>
+            <p className='value m-0'>{doctor?.bloodGroup}</p>
+          </div>
+        </div>
+
+        <div className='row px-4 py-md-3'>
+          <div className='col-12 my-3 my-md-0'>
+            <p className='label m-0'>Gender</p>
+            <p className='value m-0'>{doctor?.gender}</p>
+          </div>
+        </div>
+
+        <div className='row px-4 py-lg-3'>
+          <div className='col-12 my-3 my-md-0'>
+            <p className='value m-0'>Short Biography</p>
+            <p className='text-muted m-0'>{doctor?.shortBio}</p>
+          </div>
+        </div>
+
+        <hr className='mx-3' />
+        <div className='body-title py-3 px-4'>
+          <h5>Contact Information</h5>
+          <div className='horizontal-bar'></div>
+        </div>
+
+        <div className='row px-4 py-lg-3'>
+          <div className='col-sm-6 my-3 my-md-0'>
+            <p className='label m-0'>Address</p>
+            <p className='value break-line-1 m-0'>{doctor?.addressLine}</p>
+          </div>
+          <div className='col-sm-3 my-3 my-md-0'>
+            <p className='label m-0'>Country</p>
+            <p className='value m-0'>{doctor?.country?.name}</p>
+          </div>
+          <div className='col-sm-3 my-3 my-md-0'>
+            <p className='label m-0'>State</p>
+            <p className='value m-0'>{doctor?.state?.name || '---'}</p>
+          </div>
+        </div>
+
+        <div className='row px-4 py-md-3'>
+          <div className='col-sm-3 my-3 my-md-0'>
+            <p className='label m-0'>City</p>
+            <p className='value m-0'>{doctor?.city?.name || '---'}</p>
+          </div>
+          <div className='col-sm-3 my-3 my-md-0'>
+            <p className='label m-0'>Pincode</p>
+            <p className='value m-0'>{doctor?.pincode}</p>
+          </div>
+        </div>
+      </div>
+    )
+  }
+
   return (
-    <div>View Doctor</div>
+    <div className='add-doctore-container py-lg-4 px-lg-5 py-3 px-3'>
+      {isLoading ? (
+        <Spinner />
+      ) : (
+        <AddDoctorForm />
+      )}
+    </div>
   )
 }

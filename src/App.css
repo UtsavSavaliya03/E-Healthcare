@@ -1,3 +1,5 @@
+@import url('./Assets/Bootstrap/bootstrap.min.css');
+
 /* -------- Scroll bar ------- */
 
 ::-webkit-scrollbar {
@@ -6,7 +8,7 @@
 
 /* Track */
 ::-webkit-scrollbar-track {
-  background: #cecece;
+  background: transparent;
 }
 
 /* Handle */

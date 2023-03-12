@@ -8,11 +8,16 @@ import Dashboard from '../../../Features/Dashboard/Dashboard.jsx';
 import Admin from '../../../Features/Admin/Admin.jsx';
 import AdminDashboard from '../../../Features/Admin/Features/Dashboard/Dashboard.jsx';
 import AddDoctor from '../../../Features/Admin/Features/Doctor/AddDoctor.jsx';
-import UpdateDoctor from '../../../Features/Admin/Features/Doctor/UpdateDoctor.jsx';
 import ViewDoctor from '../../../Features/Admin/Features/Doctor/ViewDoctor.jsx';
 import Error404 from '../../../Features/Error 404/Error404.jsx';
+import DoctorList from '../../../Features/Admin/Features/Doctor/DoctorList.jsx';
 
 export const routeData = [
+    {
+        path: "/",
+        route: PublicRoute,
+        element: Landing,
+    },
     {
         path: "/signup",
         route: PublicRoute,
@@ -29,17 +34,12 @@ export const routeData = [
         element: ForgotPassword,
     },
     {
-        path: "/",
-        route: PublicRoute,
-        element: Landing,
-    },
-    {
         path: "/dashboard",
         route: AuthorizedRoute,
         element: Dashboard,
     },
     {
-        path: "admin",
+        path: "/main",
         route: AuthorizedRoute,
         element: Admin,
         children: [
@@ -52,12 +52,12 @@ export const routeData = [
                 element: AddDoctor
             },
             {
-                path: "update-doctor",
-                element: UpdateDoctor
+                path: "view-doctor/:id",
+                element: ViewDoctor
             },
             {
-                path: "view-doctor",
-                element: ViewDoctor
+                path: "doctor-list",
+                element: DoctorList
             },
         ]
     },

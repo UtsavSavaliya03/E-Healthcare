@@ -5,15 +5,17 @@ import { Link } from "react-router-dom";
 import { sidebarData } from './SidebarData/SidebarData.jsx';
 import { useLocation } from 'react-router-dom';
 import { sidebarStateAtom } from '../../Store/globalState.jsx';
+import useHeader from '../Header/Hooks/useHeader.jsx';
 
 export default function Sidebar({ children }) {
 
     const location = useLocation();
     const isOpenSidebar = useRecoilValue(sidebarStateAtom);
+    const isHeader = useHeader();
 
     return (
         <>
-            <div className={`sidebar_container ${isOpenSidebar ? '' : 'hide-sidebar'}`}>
+            <div className={`sidebar-container ${isOpenSidebar ? '' : 'hide-sidebar'}`}>
                 <ul className='p-2 m-0'>
                     {
                         sidebarData?.map((sidebar, index) => {
@@ -27,7 +29,7 @@ export default function Sidebar({ children }) {
                     }
                 </ul>
             </div>
-            <main className={`${isOpenSidebar ? 'main-toggle' : '' }`}>{children}</main>
+            <main className={`${isOpenSidebar ? 'main-toggle' : ''} ${isHeader ? 'sidebar-container-main' : 'sidebar-container-main-full'}`}>{children}</main>
         </>
     )
 }
