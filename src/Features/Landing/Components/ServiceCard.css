@@ -12,14 +12,6 @@ body {
   font-family: 'Roboto', sans-serif;
 }
 
-section {
-  width: 100%;
-  height: 100vh;
-  box-sizing: border-box;
-  padding: 140px 0; 
-  
-}
-
 .card {
   min-width: 320px;
   height: auto;

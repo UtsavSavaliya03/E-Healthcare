@@ -1,7 +1,14 @@
 import React from 'react';
+import AppointmentContainer from './Components/AppointmentContainer.jsx';
+import FacilityCardContainer from './Components/FacilityCardContainer.jsx';
+import PrescriptionContainer from './Components/PrescriptionContainer.jsx';
 
 export default function Dashboard() {
   return (
-    <div><h1>Dashboard</h1></div>
+    <>
+        <AppointmentContainer/>
+        <PrescriptionContainer/>
+        <FacilityCardContainer/>
+    </>
   )
 }

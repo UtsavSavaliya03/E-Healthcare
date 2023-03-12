@@ -1,0 +1,10 @@
+.footer{
+    background-color: #0b8fdc;
+}
+.footer-link-wrapper-container a{
+    text-decoration: none;
+    color: white
+}
+.footer .footer-logo img{
+    width: 15%;
+}
