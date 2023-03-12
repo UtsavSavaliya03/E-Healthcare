@@ -20,7 +20,19 @@ export default function Routers() {
                         routeData?.map((route, index) => {
                             return (
                                 <Route key={index} element={<route.route />} >
-                                    <Route path={route.path} element={<route.element />} />
+                                    {route?.children ? (
+                                        <Route path={route.path} element={<route.element />}>
+                                            {
+                                                (route?.children)?.map((childRoute, index) => {
+                                                    return (
+                                                        <Route key={index} index path={childRoute?.path} element={<childRoute.element />} />
+                                                    )
+                                                })
+                                            }
+                                        </Route>
+                                    ) : (
+                                        <Route path={route.path} element={<route.element />} />
+                                    )}
                                 </Route>
                             )
                         })

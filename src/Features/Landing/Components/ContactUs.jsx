@@ -1,12 +1,26 @@
-import React from "react";
+import React, { useState } from "react";
 import "./ContactUs.css";
 import * as Yup from "yup";
-import { Formik, Field, Form } from "formik";
+import { Formik, Field, Form, useField } from "formik";
+import { enquiry } from "../Services/EnuiryServices.jsx";
+import Alert from '../../../Components/Common/Alert/SweetAlert.jsx';
 
 function ContactUs() {
 
-  const signupHandler = async (signupCredentials) => {
+  const alert = new Alert;
 
+  const enquiryHandler = async (enquiryCredentials) => {
+    const params = {
+      fName: enquiryCredentials?.fName,
+      lName: enquiryCredentials?.lName,
+      email: enquiryCredentials?.email,
+      mobileNo: (enquiryCredentials?.mobileNo).toString(),
+      message: enquiryCredentials?.message,
+    }
+    const enquiryResponse = await enquiry(params);
+    if (enquiryResponse?.status) {
+      alert.alert('success', 'Done!', 'Your message sent successfully.')
+    }
   };
 
   const SignupSchema = Yup.object().shape({
@@ -29,6 +43,7 @@ function ContactUs() {
       .required("Required"),
     message: Yup.string()
       .trim()
+      .max(300)
       .required("Required")
   });
   return (
@@ -48,8 +63,8 @@ function ContactUs() {
             </div>
             <div className="contact-email d-flex my-4">
               <i class="fas fa-envelope fa-2x contact-icons"></i>
-              <p className="contact-description h4 ml-4">
-                health-horizon@gmail.com
+              <p className="contact-description break-line-1 h4 ml-4">
+                healthhorizon.life@gmail.com
               </p>
             </div>
             <div className="mobile-number d-flex my-4">
@@ -76,8 +91,9 @@ function ContactUs() {
               message: ""
             }}
             validationSchema={SignupSchema}
-            onSubmit={async (values) => {
-              signupHandler(values);
+            onSubmit={async (values, {resetForm}) => {
+              enquiryHandler(values);
+              resetForm({values: ''})
             }}
           >
             {({ errors, touched }) => (
@@ -91,9 +107,8 @@ function ContactUs() {
                 <div className="row mb-lg-3 mt-4">
                   <div className="col-lg-6 mt-3">
                     <div
-                      className={`form-control ${
-                        errors.fName && touched.fName ? "invalid-input" : ""
-                      }`}
+                      className={`form-control ${errors.fName && touched.fName ? "invalid-input" : ""
+                        }`}
                     >
                       <Field
                         className="input-field"
@@ -110,9 +125,8 @@ function ContactUs() {
 
                   <div className="col-lg-6 mt-3">
                     <div
-                      className={`form-control ${
-                        errors.lName && touched.lName ? "invalid-input" : ""
-                      }`}
+                      className={`form-control ${errors.lName && touched.lName ? "invalid-input" : ""
+                        }`}
                     >
                       <Field
                         className="input-field"
@@ -131,9 +145,8 @@ function ContactUs() {
                 <div className="row mb-lg-3">
                   <div className="col-lg-6 mt-3">
                     <div
-                      className={`form-control ${
-                        errors.email && touched.email ? "invalid-input" : ""
-                      }`}
+                      className={`form-control ${errors.email && touched.email ? "invalid-input" : ""
+                        }`}
                     >
                       <Field
                         className="input-field"
@@ -150,11 +163,10 @@ function ContactUs() {
 
                   <div className="col-lg-6 mt-3">
                     <div
-                      className={`form-control ${
-                        errors.mobileNo && touched.mobileNo
-                          ? "invalid-input"
-                          : ""
-                      }`}
+                      className={`form-control ${errors.mobileNo && touched.mobileNo
+                        ? "invalid-input"
+                        : ""
+                        }`}
                     >
                       <Field
                         className="input-field"
@@ -176,26 +188,26 @@ function ContactUs() {
                 <div className="row mb-lg-4">
                   <div className="col-lg-12 mt-3">
                     <div
-                      className={`form-control ${
-                        errors.email && touched.email ? "invalid-input" : ""
-                      }`}
+                      className={`form-control text-area-container ${errors.message && touched.message ? "invalid-input" : ""
+                        }`}
                     >
-                      <textarea
+                      <Field
+                        as='textarea'
                         className="input-field"
-                        rows={1}
+                        rows={3}
                         name="message"
                         placeholder="Message..."
                       />
-                      <i class="fas fa-phone-alt"></i>
+                      <i class="fas fa-comment-alt"></i>
                     </div>
                     <div className="contactus-error-message text-right mr-1">
-                      {errors.email && touched.email ? errors.email : null}
+                      {errors.message && touched.message ? errors.message : null}
                     </div>
                   </div>
                   <div className="col-lg-6 mt-3 w-100"></div>
                 </div>
                 <div className="d-flex justify-content-center">
-                  <button className="btn-submit mb-5">Send Message</button>
+                  <button type="submit" className="btn-submit mb-5">Send Message</button>
                 </div>
               </Form>
             )}

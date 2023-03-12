@@ -1,23 +1,23 @@
 /* -------- Scroll bar ------- */
 
 ::-webkit-scrollbar {
-  width: 5px;
+  width: 8px;
 }
 
 /* Track */
 ::-webkit-scrollbar-track {
-  background: #f1f1f1;
+  background: #cecece;
 }
 
 /* Handle */
 ::-webkit-scrollbar-thumb {
-  background: #8a88f936;
+  background: #59669f;
   border-radius: 5px;
 }
 
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
-  background: #8a88f963;
+  background: #4948a4;
   cursor: pointer !important;
 }
 

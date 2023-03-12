@@ -27,3 +27,15 @@ export const PasswordUrls = {
     }
 }
 
+export const EnquiryUrls = {
+    enquiry: () => {
+        return baseUrl + `/enquiry`;
+    },
+    fetchEnquiry: () => {
+        return baseUrl + `/enquiry`;
+    },
+    replyEnquiry: () => {
+        return baseUrl + `/enquiry/reply`;
+    },
+}
+

@@ -72,12 +72,12 @@ export default function Signup() {
         <meta name="description" content="Helmet application" />
       </Helmet>
       <div className='signup-container'>
-        <div className='test'>
+        <div className='home-icon-container'>
           <i class="fas fa-home fa-2x home-icon m-3" onClick={() => navigate('/')}></i>
         </div>
         <div className="signup-form-wrapper">
           <div className='signup-form-container'>
-            <p className="signup-title">Welcome to health horizon</p>
+            <p className="signup-title">Join health horizon</p>
             <div className="horizontal-separator mb-3"></div>
             <p className="welcome-message">Start your journey with us, Discover the best healthcare services in the country.</p>
             <Formik
