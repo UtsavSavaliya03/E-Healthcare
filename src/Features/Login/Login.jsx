@@ -6,8 +6,8 @@ import { userState } from '../../Store/globalState';
 import { useNavigate } from "react-router-dom";
 import { useCookies } from 'react-cookie';
 import { Formik, Field, Form } from 'formik';
-import { Helmet } from "react-helmet";
 import * as Yup from 'yup';
+import { Helmet } from "react-helmet";
 import Notification from '../../Components/Common/Notification/Notification.jsx';
 
 export default function Login() {
@@ -23,8 +23,8 @@ export default function Login() {
 
     if (isLoggedin?.status) {
       setUser({ ...isLoggedin?.data, isLogin: true });
-      setCookie("userId", atob(isLoggedin?.data?._id), { path: '/' });
-      setCookie("token", isLoggedin?.token, { path: '/' });
+      setCookie("userId", atob(isLoggedin?.data?._id));
+      setCookie("token", isLoggedin?.token);
       navigate('/dashboard');
     } else {
       alert.notify(isLoggedin?.status, isLoggedin?.message);
@@ -37,8 +37,7 @@ export default function Login() {
       .trim()
       .required('Email address is required'),
     password: Yup.string()
-      .matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/,
-        'Hint : User@123')
+      .matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/)
       .min(8, 'Password is too short')
       .trim()
       .required('No password provided'),

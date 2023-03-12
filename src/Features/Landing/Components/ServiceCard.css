@@ -13,8 +13,7 @@ body {
 }
 
 .card {
-  /* position: relative; */
-  min-width: 300px;
+  min-width: 320px;
   height: auto;
   overflow: hidden;
   border-radius: 15px;
@@ -31,7 +30,6 @@ body {
 
 .card:before {
   content: '';
-  /* position: absolute; */
   bottom: 0;
   left: 0;
   width: 100%;

@@ -1,0 +1,131 @@
+@keyframes fadeOut {
+    0% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
+.add-doctore-container {
+    animation: fadeIn 1s;
+    background-color: #fafbff;
+}
+
+.add-doctore-header h3 {
+    font-weight: 600;
+}
+
+.add-doctore-body {
+    background-color: white;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    border-radius: 5px;
+}
+
+.doctor-profile-img-container {
+    position: relative;
+    width: 150px;
+    border-radius: 50%;
+}
+
+.doctor-profile-img-container .doctor-profile-img {
+    height: 150px;
+    width: 150px;
+    border-radius: 50%;
+    border: 3px solid white;
+    display: block;
+    box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.50);
+}
+
+.doctor-profile-icons {
+    position: absolute;
+    top: 70%;
+    left: 30%;
+    visibility: hidden;
+    opacity: 0;
+}
+
+.doctor-profile-img-container:hover .doctor-profile-icons {
+    cursor: pointer;
+    visibility: visible;
+    animation: fadeOut 1s;
+    opacity: 1;
+}
+
+.doctor-profile-icons .camera-icon {
+    background-color: rgb(121, 168, 255);
+    color: white;
+    padding: 5px;
+    border-radius: 50%;
+    box-shadow: 0px 3px 10px rgba(0, 0, 0, 1);
+}
+
+.doctor-profile-icons .remove-icon {
+    background-color: rgb(255, 81, 81);
+    padding: 5px 8px;
+    color: white;
+    border-radius: 50%;
+    box-shadow: 0px 3px 10px rgba(0, 0, 0, 1);
+}
+
+.body-title h5 {
+    font-weight: 600;
+    letter-spacing: 1px;
+}
+
+.body-title .horizontal-bar {
+    width: 50px;
+    background: linear-gradient(90deg, rgba(8, 0, 139, 1) 0%, rgba(9, 9, 121, 1) 26%, rgba(0, 212, 255, 1) 100%);
+    height: 5px;
+    border-radius: 5px;
+}
+
+.btn-create-doctor {
+    padding: 5px 50px;
+    text-transform: uppercase;
+    color: white;
+    font-weight: 600;
+    cursor: pointer;
+    font-size: 20px;
+    border-radius: 5px;
+    border: none;
+    background: linear-gradient(45deg, rgba(8, 0, 139, 1) 0%, rgba(9, 9, 121, 1) 26%, rgba(0, 212, 255, 1) 100%);
+    opacity: 0.9;
+    letter-spacing: 2px;
+}
+
+.btn-create-doctor:hover {
+    opacity: 1;
+}
+
+.btn-create-doctor:focus {
+    outline: none;
+}
+
+.add-doctor-error-message {
+    height: 20px !important;
+    color: #dc3545;
+    font-size: 14px;
+}
+
+.add-doctor-gender-error-message {
+    height: 20px !important;
+    color: #dc3545;
+    font-size: 14px;
+    margin-top: -10px;
+}
+
+.MuiPaper-root {
+    max-height: 300px !important;
+}

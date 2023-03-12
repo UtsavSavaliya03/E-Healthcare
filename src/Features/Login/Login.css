@@ -10,7 +10,7 @@
 
 .login-container {
     animation: fadeIn 1s;
-    background: url("../../Assets/Login-bg.png");
+    background: url("../../Assets/Backgrounds/Login-bg.png");
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -87,7 +87,7 @@
     font-size: 1.1em;
 }
 
-input {
+.login-container input {
     width: 100%;
     background: #e6e6e6;
     color: #333;
@@ -95,7 +95,7 @@ input {
     padding: 14px 64px;
 }
 
-input~i {
+.login-container input~i {
     position: absolute;
     left: 32px;
     top: 50%;
@@ -132,7 +132,7 @@ input~i {
     text-decoration: none;
     color: #597ea3;
     font-size: 17px;
-    font-weight: 500;
+    font-weight: 700 !important;
 }
 
 .link-container .additional-link:hover {

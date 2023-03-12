@@ -14,3 +14,8 @@ export const sidebarStateAtom = atom({
     key: 'sidebarStateAtom',
     default: false,
 });
+
+export const editDoctorStateAtom = atom({
+    key: 'editDoctorStateAtom',
+    default: false,
+});
