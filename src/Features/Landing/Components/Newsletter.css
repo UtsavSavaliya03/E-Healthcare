@@ -9,10 +9,12 @@
   padding: 0 15px;
   margin: 0 auto;
 }
+
 .newsletter-form-container input {
   border-style: none;
   background: transparent;
   outline: none;
+  padding: 20px 20px 20px 15px;
 }
 
 .newsletter-form-container button {
@@ -26,10 +28,12 @@
   0% {
     background-position: 0 0;
   }
+
   100% {
     background-position: 100% 0;
   }
 }
+
 .newsletter-form-input {
   position: relative;
   display: flex;
@@ -39,9 +43,10 @@
   border-radius: 2px;
   padding: 0.7rem 2rem;
   background: #d3efff;
-  
+
   box-shadow: #cdcccc 3px 3px 7px;
 }
+
 .newsletter-form-input:after {
   content: "";
   position: absolute;
@@ -53,18 +58,29 @@
   border-bottom-left-radius: 2px;
   border-bottom-right-radius: 2px;
   background-position: 0% 0%;
-  background: linear-gradient(
-    to right,
-    #b294ff,
-    #57e6e6,
-    #feffb8,
-    #57e6e6,
-    #b294ff,
-    #57e6e6
-  );
+  background: linear-gradient(to right,
+      #b294ff,
+      #57e6e6,
+      #feffb8,
+      #57e6e6,
+      #b294ff,
+      #57e6e6);
   background-size: 500% auto;
   animation: gradient 3s linear infinite;
 }
+
+.newsletter-invalid-input .newsletter-form-input:after {
+  background: linear-gradient(to right,
+  #ff9494,
+  #d03704,
+  #cd4545,
+  #e67d57,
+  #f05c5c,
+  #ff7300);
+  background-size: 500% auto;
+  animation: gradient 2s linear infinite;
+}
+
 .newsletter-form-input input {
   flex-grow: 1;
   color: #252525;
@@ -72,9 +88,11 @@
   line-height: 2.4rem;
   vertical-align: middle;
 }
+
 .newsletter-form-input input::-webkit-input-placeholder {
   color: #7881a1;
 }
+
 .newsletter-form-input button {
   color: #7881a1;
   font-size: 2.4rem;
@@ -82,23 +100,27 @@
   vertical-align: middle;
   transition: color 0.25s;
 }
+
 .newsletter-form-input button:hover {
   color: rgb(88, 171, 254);
   cursor: pointer;
 }
 
-.newsletter-email-logo-container img{
+.newsletter-email-logo-container img {
   height: 100px;
 }
+
 /* --------- Responsive --------- */
 @media (max-width: 780px) {
   .newsletter-form-input {
     padding: 5px 15px 0px 5px;
   }
+
   .newsletter-form-input input {
     padding: 10px;
   }
-  .newsletter-email-logo-container img{
+
+  .newsletter-email-logo-container img {
     height: 70px;
   }
 }

@@ -4,7 +4,7 @@
 }
 
 .contact-details-container {
-  background: url("../../../Assets/ContactUs-bg.png");
+  background: url("../../../Assets/Backgrounds/ContactUs-bg.png");
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -18,8 +18,8 @@
 
 .contact-social-links {
   width: 45%;
-  /* margin-top: 200px; */
 }
+
 .contact-icons {
   color: #004aad;
 }
@@ -27,8 +27,6 @@
 /* ---------- Contact Us Form CSS ---------- */
 .contactus-form {
   width: 100%;
-  /* display: flex; */
-  /* flex-direction: column; */
   justify-content: center;
   align-items: center;
 }
@@ -40,7 +38,8 @@
   border: none;
   padding: 0;
 }
-.contactus-form-title{
+
+.contactus-form-title {
   color: #07479c;
 }
 
@@ -62,7 +61,7 @@
   padding: 14px 64px;
 }
 
-.contactus-form-container .input-field ~ i {
+.contactus-form-container .input-field~i {
   position: absolute;
   left: 32px;
   top: 50%;
@@ -71,11 +70,19 @@
   transition: color 0.4s;
 }
 
-.form-control > .input-field ~ i {
+.form-control>.input-field~i {
   color: #8fb7df;
 }
 
-.invalid-input > .input-field ~ i {
+.text-area-container>.input-field {
+  resize: none;
+}
+
+.text-area-container>.input-field~i {
+  top: 25%;
+}
+
+.invalid-input>.input-field~i {
   color: rgb(240, 128, 128);
 }
 
@@ -102,13 +109,21 @@
   height: 15px;
 }
 
+.break-line-1 {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+}
+
 /* --------- Responsive --------- */
 @media (max-width: 780px) {
   .contactus-form-wrapper {
     width: 100%;
   }
-  
-  .contactus-container{
+
+  .contactus-container {
     display: flex;
     justify-content: center;
   }

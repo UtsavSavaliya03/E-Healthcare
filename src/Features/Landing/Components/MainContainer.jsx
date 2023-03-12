@@ -1,6 +1,6 @@
 import React from "react";
 import "./MainContainer.css";
-import logo from "../../../Assets/Logo.png";
+import logo from "../../../Assets/Logos/Logo.png";
 import { useNavigate } from "react-router";
 
 function MainContainer() {
@@ -8,50 +8,43 @@ function MainContainer() {
 
   return (
     <div className="main-container m-0 p-0">
-      <div className="navbar-container">
-        <nav className="navbar navbar-expand-lg">
-          <a className="navbar-brand mx-lg-5" href="/">
-            <img src={logo} className="logo-img" alt="Logo" />
+      <div className="landing-navbar-container">
+        <a className="navbar-brand mx-md-5 mx-3" href="/">
+          <img src={logo} className="logo-img" alt="Logo" />
+        </a>
+        <div className="landing-navbar-link">
+          <a className="text-light px-4" href="/">
+            Home
           </a>
-          <button
-            className="navbar-toggler"
-            type="button"
-            data-toggle="collapse"
-            data-target="#navbarNavAltMarkup"
-            aria-controls="navbarNavAltMarkup"
-            aria-expanded="false"
-            aria-label="Toggle navigation"
-          >
-            <span className="navbar-toggler-icon" />
-          </button>
-          <div
-            className="collapse navbar-collapse landing-nav-links mx-5 d-flex justify-content-end"
-            id="navbarNavAltMarkup"
-          >
-            <ul className="navbar-nav">
-              <li className="nav-item">
-                <a className="nav-link text-light mx-4 px-3 active" href="/">
-                  Home
-                </a>
-              </li>
-              <li className="nav-item">
-                <a className="nav-link text-light mx-4 px-3" href="/">
-                  Login
-                </a>
-              </li>
-              <li className="nav-item">
-                <a className="nav-link text-light mx-4 px-3" href="/">
-                  Signup
-                </a>
-              </li>
-              <li className="nav-item">
-                <a className="nav-link text-light mx-4 px-3" href="/">
-                  Contact Us
-                </a>
-              </li>
-            </ul>
+          <a className="text-light px-4" href="/login">
+            Login
+          </a>
+          <a className="text-light px-4" href="/signup">
+            Signup
+          </a>
+          <a className="text-light px-4" href="#contactus-container">
+            Contact Us
+          </a>
+        </div>
+        <div className="bar-container">
+          <i class="fas fa-bars fa-2x pr-4"></i>
+          <div className="dropdown">
+            <div className="dropdown-content">
+              <a className="text-light px-4" href="/">
+                Home
+              </a>
+              <a className="text-light px-4" href="/login">
+                Login
+              </a>
+              <a className="text-light px-4" href="/signup">
+                Signup
+              </a>
+              <a className="text-light px-4" href="#contactus-container">
+                Contact Us
+              </a>
+            </div>
           </div>
-        </nav>
+        </div>
       </div>
       <div className="px-0 text-light ml-lg-5 mt-lg-5 pt-lg-5 px-md-4">
         <div className="ml-lg-4 col-lg-5 text-left pb-1">

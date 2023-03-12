@@ -5,7 +5,7 @@
 
 .signup-container {
     animation: fadeIn 1s;
-    background: url("../../Assets/Signup-bg.png");
+    background: url("../../Assets/Backgrounds/Signup-bg.png");
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -37,7 +37,7 @@
     letter-spacing: 1px;
 }
 
-.test {
+.signup-container .home-icon-container {
     position: relative;
 }
 
@@ -88,7 +88,7 @@
     font-size: 1.1em;
 }
 
-input {
+.signup-container input {
     width: 100%;
     background: #e6e6e6;
     color: #333;
@@ -96,7 +96,7 @@ input {
     padding: 14px 64px;
 }
 
-input~i {
+.signup-container input~i {
     position: absolute;
     left: 32px;
     top: 50%;
