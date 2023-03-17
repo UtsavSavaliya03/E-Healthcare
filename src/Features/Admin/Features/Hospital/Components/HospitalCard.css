@@ -11,7 +11,7 @@
 .hospital-card {
   background: white;
   cursor: default;
-  height: 300px;
+  height: 370px;
   transform-style: preserve-3d;
   transition: transform 1s ease 0s;
   width: 100%;
@@ -40,6 +40,30 @@
 .hospital-card-title,
 .hospital-card-icon{
     color: #0b8fdc;
+}
+
+.break-line-1 {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+}
+
+.break-line-3 {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+}
+
+.break-line-8 {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 8;
+  -webkit-box-orient: vertical;
 }
 
 @media screen and (max-width: 767px) {

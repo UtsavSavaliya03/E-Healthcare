@@ -8,20 +8,19 @@
     }
 }
 
-.doctor-list-container {
+.main-hospital-container {
     animation: fadeIn 1s;
-    background-color: #fafbff;
     min-height: calc(100vh - 125px);
 }
 
-.doctor-list-searchbar-container {
+.hospital-list-searchbar-container {
     box-shadow: rgba(0, 0, 0, 0.15) 0px 5px 15px 0px;
     background-color: white;
     align-items: center;
     border-radius: 5px;
 }
 
-.doctor-list-searchbar-container .btn-search {
+.hospital-list-searchbar-container .btn-search {
     border-radius: 5px;
     width: 100%;
     text-transform: uppercase;
@@ -33,12 +32,4 @@
     padding: 15px 10px;
     cursor: pointer;
     opacity: 0.9;
-}
-
-.doctor-list-searchbar-container .btn-search:focus {
-    outline: none;
-}
-
-.doctor-list-searchbar-container .btn-search:hover {
-    opacity: 1;
 }

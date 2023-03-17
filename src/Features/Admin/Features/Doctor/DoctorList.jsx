@@ -15,8 +15,6 @@ export default function DoctorList() {
     const [doctors, setDoctors] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
 
-    console.log(doctors)
-
     const fetchDoctorHandle = async () => {
         setIsLoading(true);
         const headers = {
