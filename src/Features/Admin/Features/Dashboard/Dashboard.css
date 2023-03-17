@@ -1,0 +1,10 @@
+.admin-dashboard-box{
+    box-shadow: rgba(181, 181, 181, 0.2) 0px 2px 8px 0px;
+  }
+  
+  @media only screen and (max-width: 1000px) {
+    .admin-dashboard-box{
+      margin-bottom: 15px;
+    }
+  }
+  

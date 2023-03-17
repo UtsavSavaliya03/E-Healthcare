@@ -1,5 +1,6 @@
 import React from 'react';
 import { Helmet } from "react-helmet";
+import DepartmentCard from "../Department/Components/DepartmentCard.jsx";
 
 export default function DepartmentList() {
   return (
@@ -7,7 +8,7 @@ export default function DepartmentList() {
       <Helmet>
         <title>Department | Health Horizon</title>
       </Helmet>
-      <div>DepartmentList</div>
+      <div><DepartmentCard/></div>
     </>
   )
 }
