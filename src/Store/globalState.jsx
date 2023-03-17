@@ -19,3 +19,8 @@ export const editDoctorStateAtom = atom({
     key: 'editDoctorStateAtom',
     default: false,
 });
+
+export const editHospitalStateAtom = atom({
+    key: 'editHospitalStateAtom',
+    default: false,
+});

@@ -43,7 +43,6 @@
   border-radius: 2px;
   padding: 0.7rem 2rem;
   background: #d3efff;
-
   box-shadow: #cdcccc 3px 3px 7px;
 }
 
@@ -122,5 +121,9 @@
 
   .newsletter-email-logo-container img {
     height: 70px;
+  }
+
+  .newsletter-form-input input {
+    font-size: 1.2rem;
   }
 }

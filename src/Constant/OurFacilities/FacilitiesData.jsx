@@ -1,7 +1,7 @@
-import FacilityCardPrescriptionLogo from "../../Assets/Facility-card-prescription-logo.png";
-import FacilityCardDebitcardLogo from "../../Assets/Facility-card-debitcard-logo.png";
-import FacilityCardHeartLogo from "../../Assets/Facility-card-heart-logo.png";
-import FacilityCardLocationLogo from "../../Assets/Facility-card-location-logo.png";
+import FacilityCardPrescriptionLogo from "../../Assets/Icons/Facility-card-prescription.png";
+import FacilityCardDebitcardLogo from "../../Assets/Icons/Facility-card-debitcard.png";
+import FacilityCardHeartLogo from "../../Assets/Icons/Facility-card-heart.png";
+import FacilityCardLocationLogo from "../../Assets/Icons/Facility-card-location.png";
 
 export const facilitiesData = [
     { 

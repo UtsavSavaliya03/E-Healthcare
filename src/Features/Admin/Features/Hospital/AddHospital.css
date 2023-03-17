@@ -1,0 +1,30 @@
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
+.add-hospital-container {
+    animation: fadeIn 1s;
+    background-color: #fafbff;
+}
+
+.add-hospital-card {
+    background-color: white;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    border-radius: 5px;
+}
+
+.add-hospital-card h3 {
+    font-weight: 600;
+}
+
+.add-hospital-error-message {
+    height: 20px !important;
+    color: #dc3545;
+    font-size: 14px;
+}

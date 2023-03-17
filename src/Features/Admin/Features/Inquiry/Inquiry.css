@@ -1,0 +1,28 @@
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
+.enquiry-container {
+    animation: fadeIn 1s;
+    min-height: calc(100vh - 125px);
+}
+
+.enquiry-container .enquiry-title h4 {
+    font-weight: 600;
+}
+
+.MuiToggleButtonGroup-grouped {
+    padding: 5px 10px;
+    font-weight: 600 !important;
+    letter-spacing: 1px;
+}
+
+.MuiToggleButtonGroup-grouped:focus {
+    outline: none;
+}

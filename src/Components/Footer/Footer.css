@@ -1,10 +1,28 @@
-.footer{
+.footer {
     background-color: #0b8fdc;
+    box-shadow: 0 -10px 20px -5px #63636333;
+    height: 70px;
 }
-.footer-link-wrapper-container a{
+
+.footer-link-wrapper-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 25%;
+}
+
+.footer-link-wrapper-container a {
     text-decoration: none;
-    color: white
+    color: white;
 }
-.footer .footer-logo img{
-    width: 15%;
+
+.footer .footer-logo img {
+    height: 50px;
+}
+
+/* --------- Responsive --------- */
+@media (max-width: 780px) {
+    .footer-link-wrapper-container {
+        width: 40%;
+    }
 }

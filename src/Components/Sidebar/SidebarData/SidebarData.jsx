@@ -1,99 +1,78 @@
-import {  FaHome, FaLock, FaMoneyBill, FaUser } from "react-icons/fa";
-import { MdMessage } from "react-icons/md";
-import { BiAnalyse } from "react-icons/bi";
-import { BiCog } from "react-icons/bi";
-import { AiFillHeart, AiTwotoneFileExclamation } from "react-icons/ai";
-import { BsCartCheck } from "react-icons/bs";
+import {
+  FaHome,
+  FaCalendarDay,
+  FaHospital,
+  FaUserMd,
+  FaPlus,
+  FaListUl,
+  FaHospitalUser,
+  FaQuestionCircle,
+} from "react-icons/fa";
 
 export const sidebarData = [
-    {
-        path: "/",
-        name: "Dashboard",
-        icon: <FaHome />,
+  {
+    path: "main/dashboard",
+    name: "Dashboard",
+    icon: <FaHome />,
+  },
+  {
+    name: "Hospitals",
+    icon: <FaHospital />,
+    subRoutes: [
+      {
+        path: "main/hospital-list",
+        name: "Hospital List",
+        icon: <FaListUl />,
       },
       {
-        path: "/users",
-        name: "Users",
-        icon: <FaUser />,
+        path: "main/add-hospital",
+        name: "Add Hospital",
+        icon: <FaPlus />,
+      },
+    ],
+  },
+  {
+    path: "/main",
+    name: "Departments",
+    icon: <FaHospitalUser />,
+    subRoutes: [
+      {
+        path: "main/department-list",
+        name: "Department List",
+        icon: <FaListUl />,
       },
       {
-        path: "/messages",
-        name: "Messages",
-        icon: <MdMessage />,
+        path: "main/add-department",
+        name: "Add Department",
+        icon: <FaPlus />,
+      },
+    ],
+  },
+  {
+    path: "/main",
+    name: "Doctors",
+    icon: <FaUserMd />,
+    subRoutes: [
+      {
+        path: "main/doctor-list",
+        name: "Doctor List",
+        icon: <FaListUl />,
       },
       {
-        path: "/analytics",
-        name: "Analytics",
-        icon: <BiAnalyse />,
+        path: "main/add-doctor",
+        name: "Add Doctor",
+        icon: <FaPlus />,
       },
-      {
-        path: "/file-manager",
-        name: "File Manager",
-        icon: <AiTwotoneFileExclamation />,
-        subRoutes: [
-          {
-            path: "/settings/profile",
-            name: "Profile ",
-            icon: <FaUser />,
-          },
-          {
-            path: "/settings/2fa",
-            name: "2FA",
-            icon: <FaLock />,
-          },
-          {
-            path: "/settings/billing",
-            name: "Billing",
-            icon: <FaMoneyBill />,
-          },
-        ],
-      },
-      {
-        path: "/order",
-        name: "Order",
-        icon: <BsCartCheck />,
-      },
-      {
-        path: "/settings",
-        name: "Settings",
-        icon: <BiCog />,
-        exact: true,
-        subRoutes: [
-          {
-            path: "/settings/profile",
-            name: "Profile ",
-            icon: <FaUser />,
-          },
-          {
-            path: "/settings/2fa",
-            name: "2FA",
-            icon: <FaLock />,
-          },
-          {
-            path: "/settings/billing",
-            name: "Billing",
-            icon: <FaMoneyBill />,
-          },
-        ],
-      },
-      {
-        path: "/saved",
-        name: "Saved",
-        icon: <AiFillHeart />,
-      },
-//      {
-//        path: '/',
-//        title: 'Home',
- //       icon : <i className="fas fa-lock px-3"></i>,
-//    },
-//    {
-//        path: '/dashboard',
-//        title: 'Dashboard',
-//        icon : <i className="fas fa-lock px-3"></i>,
-//    },
-//    {
-//        path: '/main',
- //       title: 'Doctor',
- //       icon : <i className="fas fa-lock px-3"></i>,
-  //  },
+    ],
+  },
+  {
+    path: "main/appointment",
+    name: "Appointments",
+    icon: <FaCalendarDay />,
+  },
+  {
+    path: "main/inquiries",
+    name: "Inquiries",
+    icon: <FaQuestionCircle />,
+  },
 ]

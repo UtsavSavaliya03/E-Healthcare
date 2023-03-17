@@ -1,16 +1,95 @@
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
 .header-container {
     padding: 5px 20px 5px 0px;
     height: 55px;
-    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+    background-color: #0b8fdc;
+    box-shadow: #63636333 0px 2px 8px 0px;
     position: sticky;
+    width: 100%;
     top: 0%;
+    z-index: 1;
 }
 
 .header-bar {
     cursor: pointer;
-    color: rgb(89, 89, 89);
+    color: rgb(233, 248, 255);
 }
 
 .header-bar:hover {
-    color: black;
+    color: rgb(255, 255, 255);
+}
+
+.header-container .user-avatar .sb-avatar {
+    cursor: pointer;
+}
+
+.header-container .dropdown ul,
+.header-container .dropdown li {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+.header-container .dropdown-title {
+    font-weight: 600;
+}
+
+.header-container .dropdown {
+    display: none;
+    border-radius: 10px;
+    position: absolute;
+    right: 1%;
+    width: 350px;
+    background-color: white;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    padding-bottom: 10px;
+}
+
+.user-avatar:hover .dropdown {
+    display: block;
+    animation: fadeIn 0.6s;
+}
+
+.header-container a {
+    text-decoration: none;
+    display: block;
+}
+
+.header-container .dropdown-item a {
+    color: gray;
+    font-weight: 600;
+    width: 100%;
+}
+
+.header-container .dropdown-item a:hover {
+    color: rgb(57, 57, 57) !important;
+    background-color: gainsboro;
+}
+
+.header-container .btn-logout {
+    cursor: pointer;
+    background-color: transparent;
+    border: none;
+    color: gray;
+    font-weight: 600;
+    width: 100%;
+    text-align: left;
+}
+
+.header-container .btn-logout:hover {
+    color: rgb(57, 57, 57);
+    background-color: gainsboro;
+}
+
+.header-container .btn-logout:focus {
+    outline: none;
 }

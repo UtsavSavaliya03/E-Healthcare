@@ -146,7 +146,6 @@
     height: 15px;
 }
 
-
 /* --------- Responsive --------- */
 @media (max-width: 780px) {
     .login-form-wrapper {

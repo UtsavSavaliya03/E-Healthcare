@@ -1,19 +1,44 @@
 .prescription-container {
-  background: url("../../../Assets/Patient-dashboard-prescription-bg.png");
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
   height: 80vh;
   font-family: "Jost", sans-serif;
-  background-attachment: fixed;
   display: flex;
   justify-content: right;
 }
-.prescription-content{
+
+.prescription-container-wrapper-lg,
+.prescription-container-wrapper-md {
+  position: relative;
+}
+
+.prescription-container-wrapper:before {
+  content: ' ';
+  display: block;
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0.7;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+}
+
+.prescription-container-wrapper-md:before {
+  background-image: url('../../../Assets/Icons/Facility-card-heart.png');
+}
+
+.prescription-container-wrapper-lg:before {
+  background-image: url('../../../Assets/Backgrounds/Patient-dashboard-prescription-bg.png');
+}
+
+.prescription-content {
   align-self: center;
 }
+
 .btnLetsGo {
-    background-color: aliceblue;
+  background-color: aliceblue;
   color: #0b8fdc;
   border: none;
   font-size: 1.8rem;
@@ -22,17 +47,21 @@
   padding: 3px 40px;
   transition: color 0.25s;
 }
+
 .btnLetsGo:hover {
   color: rgb(89, 153, 217);
   cursor: pointer;
 }
 
 @media (max-width: 1000px) {
-    .prescription-container{
-      background-image: none;
-      background-color: #0b8fdc;
-      display: flex;
-      justify-content: left;
-      height: 50vh;
-    }
+  .prescription-container {
+    background-color: #0b8fdc;
+    display: flex;
+    justify-content: left;
+    height: 50vh;
   }
+  .prescription-container-wrapper-md::before,
+  .prescription-container-wrapper-lg::before {
+    background-image: none;
+  }
+}

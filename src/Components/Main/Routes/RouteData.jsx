@@ -9,8 +9,14 @@ import Admin from '../../../Features/Admin/Admin.jsx';
 import AdminDashboard from '../../../Features/Admin/Features/Dashboard/Dashboard.jsx';
 import AddDoctor from '../../../Features/Admin/Features/Doctor/AddDoctor.jsx';
 import ViewDoctor from '../../../Features/Admin/Features/Doctor/ViewDoctor.jsx';
-import Error404 from '../../../Features/Error 404/Error404.jsx';
 import DoctorList from '../../../Features/Admin/Features/Doctor/DoctorList.jsx';
+import HospitalList from '../../../Features/Admin/Features/Hospital/HospitalList.jsx';
+import AddHospital from '../../../Features/Admin/Features/Hospital/AddHospital.jsx';
+import DepartmentList from '../../../Features/Admin/Features/Department/DepartmentList.jsx';
+import AddDepartment from '../../../Features/Admin/Features/Department/AddDepartment.jsx';
+import Appointment from '../../../Features/Admin/Features/Appointment/Appointment.jsx';
+import Inquiry from '../../../Features/Admin/Features/Inquiry/Inquiry.jsx';
+import Error404 from '../../../Features/Error 404/Error404.jsx';
 
 export const routeData = [
     {
@@ -44,7 +50,7 @@ export const routeData = [
         element: Admin,
         children: [
             {
-                path: "",
+                path: "dashboard",
                 element: AdminDashboard,
             },
             {
@@ -58,6 +64,30 @@ export const routeData = [
             {
                 path: "doctor-list",
                 element: DoctorList
+            },
+            {
+                path: "add-hospital",
+                element: AddHospital
+            },
+            {
+                path: "hospital-list",
+                element: HospitalList
+            },
+            {
+                path: "add-department",
+                element: AddDepartment
+            },
+            {
+                path: "department-list",
+                element: DepartmentList
+            },
+            {
+                path: "appointment",
+                element: Appointment
+            },
+            {
+                path: "inquiries",
+                element: Inquiry
             },
         ]
     },

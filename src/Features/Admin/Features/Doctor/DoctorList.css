@@ -11,7 +11,7 @@
 .doctor-list-container {
     animation: fadeIn 1s;
     background-color: #fafbff;
-    height: calc(100vh - 55px);
+    min-height: calc(100vh - 125px);
 }
 
 .doctor-list-searchbar-container {

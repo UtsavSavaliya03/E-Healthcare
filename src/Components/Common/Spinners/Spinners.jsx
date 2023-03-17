@@ -3,12 +3,12 @@ import { HashLoader, PulseLoader } from 'react-spinners';
 
 export function Spinner() {
     return (
-        <HashLoader color="#8a88f9" />
+        <HashLoader color="#0b8fdc" />
     )
 }
 
 export function PulseSpinner() {
     return (
-        <PulseLoader color="#8a88f9" />
+        <PulseLoader color="#0b8fdc" />
     )
 }

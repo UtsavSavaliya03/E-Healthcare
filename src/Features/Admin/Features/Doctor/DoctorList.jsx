@@ -5,16 +5,17 @@ import { TextField, MenuItem } from '@mui/material';
 import InputAdornment from '@mui/material/InputAdornment';
 import SearchIcon from '@mui/icons-material/Search';
 import { Spinner } from '../../../../Components/Common/Spinners/Spinners.jsx';
-import { useCookies } from 'react-cookie';
 import { fetchDoctors } from '../../Services/doctorServices.jsx'
+import { Helmet } from "react-helmet";
 
 export default function DoctorList() {
 
-    const [cookies] = useCookies();
-    const token = cookies.token || null;
+    const token = localStorage.getItem('token') || null;
     const [searchData, setSearchData] = useState({ searchText: '', department: '' });
     const [doctors, setDoctors] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
+
+    console.log(doctors)
 
     const fetchDoctorHandle = async () => {
         setIsLoading(true);
@@ -31,6 +32,10 @@ export default function DoctorList() {
     }, [])
 
     return (
+        <>
+        <Helmet>
+        <title>Doctor | Health Horizon</title>
+      </Helmet>
         <div className='doctor-list-container pt-3 pb-5 px-lg-5 px-3'>
             <div className='doctor-list-searchbar-container py-3 px-1 mb-3 row m-0'>
                 <div className='col-md-6 col-sm-12 mb-md-0'>
@@ -88,5 +93,6 @@ export default function DoctorList() {
                 }
             </div>
         </div>
+        </>
     )
 }
