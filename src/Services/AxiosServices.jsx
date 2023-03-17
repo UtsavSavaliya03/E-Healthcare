@@ -14,6 +14,18 @@ export default class AxiosService extends React.Component {
 
         return response;
     }
+    
+    async put(url, credentialsObject, headers) {
+        const response = await axios.put(url, credentialsObject, { headers: headers })
+            .then((response) => {
+                return response;
+            })
+            .catch((error) => {
+                return error;
+            });
+
+        return response;
+    }
 
     async get(url, headers) {
         const response = await axios.get(url, { headers: headers })

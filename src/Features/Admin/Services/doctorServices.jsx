@@ -29,3 +29,12 @@ export const fetchDoctorById = async (id, header) => {
         return doctor.data || doctor.response.data;
     }
 }
+
+export const updateDoctor = async (id, doctorCredentials, header) => {
+
+    const doctor = await axiosService.put(DoctorUrls.updateDoctor(id), doctorCredentials, header);
+
+    if (doctor.data || doctor.response.data) {
+        return doctor.data || doctor.response.data;
+    }
+}

@@ -31,8 +31,8 @@ export const EnquiryUrls = {
     enquiry: () => {
         return baseUrl + `/enquiry`;
     },
-    fetchEnquiry: () => {
-        return baseUrl + `/enquiry`;
+    fetchEnquiry: (query) => {
+        return baseUrl + `/enquiry?status=${query}`;
     },
     replyEnquiry: () => {
         return baseUrl + `/enquiry/reply`;
@@ -60,6 +60,36 @@ export const DoctorUrls = {
     },
     deleteDoctor: (id) => {
         return baseUrl + `/doctor/${id}`;
+    },
+}
+
+export const HospitalUrls = {
+    addHospital: () => {
+        return baseUrl + `/hospital`;
+    },
+    fetchHospital: () => {
+        return baseUrl + `/hospital`;
+    },
+    searchHospitals: () => {
+        return baseUrl + `/hospital/search`;
+    },
+    fetchHospitalById: (id) => {
+        return baseUrl + `/hospital/${id}`;
+    },
+    updateHospital: (id) => {
+        return baseUrl + `/hospital/${id}`;
+    },
+    deleteHospital: (id) => {
+        return baseUrl + `/hospital/${id}`;
+    },
+}
+
+export const DepartmentUrls = {
+    addDepartment: () => {
+        return baseUrl + `/department`;
+    },
+    fetchDepartment: () => {
+        return baseUrl + `/department`;
     },
 }
 

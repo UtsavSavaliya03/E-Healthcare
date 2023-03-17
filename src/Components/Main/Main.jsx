@@ -5,15 +5,18 @@ import Notification from '../Common/Notification/Notification';
 import { routeData } from './Routes/RouteData.jsx';
 import { useRecoilValue } from 'recoil';
 import { mainLoadingState } from '../../Store/globalState';
+import { Spinner } from '../Common/Spinners/Spinners.jsx';
 
 export default function Routers() {
 
     const isLoading = useRecoilValue(mainLoadingState);
 
     return (
-        <div >
+        <div className='main'>
             {isLoading ? (
-                <h1>Loading...</h1>
+                <div className='spinner-container'>
+                    <Spinner />
+                </div>
             ) : (
                 <Routes>
                     {

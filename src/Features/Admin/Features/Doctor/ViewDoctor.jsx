@@ -2,8 +2,7 @@ import React, { useEffect, useState } from 'react';
 import './ViewDoctor.css';
 import { fetchDoctorById } from '../../Services/doctorServices';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { useCookies } from 'react-cookie';
-import profilePicture from '../../../../Assets/Icons/user.jpg';
+import profilePicture from '../../../../Assets/Icons/user.png';
 import Notificaion from '../../../../Components/Common/Notification/Notification.jsx';
 import { TextField, MenuItem, RadioGroup, FormControlLabel, Radio, FormLabel, FormControl, IconButton } from '@mui/material';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
@@ -12,10 +11,14 @@ import ClearIcon from '@mui/icons-material/Clear';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import moment from 'moment';
+import { updateDoctor } from '../../Services/doctorServices.jsx';
 import { bloodGroupData } from '../../../../Constant/Doctor/doctorDetails.jsx';
 import { sidebarStateAtom, editDoctorStateAtom } from '../../../../Store/globalState.jsx';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { Spinner } from '../../../../Components/Common/Spinners/Spinners.jsx';
+import { fetchHospitals } from '../../Services/hospitalServices.jsx';
+import { fetchDepartments } from '../../Services/departmentServices.jsx';
+import { Helmet } from "react-helmet";
 let Country = require('country-state-city').Country;
 let State = require('country-state-city').State;
 let City = require('country-state-city').City;
@@ -25,42 +28,35 @@ export default function ViewDoctor() {
   const notification = new Notificaion;
   const navigate = useNavigate();
   const location = useLocation();
+  const pathArray = (location.pathname).split('/');
+  const doctorId = atob(pathArray[3]) || null;
+  const [hospitals, setHospitals] = useState([]);
   const isSidebarOpen = useRecoilValue(sidebarStateAtom);
-  const [cookies] = useCookies();
-  const token = cookies.token || null;
-  const [doctor, SetDoctor] = useState({});
+  const token = localStorage.getItem('token') || null;
+  const [doctor, setDoctor] = useState({});
   const [isLoading, setIsLoading] = useState(true);
   const [enableEdit, setEnableEdit] = useRecoilState(editDoctorStateAtom);
   const Countries = Country.getAllCountries();
   const [profileImg, setProfileImg] = useState(profilePicture);
   const [imgFile, setImgFile] = useState(null);
+  const [departments, setDepartments] = useState([]);
+
 
   const fetchDoctorHandler = async () => {
     setIsLoading(true);
-    const pathArray = (location.pathname).split('/');
-    const doctorId = atob(pathArray[3]) || null;
 
     const headers = {
       'Authorization': token
     }
 
     const doctor = await fetchDoctorById(doctorId, headers);
-    SetDoctor(doctor.data);
+    setDoctor(doctor?.data);
 
     if (!(doctor?.status)) {
       navigate('/main/add-doctor');
     }
-
     setIsLoading(false);
   }
-
-  useEffect(() => {
-    fetchDoctorHandler();
-
-    return(()=>{
-      setEnableEdit(false);
-    })
-  }, []);
 
   const maxSelectFile = (event) => {
     let files = event.target.files;
@@ -92,13 +88,41 @@ export default function ViewDoctor() {
     document.getElementById("profileImgUrl").click()
   }
 
+  const fetchHospitalsHandler = async () => {
+    const headers = {
+      'Authorization': token
+    }
+
+    const hospitals = await fetchHospitals(headers);
+    setHospitals(hospitals?.hospital);
+  }
+
+  const fetchDepartmentsHandler = async () => {
+    const headers = {
+      'Authorization': token
+    }
+
+    const departments = await fetchDepartments(headers);
+    setDepartments(departments?.department);
+  }
+
+  useEffect(() => {
+    fetchDoctorHandler();
+    fetchHospitalsHandler();
+    fetchDepartmentsHandler();
+
+    return (() => {
+      setEnableEdit(false);
+    })
+  }, []);
+
   const initialValues = {
     // profileImgUrl: imgFile,
     fName: doctor?.fName,
     lName: doctor?.lName,
     email: doctor?.email,
     mobileNo: doctor?.mobileNo,
-    department: doctor?.department,
+    department: doctor?.department?._id,
     experience: doctor?.experience,
     dateOfBirth: moment(doctor?.dateOfBirth).format("YYYY-MM-DD"),
     bloodGroup: doctor?.bloodGroup,
@@ -109,6 +133,9 @@ export default function ViewDoctor() {
     state: doctor?.state?.isoCode,
     city: doctor?.city?.name,
     pincode: doctor?.pincode,
+    hospital: doctor?.hospital?._id,
+    stateOfHospital: doctor?.hospital?.state?.isoCode,
+    cityOfHospital: doctor?.hospital?.city?.name,
   };
 
   const DoctorSchema = Yup.object().shape({
@@ -155,11 +182,18 @@ export default function ViewDoctor() {
       .trim()
       .matches(/^[1-9]{1}[0-9]{5}$/, 'Invalid pincode')
       .required(' '),
+    hospital: Yup.string()
+      .trim()
+      .required(' '),
+    stateOfHospital: Yup.string()
+      .required(' '),
+    cityOfHospital: Yup.string()
+      .required(' ')
   })
 
   const updateHandler = async (doctorCredentials) => {
     const country = Country.getCountryByCode(doctorCredentials?.country);
-    const state = State.getStateByCode(doctorCredentials?.state);
+    const state = State.getStateByCodeAndCountry(doctorCredentials?.state, doctorCredentials?.country);
     let cityObj;
     const allCities = City.getCitiesOfState(country?.isoCode, state?.isoCode);
 
@@ -182,22 +216,33 @@ export default function ViewDoctor() {
       gender: doctorCredentials?.gender,
       shortBio: doctorCredentials?.shortBio,
       addressLine: doctorCredentials?.addressLine,
+      hospital: doctorCredentials?.hospital,
       country: country,
       state: state,
       city: cityObj,
       pincode: doctorCredentials?.pincode,
     }
 
-    console.log(params)
+    const headers = {
+      'Authorization': token
+    }
 
+    const doctor = await updateDoctor(doctorId, params, headers);
+    notification.notify(doctor?.status, doctor?.message);
+
+
+    if (doctor?.status) {
+      setDoctor(doctor?.data);
+      setEnableEdit(false);
+    }
   }
 
-  const AddDoctorForm = () => {
+  const UpdateDoctorForm = () => {
     const formik = useFormik({
       initialValues: initialValues,
       validationSchema: DoctorSchema,
       onSubmit: (values) => {
-        updateHandler(values)
+        updateHandler(values);
       },
     });
 
@@ -340,10 +385,18 @@ export default function ViewDoctor() {
                         error={formik.touched.department && Boolean(formik.errors.department)}
                         onChange={formik.handleChange}
                       >
-                        <MenuItem value='A+'>A+</MenuItem>
-                        <MenuItem value='A-'>A-</MenuItem>
-                        <MenuItem value='B+'>B+</MenuItem>
-                        <MenuItem value='B-'>B-</MenuItem>
+                        {
+                          departments &&
+                            (departments?.length > 0) ? (
+                            departments?.map((department, index) => {
+                              return (
+                                <MenuItem key={index} value={department._id}>{department?.name}</MenuItem>
+                              )
+                            })
+                          ) : (
+                            <p className='text-center m-0'>No Departments</p>
+                          )
+                        }
                       </TextField>
                       <div className='add-doctor-error-message text-right mr-1'>
                         {(formik.touched.department) ? (formik.errors.department) : null}
@@ -358,6 +411,9 @@ export default function ViewDoctor() {
                         value={formik.values.experience}
                         error={formik.touched.experience && Boolean(formik.errors.experience)}
                         onChange={formik.handleChange}
+                        InputProps={{
+                          inputProps: { min: 0 }
+                        }}
                       />
                       <div className='add-doctor-error-message text-right mr-1'>
                         {(formik.touched.experience) ? (formik.errors.experience) : null}
@@ -551,6 +607,93 @@ export default function ViewDoctor() {
                       </div>
                     </div>
                   </div>
+
+
+                  <hr className='mx-3' />
+                  <div className='body-title py-3 px-4'>
+                    <h5>Working Place</h5>
+                    <div className='horizontal-bar'></div>
+                  </div>
+                  <div className='row px-4 my-sm-3 my-md-1'>
+                    <div className='col-sm-3 my-3 my-md-0'>
+                      <TextField
+                        className='w-100'
+                        name='stateOfHospital'
+                        label="State Of Hospital"
+                        select
+                        value={formik.values.stateOfHospital}
+                        error={formik.touched.stateOfHospital && Boolean(formik.errors.stateOfHospital)}
+                        onChange={formik.handleChange}
+                      >
+                        {
+                          (State.getStatesOfCountry('IN')?.length > 0) ? (
+                            State.getStatesOfCountry('IN')?.map((state, index) => (
+                              <MenuItem key={index} value={state?.isoCode}>{state?.name}</MenuItem>
+                            ))
+                          ) : (
+                            <p className='text-center m-0'>No State</p>
+                          )
+                        }
+                      </TextField>
+                      <div className='add-doctor-error-message text-right mr-1'>
+                        {(formik.touched.stateOfHospital) ? (formik.errors.stateOfHospital) : null}
+                      </div>
+                    </div>
+                    <div className='col-sm-3 my-3 my-md-0'>
+                      <TextField
+                        className='w-100'
+                        name='cityOfHospital'
+                        label="City Of Hospital"
+                        select
+                        value={formik.values.cityOfHospital}
+                        error={formik.touched.cityOfHospital && Boolean(formik.errors.cityOfHospital)}
+                        onChange={formik.handleChange}
+                      >
+                        {
+                          City.getCitiesOfState('IN', formik.values.stateOfHospital) ? (
+                            City.getCitiesOfState('IN', formik.values.stateOfHospital)?.map((city, index) => (
+                              <MenuItem key={index} value={city?.name}>{city?.name}</MenuItem>
+                            ))
+                          ) : (
+                            <p className='text-center m-0'>No City</p>
+                          )
+                        }
+                      </TextField>
+                      <div className='add-doctor-error-message text-right mr-1'>
+                        {(formik.touched.cityOfHospital) ? (formik.errors.cityOfHospital) : null}
+                      </div>
+                    </div>
+                    <div className='col-sm-6 my-3 my-md-0'>
+                      <TextField
+                        className='w-100'
+                        name='hospital'
+                        label="Hospital"
+                        select
+                        value={formik.values.hospital}
+                        error={formik.touched.hospital && Boolean(formik.errors.hospital)}
+                        onChange={formik.handleChange}
+                      >
+                        {
+                          hospitals &&
+                            (hospitals?.length > 0) ? (
+                            hospitals?.map((hospital, index) => {
+                              return (
+                                ((hospital?.state?.isoCode === formik.values.stateOfHospital) && hospital?.city?.name === formik.values.cityOfHospital) ? (
+                                  <MenuItem key={index} value={hospital?._id}>{hospital?.name}</MenuItem>
+                                ) : (<></>)
+                              )
+                            })
+                          ) : (
+                            <p className='text-center m-0'>No Hospitals</p>
+                          )
+                        }
+                      </TextField>
+                      <div className='add-doctor-error-message text-right mr-1'>
+                        {(formik.touched.hospital) ? (formik.errors.hospital) : null}
+                      </div>
+                    </div>
+                  </div>
+
                   <hr className='mx-3 mb-4' />
                   <div className='w-100 text-right px-5'>
                     <button className='btn-create-doctor' type='submit'>Update</button>
@@ -591,7 +734,7 @@ export default function ViewDoctor() {
         <div className='row px-4 py-md-3'>
           <div className='col-sm-3 my-3 my-md-0'>
             <p className='label m-0'>Department</p>
-            <p className='value m-0'>{doctor?.department}</p>
+            <p className='value m-0'>{doctor?.department?.name}</p>
           </div>
           <div className='col-sm-3 my-3 my-md-0'>
             <p className='label m-0'>Experience</p>
@@ -652,16 +795,43 @@ export default function ViewDoctor() {
             <p className='value m-0'>{doctor?.pincode}</p>
           </div>
         </div>
+
+        <hr className='mx-3' />
+        <div className='body-title py-3 px-4'>
+          <h5>Working Place</h5>
+          <div className='horizontal-bar'></div>
+        </div>
+        <div className='row px-4 py-md-3'>
+          <div className='col-sm-3 my-3 my-md-0'>
+            <p className='label m-0'>State Of Hospital</p>
+            <p className='value m-0'>{doctor?.hospital?.state?.name}</p>
+          </div>
+          <div className='col-sm-3 my-3 my-md-0'>
+            <p className='label m-0'>City Of Hospital</p>
+            <p className='value m-0'>{doctor?.hospital?.city?.name}</p>
+          </div>
+          <div className='col-sm-6 my-3 my-md-0'>
+            <p className='label m-0'>Hospital</p>
+            <p className='value m-0'>{doctor?.hospital?.name}</p>
+          </div>
+        </div>
       </div>
     )
   }
 
   return (
-    <div className='add-doctore-container py-lg-4 px-lg-5 py-3 px-3'>
+    <div>
+      <Helmet>
+        <title>Doctor | Health Horizon</title>
+      </Helmet>
       {isLoading ? (
-        <Spinner />
+        <div className='spinner-container'>
+          <Spinner />
+        </div>
       ) : (
-        <AddDoctorForm />
+        <div className='add-doctore-container py-lg-4 px-lg-5 py-3 px-3'>
+          <UpdateDoctorForm />
+        </div>
       )}
     </div>
   )

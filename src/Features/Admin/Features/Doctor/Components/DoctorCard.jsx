@@ -42,9 +42,15 @@ export default function DoctorCard(props) {
                 <hr />
                 <div className='doctor-card-body px-3'>
                     <div className='row'>
+                        <div className="col-12 pr-0">
+                            <p className='label m-0'>Hospital</p>
+                            <p className='value m-0 break-line-1'>{doctor?.hospital?.name}</p>
+                        </div>
+                    </div>
+                    <div className='row mt-3'>
                         <div className="col-6 pr-0">
                             <p className='label m-0'>Department</p>
-                            <p className='value m-0'>{doctor?.department}</p>
+                            <p className='value m-0'>{doctor?.department?.name}</p>
                         </div>
                         <div className="col-6 pr-0">
                             <p className='label m-0'>Experience</p>
@@ -58,7 +64,7 @@ export default function DoctorCard(props) {
                         </div>
                         <div className="col-6 pr-0">
                             <p className='label m-0'>Date Of Birth</p>
-                            <p className='value m-0'>{moment(doctor.dateOfBirth).format('LL')}</p>
+                            <p className='value m-0 break-line-1'>{moment(doctor.dateOfBirth).format('LL')}</p>
                         </div>
                     </div>
                     <div className='row mt-3'>

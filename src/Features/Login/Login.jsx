@@ -1,31 +1,43 @@
 import React from 'react';
 import './Login.css';
 import { login } from './Services/LoginServices.jsx';
-import { useSetRecoilState } from 'recoil';
+import { useRecoilState } from 'recoil';
 import { userState } from '../../Store/globalState';
 import { useNavigate } from "react-router-dom";
-import { useCookies } from 'react-cookie';
 import { Formik, Field, Form } from 'formik';
 import * as Yup from 'yup';
 import { Helmet } from "react-helmet";
 import Notification from '../../Components/Common/Notification/Notification.jsx';
+import ToggleButton from '@mui/material/ToggleButton';
+import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 
 export default function Login() {
 
   const alert = new Notification();
-  const [cookie, setCookie] = useCookies(['userId', 'token']);
   const navigate = useNavigate();
-  const setUser = useSetRecoilState(userState);
+  const [user, setUser] = useRecoilState(userState);
+  const [alignment, setAlignment] = React.useState('patient');
+
+  const handleChange = (event, newAlignment) => {
+    setAlignment(newAlignment);
+  };
 
   const loginHandler = async (loginCredentials) => {
+    let isLoggedin = {};
 
-    const isLoggedin = await login(loginCredentials);
+    isLoggedin = await login(loginCredentials);
 
     if (isLoggedin?.status) {
       setUser({ ...isLoggedin?.data, isLogin: true });
-      setCookie("userId", atob(isLoggedin?.data?._id));
-      setCookie("token", isLoggedin?.token);
-      navigate('/dashboard');
+      localStorage.setItem('userId', btoa(isLoggedin?.data?._id));
+      localStorage.setItem('token', isLoggedin?.token);
+      if (user?.role === 0) {
+        navigate('/main/dashboard');
+      } else if (user?.role === 2) {
+        navigate('/doctor/dashboard');
+      } else {
+        navigate('/dashboard');
+      }
     } else {
       alert.notify(isLoggedin?.status, isLoggedin?.message);
     }
@@ -37,7 +49,7 @@ export default function Login() {
       .trim()
       .required('Email address is required'),
     password: Yup.string()
-      .matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/)
+      .matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/, ' ')
       .min(8, 'Password is too short')
       .trim()
       .required('No password provided'),
@@ -57,6 +69,18 @@ export default function Login() {
             <p className="login-title">Welcome back</p>
             <div className="horizontal-separator mb-3"></div>
             <p className="welcome-message">Please, provide login credential to proceed and have access to all our services</p>
+            <div>
+              <ToggleButtonGroup
+                color="primary"
+                value={alignment}
+                exclusive
+                onChange={handleChange}
+                aria-label="Platform"
+              >
+                <ToggleButton value="patient">Patient</ToggleButton>
+                <ToggleButton value="doctor">Doctor</ToggleButton>
+              </ToggleButtonGroup>
+            </div>
             <Formik
               initialValues={{ email: '', password: '' }}
               validationSchema={LoginSchema}

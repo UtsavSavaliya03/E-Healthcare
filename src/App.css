@@ -13,14 +13,13 @@
 
 /* Handle */
 ::-webkit-scrollbar-thumb {
-  background: #59669f;
+  background: #39a3e0;
   border-radius: 5px;
 }
 
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
-  background: #4948a4;
-  cursor: pointer !important;
+  background: #0b8fdc;
 }
 
 /* -------- Hide arrow from number input ------- */

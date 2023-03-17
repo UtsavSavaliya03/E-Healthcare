@@ -1,0 +1,104 @@
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
+.enquiry-collapse-container {
+    border-radius: 5px;
+    background-color: #fafbff;
+    box-shadow: rgba(148, 147, 147, 0.2) 0px 2px 8px 0px;
+    border: 1px solid rgb(225, 225, 225);
+}
+
+.break-line-1 {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+}
+
+.enquiry-collapse-container .card-title {
+    font-weight: 600;
+}
+
+.enquiry-collapse-container .unread-status-tag {
+    text-align: center;
+    border: 1px solid orange;
+    color: orange;
+    border-radius: 5px;
+    display: inline;
+    padding: 2px 5px;
+}
+
+.enquiry-collapse-container .read-status-tag {
+    text-align: center;
+    border: 1px solid rgb(0, 216, 0);
+    color: rgb(0, 216, 0);
+    border-radius: 5px;
+    display: inline;
+    padding: 2px 5px;
+}
+
+.btn-toggle-container .btn-toggle {
+    opacity: 0.6;
+}
+
+.btn-toggle-container .btn-toggle:hover {
+    background-color: rgb(232, 232, 232);
+    border-radius: 50%;
+    cursor: pointer;
+    opacity: 1;
+    transition: opacity 0.5s;
+}
+
+.body {
+    overflow: hidden;
+}
+
+.enquiry-reply-body {
+    border: 1px solid rgb(186, 186, 186);
+    padding: 10px;
+    min-height: 200px;
+    border-radius: 5px;
+    resize: none;
+    background-color: transparent;
+}
+
+.enquiry-reply-body:focus {
+    outline: 2px solid #228cd3;
+}
+
+.enquiry-reply-body-error {
+    border-color: #dc3545;
+}
+
+.enquiry-reply-body-error:focus {
+    outline: 1px solid #dc3545;
+}
+
+.btn-send-response {
+    background: linear-gradient(90deg, rgb(13, 3, 213) 0%, rgb(12, 12, 195) 26%, rgba(0, 212, 255, 1) 100%);
+    color: white;
+    border-radius: 5px;
+    padding: 5px 15px;
+    border: none;
+    cursor: pointer;
+    text-transform: uppercase;
+    display: flex;
+    align-items: center;
+}
+
+.btn-send-response h5 {
+    font-weight: 600;
+    letter-spacing: 1px;
+}
+
+.btn-send-response:focus {
+    outline: none;
+}

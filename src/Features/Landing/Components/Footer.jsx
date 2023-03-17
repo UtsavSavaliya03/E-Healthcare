@@ -44,7 +44,7 @@ function Footer() {
                   </div>
                 </div>
               </div>
-              <div className="col-md-4 col-lg-4 px-0">
+              <div className="col-md-4 col-lg-4 px-lg-0">
                 <div className="footer-contact">
                   <h3>Get In Touch</h3>
                   <div className="usefullink-container">

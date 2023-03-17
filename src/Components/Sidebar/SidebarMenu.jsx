@@ -42,44 +42,39 @@ const SidebarMenu = ({ route, showAnimation, isOpen, setIsOpen }) => {
     setIsOpen(true);
   };
 
-  useEffect(() => {
-    if (!isOpen) {
-      setIsMenuOpen(false);
-    }
-  }, [isOpen]);
   return (
     <>
-      <div className="sidebar-menu" onClick={toggleMenu}>
-        <div className="sidebar-menu-item">
-          <div className="icon">{route.icon}</div>
-          <AnimatePresence>
-            {isOpen && (
-              <motion.div
-                variants={showAnimation}
-                initial="hidden"
-                animate="show"
-                exit="hidden"
-                className="link_text break-line-1"
-              >
-                {route.name}
-              </motion.div>
-            )}
-          </AnimatePresence>
-        </div>
-        {isOpen && (
-          <motion.div
-            animate={
-              isMenuOpen
-                ? {
+        <div className="sidebar-menu child-menu-container" onClick={toggleMenu}>
+          <div className="sidebar-menu-item">
+            <div className="sidebar-icon">{route.icon}</div>
+            <AnimatePresence>
+              {isOpen && (
+                <motion.div
+                  variants={showAnimation}
+                  initial="hidden"
+                  animate="show"
+                  exit="hidden"
+                  className="break-line-1"
+                >
+                  {route.name}
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
+          {isOpen && (
+            <motion.div
+              animate={
+                isMenuOpen
+                  ? {
                     rotate: -90,
                   }
-                : { rotate: 0 }
-            }
-          >
-            <FaAngleDown />
-          </motion.div>
-        )}
-      </div>{" "}
+                  : { rotate: 0 }
+              }
+            >
+              <FaAngleDown />
+            </motion.div>
+          )}
+        </div>{" "}
       <AnimatePresence>
         {isMenuOpen && (
           <motion.div
@@ -91,8 +86,8 @@ const SidebarMenu = ({ route, showAnimation, isOpen, setIsOpen }) => {
           >
             {route.subRoutes.map((subRoute, i) => (
               <motion.div variants={menuItemAnimation} key={i} custom={i}>
-                <NavLink to={subRoute.path} className="sidebar-link">
-                  <div className="icon">{subRoute.icon}</div>
+                <NavLink to={subRoute.path} activeClassName='active' className="sidebar-link">
+                  <div className="icon ml-4">{subRoute.icon}</div>
                   <motion.div className="sidebar-link-text break-line-1">{subRoute.name}</motion.div>
                 </NavLink>
               </motion.div>
