@@ -18,7 +18,7 @@ export default function DoctorCard(props) {
     const setEnableEdit = useSetRecoilState(editDoctorStateAtom);
 
     return (
-        <div className='col-lg-4 col-sm-12'>
+        <div className='col-lg-4 col-md-6'>
             <div className='doctor-card-container py-3 p-0 my-3'>
                 <div className="doctor-card-header px-3">
                     <div className='d-flex justify-content-start align-items-center'>

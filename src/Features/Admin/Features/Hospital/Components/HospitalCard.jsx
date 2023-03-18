@@ -2,29 +2,29 @@ import React from "react";
 import "./HospitalCard.css";
 import { Divider } from "@mui/material";
 
-export default function HospitalCard() {
+export default function HospitalCard(props) {
+
+  const { hospital } = props;
+
   return (
-    <div className="col-lg-4 col-md-6 col-sm-12">
+    <div className="col-lg-4 col-md-6">
       <div className="hospital-card-box">
-        <div className="hospital-card">
+        <div className="hospital-card my-3">
           <div className="front px-4">
-            <h3 className="mt-4 hospital-card-title font-weight-bold text-center">
-              Texas Hospital
+            <h3 className="mt-4 hospital-card-title font-weight-bold break-line-1">
+              {hospital?.name}
             </h3>
             <div className="mt-3">
               <p className="m-0">
-                <i class="fas fa-envelope hospital-card-icon mr-2"></i>{" "}
-                kaushalnavapara@hmail.com
+                <i class="fas fa-envelope hospital-card-icon mr-3"></i>
+                {hospital?.email}
               </p>
               <p className="m-0">
-                <i class="fas fa-phone-alt hospital-card-icon mr-2"></i> +91
-                9939078772
+                <i class="fas fa-phone-alt hospital-card-icon mr-3"></i>
+                +91 {hospital?.mobileNo}
               </p>
-              <p className="mt-4">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                Molestiae repellat deleniti veniam itaque, sunt aspernatur
-                aliquam odit perspiciatis vero culpa voluptatum adipisci
-                recusandae.
+              <p className="mt-4 break-line-8">
+              {hospital?.shortBio}
               </p>
             </div>
           </div>
@@ -35,11 +35,11 @@ export default function HospitalCard() {
             <Divider variant="middle" />
             <div className="mt-4">
               <p className="m-0 font-weight-bold">Address :</p>
-              <p className="m-0">69, Lake-garden street</p>
+              <p className="m-0 break-line-3">{hospital?.addressLine}</p>
               <p className="m-0 mt-2 font-weight-bold">City :</p>
-              <p className="m-0">Surat</p>
+              <p className="m-0">{hospital?.state?.name}</p>
               <p className="m-0 mt-2 font-weight-bold">State :</p>
-              <p className="m-0">Gujarat</p>
+              <p className="m-0">{hospital?.city?.name}</p>
             </div>
           </div>
         </div>
