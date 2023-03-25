@@ -8,13 +8,18 @@
     }
 }
 
-.enquiry-container {
+.inquiry-container {
     animation: fadeIn 1s;
     min-height: calc(100vh - 125px);
 }
 
-.enquiry-container .enquiry-title h4 {
+.inquiry-container .inquiry-title h4 {
     font-weight: 600;
+}
+
+.inquiry-title button {
+    padding: 5px 10px;
+    font-weight: 600 !important;
 }
 
 .MuiToggleButtonGroup-grouped {

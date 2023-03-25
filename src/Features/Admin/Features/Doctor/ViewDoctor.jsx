@@ -18,6 +18,7 @@ import { useRecoilState, useRecoilValue } from 'recoil';
 import { Spinner } from '../../../../Components/Common/Spinners/Spinners.jsx';
 import { fetchHospitals } from '../../Services/hospitalServices.jsx';
 import { fetchDepartments } from '../../Services/departmentServices.jsx';
+import Backdrop from "@mui/material/Backdrop";
 import { Helmet } from "react-helmet";
 let Country = require('country-state-city').Country;
 let State = require('country-state-city').State;
@@ -35,12 +36,12 @@ export default function ViewDoctor() {
   const token = localStorage.getItem('token') || null;
   const [doctor, setDoctor] = useState({});
   const [isLoading, setIsLoading] = useState(true);
+  const [isLoadingUpdate, setIsLoadingUpdate] = useState(false);
   const [enableEdit, setEnableEdit] = useRecoilState(editDoctorStateAtom);
   const Countries = Country.getAllCountries();
   const [profileImg, setProfileImg] = useState(profilePicture);
   const [imgFile, setImgFile] = useState(null);
   const [departments, setDepartments] = useState([]);
-
 
   const fetchDoctorHandler = async () => {
     setIsLoading(true);
@@ -88,6 +89,11 @@ export default function ViewDoctor() {
     document.getElementById("profileImgUrl").click()
   }
 
+  const removeProfileHandler = () => {
+    setProfileImg(profilePicture);
+    setImgFile(null);
+  }
+
   const fetchHospitalsHandler = async () => {
     const headers = {
       'Authorization': token
@@ -116,8 +122,15 @@ export default function ViewDoctor() {
     })
   }, []);
 
+  useEffect(() => {
+    if (doctor?.profileImg) {
+      setProfileImg(doctor?.profileImg);
+    } else {
+      setProfileImg(profilePicture);
+    }
+  }, [doctor])
+
   const initialValues = {
-    // profileImgUrl: imgFile,
     fName: doctor?.fName,
     lName: doctor?.lName,
     email: doctor?.email,
@@ -192,9 +205,10 @@ export default function ViewDoctor() {
   })
 
   const updateHandler = async (doctorCredentials) => {
+    setIsLoadingUpdate(true);
     const country = Country.getCountryByCode(doctorCredentials?.country);
-    const state = State.getStateByCodeAndCountry(doctorCredentials?.state, doctorCredentials?.country);
-    let cityObj;
+    const state = State.getStateByCodeAndCountry(doctorCredentials?.state, doctorCredentials?.country) || {};
+    let cityObj = {};
     const allCities = City.getCitiesOfState(country?.isoCode, state?.isoCode);
 
     allCities?.filter((city) => {
@@ -203,37 +217,42 @@ export default function ViewDoctor() {
       }
     })
 
-    const params = {
-      // profileImgUrl: imgFile,
-      fName: doctorCredentials?.fName,
-      lName: doctorCredentials?.lName,
-      email: doctorCredentials?.email,
-      mobileNo: doctorCredentials?.mobileNo,
-      department: doctorCredentials?.department,
-      experience: doctorCredentials?.experience,
-      dateOfBirth: doctorCredentials?.dateOfBirth,
-      bloodGroup: doctorCredentials?.bloodGroup,
-      gender: doctorCredentials?.gender,
-      shortBio: doctorCredentials?.shortBio,
-      addressLine: doctorCredentials?.addressLine,
-      hospital: doctorCredentials?.hospital,
-      country: country,
-      state: state,
-      city: cityObj,
-      pincode: doctorCredentials?.pincode,
+    let formData = new FormData();
+    if (profileImg !== doctor?.profileImg) {
+      if (profilePicture === profileImg) {
+        formData.append('image', null);
+      }
+      formData.append('image', imgFile);
     }
+    formData.append('fName', doctorCredentials?.fName);
+    formData.append('lName', doctorCredentials?.lName);
+    formData.append('email', doctorCredentials?.email);
+    formData.append('mobileNo', doctorCredentials?.mobileNo.toString());
+    formData.append('department', doctorCredentials?.department);
+    formData.append('experience', doctorCredentials?.experience);
+    formData.append('hospital', doctorCredentials?.hospital);
+    formData.append('dateOfBirth', doctorCredentials?.dateOfBirth);
+    formData.append('bloodGroup', doctorCredentials?.bloodGroup);
+    formData.append('gender', doctorCredentials?.gender);
+    formData.append('shortBio', doctorCredentials?.shortBio);
+    formData.append('addressLine', doctorCredentials?.addressLine);
+    formData.append('country', JSON.stringify(country));
+    formData.append('state', JSON.stringify(state));
+    formData.append('city', JSON.stringify(cityObj));
+    formData.append('pincode', doctorCredentials?.pincode);
 
     const headers = {
       'Authorization': token
     }
 
-    const doctor = await updateDoctor(doctorId, params, headers);
-    notification.notify(doctor?.status, doctor?.message);
+    const doctorResponse = await updateDoctor(doctorId, formData, headers);
+    notification.notify(doctorResponse?.status, doctorResponse?.message);
 
 
-    if (doctor?.status) {
-      setDoctor(doctor?.data);
+    if (doctorResponse?.status) {
+      setDoctor(doctorResponse?.data);
       setEnableEdit(false);
+      setIsLoadingUpdate(false);
     }
   }
 
@@ -257,13 +276,14 @@ export default function ViewDoctor() {
                   src={profileImg}
                 />
                 <div className={`${enableEdit ? 'doctor-profile-icons' : 'd-none'}`}>
-                  <i className="fas fa-camera camera-icon mx-1" onClick={() => { upload() }}></i>
-                  <i className="fas fa-times remove-icon mx-1" onClick={() => { setProfileImg(profilePicture) }}></i>
+                  <i className="fas fa-camera camera-icon mx-1" onClick={upload}></i>
+                  <i className="fas fa-times remove-icon mx-1" onClick={removeProfileHandler}></i>
                   <input
                     id="profileImgUrl"
                     name='profileImgUrl'
                     accept="image/*"
                     hidden
+                    multiple
                     type="file"
                     onChange={(event) => fileChangeHandler(event)}
                   />
@@ -353,6 +373,9 @@ export default function ViewDoctor() {
                         value={formik.values.email}
                         error={formik.touched.email && Boolean(formik.errors.email)}
                         onChange={formik.handleChange}
+                        InputProps={{
+                          readOnly: true
+                        }}
                       />
                       <div className='add-doctor-error-message text-right mr-1'>
                         {(formik.touched.email) ? (formik.errors.email) : null}
@@ -824,6 +847,12 @@ export default function ViewDoctor() {
       <Helmet>
         <title>Doctor | Health Horizon</title>
       </Helmet>
+      <Backdrop
+        sx={{ zIndex: 1 }}
+        open={isLoadingUpdate}
+      >
+        <Spinner />
+      </Backdrop>
       {isLoading ? (
         <div className='spinner-container'>
           <Spinner />

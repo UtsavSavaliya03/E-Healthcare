@@ -8,8 +8,13 @@
     outline: none;
 }
 
+.doctor-card-container .doctor-profile-avatar {
+    box-shadow: rgba(0, 0, 0, 0.20) 0px 3px 8px;
+}
+
 .doctor-card-header .header-title {
     font-weight: 600;
+    text-transform: capitalize;
 }
 
 .doctor-card-header .description {

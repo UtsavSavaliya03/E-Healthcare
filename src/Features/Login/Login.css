@@ -10,12 +10,22 @@
 
 .login-container {
     animation: fadeIn 1s;
+    width: 100vw;
+    height: 100vh;
+}
+
+.login-patient-bg {
     background: url("../../Assets/Backgrounds/Login-bg.png");
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
-    width: 100vw;
-    height: 100vh;
+}
+
+.login-doctor-bg {
+    background: url("../../Assets/Backgrounds/Login-doctor-bg.png");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
 }
 
 .login-form-container {
@@ -124,6 +134,12 @@
     transition: opacity 0.4s;
 }
 
+.login-container .login-method-tag {
+    color: #3e74aa;
+    font-weight: 600;
+    cursor: pointer;
+}
+
 .login-container .btn-submit:hover {
     opacity: 0.9;
 }
@@ -153,7 +169,8 @@
         width: 100%;
     }
 
-    .login-container {
+    .login-patient-bg,
+    .login-doctor-bg {
         background-image: none;
     }
 

@@ -11,11 +11,13 @@ import AddDoctor from '../../../Features/Admin/Features/Doctor/AddDoctor.jsx';
 import ViewDoctor from '../../../Features/Admin/Features/Doctor/ViewDoctor.jsx';
 import DoctorList from '../../../Features/Admin/Features/Doctor/DoctorList.jsx';
 import HospitalList from '../../../Features/Admin/Features/Hospital/HospitalList.jsx';
+import ViewHospital from '../../../Features/Admin/Features/Hospital/ViewHospital.jsx';
 import AddHospital from '../../../Features/Admin/Features/Hospital/AddHospital.jsx';
 import DepartmentList from '../../../Features/Admin/Features/Department/DepartmentList.jsx';
 import AddDepartment from '../../../Features/Admin/Features/Department/AddDepartment.jsx';
 import Appointment from '../../../Features/Admin/Features/Appointment/Appointment.jsx';
 import Inquiry from '../../../Features/Admin/Features/Inquiry/Inquiry.jsx';
+import Backup from '../../../Features/Admin/Features/Backup/Backup.jsx';
 import Error404 from '../../../Features/Error 404/Error404.jsx';
 
 export const routeData = [
@@ -74,6 +76,10 @@ export const routeData = [
                 element: HospitalList
             },
             {
+                path: "view-hospital/:id",
+                element: ViewHospital
+            },
+            {
                 path: "add-department",
                 element: AddDepartment
             },
@@ -88,6 +94,10 @@ export const routeData = [
             {
                 path: "inquiries",
                 element: Inquiry
+            },
+            {
+                path: "backup",
+                element: Backup
             },
         ]
     },

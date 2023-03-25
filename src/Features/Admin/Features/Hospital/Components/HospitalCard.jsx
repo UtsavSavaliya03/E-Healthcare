@@ -1,13 +1,22 @@
 import React from "react";
 import "./HospitalCard.css";
 import { Divider } from "@mui/material";
+import { useNavigate } from 'react-router-dom';
 
 export default function HospitalCard(props) {
 
   const { hospital } = props;
+  const navigate = useNavigate()
+
+  const navigationHandler = () => {
+    navigate(`/main/view-hospital/${btoa(hospital?._id)}`);
+  }
 
   return (
-    <div className="col-lg-4 col-md-6">
+    <div
+      className="col-lg-4 col-md-6"
+      onClick={navigationHandler}
+    >
       <div className="hospital-card-box">
         <div className="hospital-card my-3">
           <div className="front px-4">
@@ -23,8 +32,8 @@ export default function HospitalCard(props) {
                 <i class="fas fa-phone-alt hospital-card-icon mr-3"></i>
                 +91 {hospital?.mobileNo}
               </p>
-              <p className="mt-4 break-line-8">
-              {hospital?.shortBio}
+              <p className="mt-4 break-line-8 text-muted">
+                {hospital?.shortBio}
               </p>
             </div>
           </div>

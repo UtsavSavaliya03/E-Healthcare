@@ -1,24 +1,25 @@
-import React, { useState } from "react";
+import React from "react";
 import "./ContactUs.css";
 import * as Yup from "yup";
 import { Formik, Field, Form } from "formik";
-import { enquiry } from "../Services/EnuiryServices.jsx";
+import { inquiry } from "../Services/InuiryServices.jsx";
 import Alert from '../../../Components/Common/Alert/SweetAlert.jsx';
 
 function ContactUs() {
 
   const alert = new Alert;
 
-  const enquiryHandler = async (enquiryCredentials) => {
+  const inquiryHandler = async (inquiryCredentials) => {
     const params = {
-      fName: enquiryCredentials?.fName,
-      lName: enquiryCredentials?.lName,
-      email: enquiryCredentials?.email,
-      mobileNo: (enquiryCredentials?.mobileNo).toString(),
-      message: enquiryCredentials?.message,
+      fName: inquiryCredentials?.fName,
+      lName: inquiryCredentials?.lName,
+      email: inquiryCredentials?.email,
+      mobileNo: (inquiryCredentials?.mobileNo).toString(),
+      message: inquiryCredentials?.message,
     }
-    const enquiryResponse = await enquiry(params);
-    if (enquiryResponse?.status) {
+    const inquiryResponse = await inquiry(params);
+    console.log(inquiryResponse)
+    if (inquiryResponse?.status) {
       alert.alert('success', 'Done!', 'Your message sent successfully.');
     }
   };
@@ -43,7 +44,7 @@ function ContactUs() {
       .required("Required"),
     message: Yup.string()
       .trim()
-      .max(300)
+      .max(2000)
       .required("Required")
   });
   return (
@@ -91,9 +92,9 @@ function ContactUs() {
               message: ""
             }}
             validationSchema={SignupSchema}
-            onSubmit={async (values, {resetForm}) => {
-              enquiryHandler(values);
-              resetForm({values: ''})
+            onSubmit={async (values, { resetForm }) => {
+              inquiryHandler(values);
+              resetForm({ values: '' })
             }}
           >
             {({ errors, touched }) => (

@@ -24,7 +24,7 @@ export default function AddDoctors() {
   const token = localStorage.getItem('token') || null;
   const Countries = Country.getAllCountries();
   const [profileImg, setProfileImg] = useState(profilePicture);
-  const [imgFile, setImgFile] = useState(null);
+  const [imgFile, setImgFile] = useState('');
   const [hospitals, setHospitals] = useState([]);
   const [departments, setDepartments] = useState([]);
 
@@ -82,7 +82,6 @@ export default function AddDoctors() {
   }, [])
 
   const initialValues = {
-    // profileImgUrl: imgFile,
     fName: '',
     lName: '',
     email: '',
@@ -130,7 +129,7 @@ export default function AddDoctors() {
     experience: Yup.number()
       .required(' '),
     dateOfBirth: Yup.date()
-      .min('01-01-1950')
+      .min('01-01-1900')
       .max(moment(new Date()).format("YYYY-MM-DD"))
       .required(' '),
     bloodGroup: Yup.string()
@@ -158,29 +157,29 @@ export default function AddDoctors() {
 
   const submitHandler = async (doctorCredentials) => {
 
-    const params = {
-      fName: doctorCredentials?.fName,
-      lName: doctorCredentials?.lName,
-      email: doctorCredentials?.email,
-      mobileNo: doctorCredentials?.mobileNo.toString(),
-      department: doctorCredentials?.department,
-      experience: doctorCredentials?.experience,
-      hospital: doctorCredentials?.hospital,
-      dateOfBirth: doctorCredentials?.dateOfBirth,
-      bloodGroup: doctorCredentials?.bloodGroup,
-      gender: doctorCredentials?.gender,
-      shortBio: doctorCredentials?.shortBio,
-      addressLine: doctorCredentials?.addressLine,
-      country: doctorCredentials?.country,
-      state: doctorCredentials?.state,
-      city: doctorCredentials?.city,
-      pincode: doctorCredentials?.pincode,
-    }
+    let formData = new FormData();
+    formData.append('image', imgFile);
+    formData.append('fName', doctorCredentials?.fName);
+    formData.append('lName', doctorCredentials?.lName);
+    formData.append('email', doctorCredentials?.email);
+    formData.append('mobileNo', doctorCredentials?.mobileNo.toString());
+    formData.append('department', doctorCredentials?.department);
+    formData.append('experience', doctorCredentials?.experience);
+    formData.append('hospital', doctorCredentials?.hospital);
+    formData.append('dateOfBirth', doctorCredentials?.dateOfBirth);
+    formData.append('bloodGroup', doctorCredentials?.bloodGroup);
+    formData.append('gender', doctorCredentials?.gender);
+    formData.append('shortBio', doctorCredentials?.shortBio);
+    formData.append('addressLine', doctorCredentials?.addressLine);
+    formData.append('country', JSON.stringify(doctorCredentials?.country));
+    formData.append('state', JSON.stringify(doctorCredentials?.state));
+    formData.append('city', JSON.stringify(doctorCredentials?.city));
+    formData.append('pincode', doctorCredentials?.pincode);
 
     const headers = {
       'Authorization': token
     }
-    const doctor = await addDoctor(params, headers);
+    const doctor = await addDoctor(formData, headers);
     notification.notify(doctor?.status, doctor?.message);
     if (doctor?.status) {
       navigate('/main/doctor-list');
@@ -215,7 +214,7 @@ export default function AddDoctors() {
                 src={profileImg}
               />
               <div className='doctor-profile-icons'>
-                <i className="fas fa-camera camera-icon mx-1" onClick={() => { upload() }}></i>
+                <i className="fas fa-camera camera-icon mx-1" onClick={() => upload}></i>
                 <i className="fas fa-times remove-icon mx-1" onClick={() => { setProfileImg(profilePicture) }}></i>
                 <input
                   id="profileImgUrl"

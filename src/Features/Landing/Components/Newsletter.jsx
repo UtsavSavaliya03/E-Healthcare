@@ -3,7 +3,7 @@ import "./Newsletter.css";
 import NewsletterEmailLogo from "../../../Assets/Icons/Newsletter-email-logo.png";
 import { Formik, Field, Form } from 'formik';
 import * as Yup from 'yup';
-import { newsletter } from "../Services/EnuiryServices.jsx";
+import { newsletter } from "../Services/InuiryServices.jsx";
 import Alert from '../../../Components/Common/Alert/SweetAlert.jsx';
 
 function Newsletter() {

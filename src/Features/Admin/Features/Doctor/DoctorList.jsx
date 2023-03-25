@@ -5,15 +5,24 @@ import { TextField, MenuItem } from '@mui/material';
 import InputAdornment from '@mui/material/InputAdornment';
 import SearchIcon from '@mui/icons-material/Search';
 import { Spinner } from '../../../../Components/Common/Spinners/Spinners.jsx';
-import { fetchDoctors } from '../../Services/doctorServices.jsx'
+import { fetchDoctors, searchDoctor } from '../../Services/doctorServices.jsx'
+import Backdrop from "@mui/material/Backdrop";
+import { fetchDepartments } from '../../Services/departmentServices.jsx';
 import { Helmet } from "react-helmet";
+import IconButton from '@mui/material/IconButton';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
 export default function DoctorList() {
 
     const token = localStorage.getItem('token') || null;
-    const [searchData, setSearchData] = useState({ searchText: '', department: '' });
+    const [searchValue, setSearchValue] = useState({ searchText: '', department: 1 });
     const [doctors, setDoctors] = useState([]);
+    const [searchedDoctors, setSearchedDoctors] = useState([]);
+    const [isSearched, setIsSearched] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
+    const [isDisableSearch, setIsDisableSearch] = useState(true);
+    const [isLoadingBackdrop, setIsLoadingBackdrop] = useState(false);
+    const [departments, setDepartments] = useState([]);
 
     const fetchDoctorHandle = async () => {
         setIsLoading(true);
@@ -25,72 +34,178 @@ export default function DoctorList() {
         setIsLoading(false);
     }
 
+    const fetchDepartmentsHandler = async () => {
+        const headers = {
+            'Authorization': token
+        }
+
+        const departments = await fetchDepartments(headers);
+        setDepartments([{ _id: 1, name: 'All' }, ...departments?.department]);
+    }
+
+    const onChangeHandler = (event) => {
+        setSearchValue({ ...searchValue, [event.target.name]: event.target.value });
+    }
+
     useEffect(() => {
-        fetchDoctorHandle()
-    }, [])
+        fetchDoctorHandle();
+        fetchDepartmentsHandler();
+    }, []);
+
+    const searchHandler = async () => {
+        setIsLoadingBackdrop(true);
+        const headers = {
+            'Authorization': token
+        }
+
+        const params = {
+            name: searchValue?.searchText === '' ? '' : (searchValue?.searchText).trim(),
+            department: searchValue?.department === 1 ? null : searchValue?.department
+        }
+
+        const doctors = await searchDoctor(params, headers);
+        if (doctors?.status) {
+            setSearchedDoctors(doctors?.data);
+            setIsSearched(true);
+            setIsLoadingBackdrop(false);
+        }
+    }
+
+    const updateDataHandler = (id) => {
+        var updatedDoctors = doctors.filter((doctor) => {
+            if (doctor?._id !== id) {
+                return doctor;
+            }
+        });
+        setDoctors(updatedDoctors);
+    }
+
+    const deleteLoaderHandler = (loading) => {
+        setIsLoadingBackdrop(loading);
+    }
 
     return (
         <>
-        <Helmet>
-        <title>Doctor | Health Horizon</title>
-      </Helmet>
-        <div className='doctor-list-container pt-3 pb-5 px-lg-5 px-3'>
-            <div className='doctor-list-searchbar-container py-3 px-1 mb-3 row m-0'>
-                <div className='col-md-6 col-sm-12 mb-md-0'>
-                    <TextField
-                        fullWidth
-                        id="input-with-icon-adornment"
-                        placeholder='Search . . .'
-                        onChange={(e) => setSearchData({ searchText: e.target.value })}
-                        InputProps={{
-                            startAdornment: (
-                                <InputAdornment position="start">
-                                    <SearchIcon />
-                                </InputAdornment>
-                            ),
-                        }}
-                    />
-                </div>
-                <div className='col-md-4 my-3 col-sm-8'>
-                    <TextField
-                        fullWidth
-                        name='department'
-                        label="Department"
-                        select
-                        onChange={(e) => setSearchData({ department: e.target.value })}
-                    >
-                        <MenuItem value='A+'>A+</MenuItem>
-                        <MenuItem value='A-'>A-</MenuItem>
-                        <MenuItem value='B+'>B+</MenuItem>
-                        <MenuItem value='B-'>B-</MenuItem>
-                    </TextField>
-                </div>
-                <div className='col-md-2 col-sm-4'>
-                    <button className='btn-search'>Search</button>
-                </div>
-            </div>
-            <div>
-                {
-                    isLoading ? (
-                        <div className='w-100 d-flex justify-content-center align-items-center my-5 py-5'>
-                            <Spinner />
-                        </div>
-                    ) : (
-                        <div className='row p-0'>
+            <Helmet>
+                <title>Doctor | Health Horizon</title>
+            </Helmet>
+            <Backdrop
+                sx={{ zIndex: 1 }}
+                open={isLoadingBackdrop}
+            >
+                <Spinner />
+            </Backdrop>
+            <div className='doctor-list-container pt-3 pb-5 px-lg-5 px-3'>
+                <div className='doctor-list-searchbar-container py-3 px-1 mb-3 row m-0'>
+                    <div className='col-md-6 col-sm-12 mb-md-0'>
+                        <TextField
+                            fullWidth
+                            name='searchText'
+                            value={searchValue?.searchText}
+                            autoComplete='off'
+                            id="input-with-icon-adornment"
+                            placeholder='Search . . .'
+                            onChange={(event) => onChangeHandler(event)}
+                            InputProps={{
+                                startAdornment: (
+                                    <InputAdornment position="start">
+                                        <SearchIcon />
+                                    </InputAdornment>
+                                ),
+                            }}
+                        />
+                    </div>
+                    <div className='col-md-4 my-3 col-sm-8'>
+                        <TextField
+                            fullWidth
+                            name='department'
+                            label="Department"
+                            select
+                            value={searchValue.department}
+                            onChange={(event) => onChangeHandler(event)}
+                        >
                             {
-                                doctors?.length > 0 ? (
-                                    doctors?.map((doctor, index) => (
-                                        <DoctorCard key={index} doctor={doctor} />
-                                    ))
+                                departments &&
+                                    (departments?.length > 0) ? (
+                                    departments?.map((department, index) => {
+                                        return (
+                                            <MenuItem key={index} value={department?._id}>{department?.name}</MenuItem>
+                                        )
+                                    })
                                 ) : (
-                                    <h4 className='text-center text-muted w-100 p-5'>No Doctors</h4>
+                                    <p className='text-center m-0'>No Departments</p>
                                 )
                             }
-                        </div>
-                    )
-                }
+                        </TextField>
+                    </div>
+                    <div className='col-md-2 col-sm-4'>
+                        <button
+                            className='btn-search'
+                            onClick={searchHandler}
+                        >
+                            Search
+                        </button>
+                    </div>
+                </div>
+                <div>
+                    {
+                        isLoading ? (
+                            <div className='w-100 d-flex justify-content-center align-items-center my-5 py-5'>
+                                <Spinner />
+                            </div>
+                        ) : (
+                            <>
+                                {isSearched ? (
+                                    <>
+                                        <div className='btn-show-all'>
+                                            <IconButton onClick={() => {
+                                                setSearchValue({ searchText: '', department: 1 })
+                                                setIsSearched(false);
+                                            }}>
+                                                <ArrowBackIcon />
+                                            </IconButton>
+                                            Show All
+                                        </div>
+                                        <div className='row p-0'>
+                                            {
+                                                searchedDoctors?.length > 0 ? (
+                                                    searchedDoctors?.map((doctor, index) => (
+                                                        <DoctorCard
+                                                            key={index}
+                                                            doctor={doctor}
+                                                            updateData={updateDataHandler}
+                                                            deleteLoaderHandler={deleteLoaderHandler}
+                                                        />
+                                                    ))
+                                                ) : (
+                                                    <h4 className='text-center text-muted w-100 p-5'>No Doctors</h4>
+                                                )
+                                            }
+                                        </div>
+                                    </>
+                                ) : (
+                                    <div className='row p-0'>
+                                        {
+                                            doctors?.length > 0 ? (
+                                                doctors?.map((doctor, index) => (
+                                                    <DoctorCard
+                                                        key={index}
+                                                        doctor={doctor}
+                                                        updateData={updateDataHandler}
+                                                        deleteLoaderHandler={deleteLoaderHandler}
+                                                    />
+                                                ))
+                                            ) : (
+                                                <h4 className='text-center text-muted w-100 p-5'>No Doctors</h4>
+                                            )
+                                        }
+                                    </div>
+                                )}
+                            </>
+                        )
+                    }
+                </div>
             </div>
-        </div>
         </>
     )
 }

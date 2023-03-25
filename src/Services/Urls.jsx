@@ -9,6 +9,9 @@ export const SignupUrls = {
 export const LoginUrls = {
     login: () => {
         return baseUrl + '/users/login';
+    },
+    doctorLogin: () => {
+        return baseUrl + '/users/doctorLogin';
     }
 }
 
@@ -27,15 +30,18 @@ export const PasswordUrls = {
     }
 }
 
-export const EnquiryUrls = {
-    enquiry: () => {
-        return baseUrl + `/enquiry`;
+export const InquiryUrls = {
+    inquiry: () => {
+        return baseUrl + `/inquiry`;
     },
-    fetchEnquiry: (query) => {
-        return baseUrl + `/enquiry?status=${query}`;
+    fetchInquiry: (query) => {
+        return baseUrl + `/inquiry?status=${query}`;
     },
-    replyEnquiry: () => {
-        return baseUrl + `/enquiry/reply`;
+    replyInquiry: () => {
+        return baseUrl + `/inquiry/reply`;
+    },
+    deleteInquiry: (id) => {
+        return baseUrl + `/inquiry/${id}`;
     },
 }
 
@@ -56,10 +62,13 @@ export const DoctorUrls = {
         return baseUrl + `/doctor/${id}`;
     },
     updateDoctor: (id) => {
-        return baseUrl + `/doctor/${id}`;
+        return baseUrl + `/doctor/update/${id}`;
     },
     deleteDoctor: (id) => {
         return baseUrl + `/doctor/${id}`;
+    },
+    searchDoctor: () => {
+        return baseUrl + `/doctor/search`;
     },
 }
 

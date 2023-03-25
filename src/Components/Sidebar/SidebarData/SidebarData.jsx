@@ -7,9 +7,63 @@ import {
   FaListUl,
   FaHospitalUser,
   FaQuestionCircle,
+  FaDatabase,
+  FaFilePrescription,
+  FaDesktop,
 } from "react-icons/fa";
 
-export const sidebarData = [
+export const patientSidebarData = [
+  {
+    path: "/dashboard",
+    name: "Dashboard",
+    icon: <FaHome />,
+  },
+  {
+    path: "/hospitals",
+    name: "Hospitals",
+    icon: <FaHospitalUser />,
+  },
+  {
+    path: "/doctors",
+    name: "Doctors",
+    icon: <FaUserMd />,
+  },
+  {
+    path: "/appointment",
+    name: "My Appointment",
+    icon: <FaCalendarDay />,
+  },
+  {
+    path: "/prescription",
+    name: "My Prescription",
+    icon: <FaFilePrescription />,
+  },
+]
+
+export const doctorSidebarData = [
+  {
+    path: "doctor/dashboard",
+    name: "Dashboard",
+    icon: <FaHome />,
+  },
+  {
+    path: "doctor/workspace",
+    name: "Workspace",
+    icon: <FaDesktop />,
+  },
+  {
+    path: "/hospitals",
+    name: "Hospitals",
+    icon: <FaHospitalUser />,
+  },
+  {
+    path: "/appointment",
+    name: "My Appointment",
+    icon: <FaCalendarDay />,
+  },
+]
+
+export const adminSidebarData = [
   {
     path: "main/dashboard",
     name: "Dashboard",
@@ -32,7 +86,6 @@ export const sidebarData = [
     ],
   },
   {
-    path: "/main",
     name: "Departments",
     icon: <FaHospitalUser />,
     subRoutes: [
@@ -49,7 +102,6 @@ export const sidebarData = [
     ],
   },
   {
-    path: "/main",
     name: "Doctors",
     icon: <FaUserMd />,
     subRoutes: [
@@ -74,5 +126,10 @@ export const sidebarData = [
     path: "main/inquiries",
     name: "Inquiries",
     icon: <FaQuestionCircle />,
+  },
+  {
+    path: "main/backup",
+    name: "Backup",
+    icon: <FaDatabase />,
   },
 ]

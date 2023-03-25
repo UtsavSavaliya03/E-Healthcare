@@ -1,44 +1,69 @@
 import React, { useEffect, useState } from 'react';
 import './Inquiry.css';
 import { Helmet } from "react-helmet";
-import { fetchEnquiry } from '../../Services/enquiryServices.jsx';
+import { fetchInquiry } from '../../Services/inquiryServices.jsx';
 import InquiryCard from './Components/InquiryCard.jsx';
 import ToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
+import Backdrop from "@mui/material/Backdrop";
 import { Spinner } from '../../../../Components/Common/Spinners/Spinners.jsx'
 
 export default function Inquiry() {
 
   const token = localStorage.getItem('token') || null;
-  const [enquiries, setEnquiries] = useState([]);
+  const [inquiries, setInquiries] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [isLoadingDelete, setIsLoadingDelete] = useState(false);
   const [alignment, setAlignment] = React.useState('all');
 
   const handleChange = (event, newAlignment) => {
     setAlignment(newAlignment);
   };
 
-  const fetchEnquiryHandler = async () => {
+  const fetchInquiryHandler = async () => {
 
     const headers = {
       'Authorization': token
     }
 
-    const enquiry = await fetchEnquiry(headers, alignment);
-    setEnquiries(enquiry?.data)
+    const inquiry = await fetchInquiry(headers, alignment);
+    setInquiries(inquiry?.data)
   }
 
   useEffect(() => {
-    fetchEnquiryHandler();
+    fetchInquiryHandler();
   }, [alignment])
 
+  const deleteLoaderHandler = (loading) => {
+    setIsLoadingDelete(loading);
+  }
+
+  const updateDataHandler = (id) => {
+    if (id) {
+      var updatedInquiry = inquiries.filter((inquiry) => {
+        if (inquiry?._id !== id) {
+          return inquiry;
+        }
+      });
+      setInquiries(updatedInquiry);
+    } else {
+      fetchInquiryHandler();
+    }
+  }
+
   return (
-    <div className='px-5 py-4 enquiry-container'>
+    <div className='px-5 py-4 inquiry-container'>
       <Helmet>
         <title>Inquiry | Health Horizon</title>
       </Helmet>
+      <Backdrop
+        sx={{ zIndex: 1 }}
+        open={isLoadingDelete}
+      >
+        <Spinner />
+      </Backdrop>
       <div>
-        <div className='enquiry-title ml-1 pb-4 pt-2 d-flex align-items-center'>
+        <div className='inquiry-title ml-1 pb-4 pt-2 d-flex align-items-center'>
           <h4 className='m-0'>Inquiries</h4>
           <div className='ml-3'>
             <ToggleButtonGroup
@@ -61,17 +86,22 @@ export default function Inquiry() {
                 <Spinner />
               </div>
             ) : (
-              enquiries?.length > 0 ? (
+              inquiries?.length > 0 ? (
                 <div>
                   {
-                    enquiries?.map((enquiry, index) => (
-                      <InquiryCard key={index} enquiry={enquiry} updateData={fetchEnquiryHandler} />
+                    inquiries?.map((inquiry, index) => (
+                      <InquiryCard
+                        key={index}
+                        inquiry={inquiry}
+                        updateData={updateDataHandler}
+                        deleteLoaderHandler={deleteLoaderHandler}
+                      />
                     ))
                   }
                 </div>
               ) : (
                 <div className='text-center'>
-                  <h5 className='text-muted py-5'>No Enquiry</h5>
+                  <h5 className='text-muted py-5'>No Inquiry</h5>
                 </div>
               )
             )

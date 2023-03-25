@@ -10,19 +10,40 @@ import moment from 'moment';
 import { useNavigate } from 'react-router-dom';
 import { editDoctorStateAtom } from '../../../../../Store/globalState.jsx';
 import { useSetRecoilState } from 'recoil';
+import { deleteDoctor } from '../../../Services/doctorServices.jsx';
+import Alert from '../../../../../Components/Common/Alert/SweetAlert.jsx';
 
 export default function DoctorCard(props) {
 
     const doctor = props.doctor;
+    const alert = new Alert;
+    const token = localStorage.getItem('token') || null;
     const navigate = useNavigate();
     const setEnableEdit = useSetRecoilState(editDoctorStateAtom);
+
+    const deleteHandler = async () => {
+        props.deleteLoaderHandler(true);
+        const headers = {
+            'Authorization': token
+        }
+        const doctorResponse = await deleteDoctor(doctor?._id, headers);
+        if (doctorResponse?.status) {
+            alert.alert('success', 'Done!', 'Deleted Ssccessfully!');
+            props.updateData(doctor?._id);
+            props.deleteLoaderHandler(false);
+        }
+    }
+
+    const openDeletePopup = () => {
+        alert.confirmBox('Are you sure?', "You won't be able to revert this!", { deleteHandler })
+    }
 
     return (
         <div className='col-lg-4 col-md-6'>
             <div className='doctor-card-container py-3 p-0 my-3'>
                 <div className="doctor-card-header px-3">
                     <div className='d-flex justify-content-start align-items-center'>
-                        <Avatar size='50' round name={`${doctor?.fName} ${doctor?.lName}`} />
+                        <Avatar className='doctor-profile-avatar' size='50' round name={`${doctor?.fName} ${doctor?.lName}`} src={doctor?.profileImg} />
                         <div className='ml-3'>
                             <h4 className='header-title m-0'>{`${doctor?.fName} ${doctor?.lName}`}</h4>
                             <div className='d-flex justify-content-start align-items-center'>
@@ -96,7 +117,10 @@ export default function DoctorCard(props) {
                         >
                             <EditIcon />
                         </IconButton>
-                        <IconButton className='ml-2'>
+                        <IconButton
+                            className='ml-2'
+                            onClick={openDeletePopup}
+                        >
                             <DeleteIcon />
                         </IconButton>
                     </div>
