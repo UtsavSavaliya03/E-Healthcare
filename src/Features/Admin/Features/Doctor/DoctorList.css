@@ -42,3 +42,7 @@
 .doctor-list-searchbar-container .btn-search:hover {
     opacity: 1;
 }
+
+.doctor-list-searchbar-container .btn-search:disabled {
+    cursor: not-allowed;
+}

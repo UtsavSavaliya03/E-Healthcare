@@ -32,7 +32,25 @@ export const fetchDoctorById = async (id, header) => {
 
 export const updateDoctor = async (id, doctorCredentials, header) => {
 
-    const doctor = await axiosService.put(DoctorUrls.updateDoctor(id), doctorCredentials, header);
+    const doctor = await axiosService.post(DoctorUrls.updateDoctor(id), doctorCredentials, header);
+
+    if (doctor.data || doctor.response.data) {
+        return doctor.data || doctor.response.data;
+    }
+}
+
+export const deleteDoctor = async (id, header) => {
+
+    const doctor = await axiosService.delete(DoctorUrls.deleteDoctor(id), header);
+
+    if (doctor.data || doctor.response.data) {
+        return doctor.data || doctor.response.data;
+    }
+}
+
+export const searchDoctor = async (searchingValue, header) => {
+
+    const doctor = await axiosService.post(DoctorUrls.searchDoctor(), searchingValue, header);
 
     if (doctor.data || doctor.response.data) {
         return doctor.data || doctor.response.data;

@@ -1,39 +1,37 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './Login.css';
-import { login } from './Services/LoginServices.jsx';
+import { login, doctorLogin } from './Services/LoginServices.jsx';
 import { useRecoilState } from 'recoil';
-import { userState } from '../../Store/globalState';
+import { userState } from '../../Store/globalState.jsx';
 import { useNavigate } from "react-router-dom";
 import { Formik, Field, Form } from 'formik';
 import * as Yup from 'yup';
 import { Helmet } from "react-helmet";
 import Notification from '../../Components/Common/Notification/Notification.jsx';
-import ToggleButton from '@mui/material/ToggleButton';
-import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 
 export default function Login() {
 
   const alert = new Notification();
   const navigate = useNavigate();
   const [user, setUser] = useRecoilState(userState);
-  const [alignment, setAlignment] = React.useState('patient');
-
-  const handleChange = (event, newAlignment) => {
-    setAlignment(newAlignment);
-  };
+  const [isPatientLogin, setIsPatientLogin] = useState(true);
 
   const loginHandler = async (loginCredentials) => {
     let isLoggedin = {};
 
-    isLoggedin = await login(loginCredentials);
+    if (isPatientLogin) {
+      isLoggedin = await login(loginCredentials);
+    } else {
+      isLoggedin = await doctorLogin(loginCredentials);
+    }
 
     if (isLoggedin?.status) {
       setUser({ ...isLoggedin?.data, isLogin: true });
       localStorage.setItem('userId', btoa(isLoggedin?.data?._id));
       localStorage.setItem('token', isLoggedin?.token);
-      if (user?.role === 0) {
+      if (isLoggedin?.data?.role === 0) {
         navigate('/main/dashboard');
-      } else if (user?.role === 2) {
+      } else if (isLoggedin?.data?.role === 2) {
         navigate('/doctor/dashboard');
       } else {
         navigate('/dashboard');
@@ -62,7 +60,7 @@ export default function Login() {
         <meta name="description" content="Helmet application" />
       </Helmet>
 
-      <div className='login-container'>
+      <div className={`login-container ${isPatientLogin ? 'login-patient-bg' : "login-doctor-bg"}`}>
         <i class="fas fa-home fa-2x home-icon m-3" onClick={() => navigate('/')}></i>
         <div className="login-form-wrapper">
           <div className='login-form-container'>
@@ -70,16 +68,26 @@ export default function Login() {
             <div className="horizontal-separator mb-3"></div>
             <p className="welcome-message">Please, provide login credential to proceed and have access to all our services</p>
             <div>
-              <ToggleButtonGroup
-                color="primary"
-                value={alignment}
-                exclusive
-                onChange={handleChange}
-                aria-label="Platform"
-              >
-                <ToggleButton value="patient">Patient</ToggleButton>
-                <ToggleButton value="doctor">Doctor</ToggleButton>
-              </ToggleButtonGroup>
+              <h5 className='m-0'>
+                Want to login as a
+                {
+                  isPatientLogin ? (
+                    <span
+                      className='login-method-tag ml-1'
+                      onClick={() => setIsPatientLogin(false)}
+                    >
+                      Doctor?
+                    </span>
+                  ) : (
+                    <span
+                      className='login-method-tag ml-1'
+                      onClick={() => setIsPatientLogin(true)}
+                    >
+                      Patient?
+                    </span>
+                  )
+                }
+              </h5>
             </div>
             <Formik
               initialValues={{ email: '', password: '' }}

@@ -1,14 +1,14 @@
 import AxiosService from "../../../Services/AxiosServices.jsx";
-import { EnquiryUrls, NewsletterUrls } from '../../../Services/Urls.jsx';
+import { InquiryUrls, NewsletterUrls } from '../../../Services/Urls.jsx';
 
 const axiosService = new AxiosService();
 
-export const enquiry = async (enquiryParams) => {
+export const inquiry = async (inquiryParams) => {
 
-    const enquiry = await axiosService.post(EnquiryUrls.enquiry(), enquiryParams);
+    const inquiry = await axiosService.post(InquiryUrls.inquiry(), inquiryParams);
 
-    if (enquiry.data || enquiry.response.data) {
-        return enquiry.data || enquiry.response.data;
+    if (inquiry.data || inquiry.response.data) {
+        return inquiry.data || inquiry.response.data;
     }
 }
 

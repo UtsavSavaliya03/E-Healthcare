@@ -2,6 +2,7 @@
   margin: 1% 0 1% 1%;
   perspective: 800px;
   transition: all 0.3s ease 0s;
+  cursor: pointer;
 }
 
 .hospital-card-box:hover .hospital-card {
@@ -28,6 +29,7 @@
   position: absolute;
   width: 100%;
   border-radius: 0.5rem;
+  cursor: pointer;
 }
 .hospital-card .back {
   transform: rotateY(180deg);

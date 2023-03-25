@@ -8,18 +8,22 @@ import { motion, AnimatePresence } from "framer-motion";
 import InputAdornment from '@mui/material/InputAdornment';
 import AlternateEmailIcon from '@mui/icons-material/AlternateEmail';
 import TitleIcon from '@mui/icons-material/Title';
-import { replyEnquiry } from '../../../Services/enquiryServices.jsx';
+import DeleteIcon from '@mui/icons-material/Delete';
+import { replyInquiry, deleteInquiry } from '../../../Services/inquiryServices.jsx';
 import { FaPaperPlane } from 'react-icons/fa';
 import Notificaion from '../../../../../Components/Common/Notification/Notification.jsx';
 import TimeAgo from 'react-timeago';
+import IconButton from '@mui/material/IconButton';
+import Alert from '../../../../../Components/Common/Alert/SweetAlert.jsx';
 
-export default function EnquiryCard(props) {
+export default function InquiryCard(props) {
 
+    const alert = new Alert();
     const notification = new Notificaion;
     const [open, setOpen] = useState(false);
     const [animationDuration, setAnimationDuration] = useState(false);
     const token = localStorage.getItem('token') || null;
-    const { enquiry } = props;
+    const { inquiry } = props;
 
     useEffect(() => {
         setAnimationDuration(true);
@@ -29,12 +33,12 @@ export default function EnquiryCard(props) {
     }, [])
 
     const initialValues = {
-        to: enquiry?.email,
-        header: 'Response to your Enquiry',
+        to: inquiry?.email,
+        header: 'Response to your Inquiry',
         reply: 'Thank you for reaching out.',
     };
 
-    const EnquirySchema = Yup.object().shape({
+    const InquirySchema = Yup.object().shape({
         to: Yup.string()
             .email('')
             .trim()
@@ -46,29 +50,54 @@ export default function EnquiryCard(props) {
             .required(' '),
     })
 
-    const submitHandler = async (EnquiryCredentials) => {
+    const deleteHandler = async (e) => {
+        props.deleteLoaderHandler(true);
+
+        const headers = {
+            'Authorization': token
+        }
+
+        const inquiryResponse = await deleteInquiry(inquiry?._id, headers);
+
+        if (inquiryResponse) {
+            alert.alert('success', 'Done!', 'Deleted Ssccessfully!');
+            props.updateData(inquiry?._id);
+            props.deleteLoaderHandler(false);
+        }
+    }
+
+    const submitHandler = async (InquiryCredentials) => {
 
         const params = {
-            enquiryId: enquiry?._id,
-            header: EnquiryCredentials?.header,
-            reply: EnquiryCredentials?.reply
+            inquiryId: inquiry?._id,
+            header: InquiryCredentials?.header,
+            reply: InquiryCredentials?.reply
         }
 
         const headers = {
             'Authorization': token
         }
-        const enquiryResponse = await replyEnquiry(params, headers);
-        notification.notify(enquiryResponse?.status, enquiryResponse?.message);
-        if (enquiryResponse?.status) {
+        const inquiryResponse = await replyInquiry(params, headers);
+        notification.notify(inquiryResponse?.status, inquiryResponse?.message);
+        if (inquiryResponse?.status) {
             setOpen(false);
             props.updateData();
         }
     }
 
-    const EnquiryForm = () => {
+    const openDeletePopup = (e) => {
+        e.stopPropagation();
+        if (inquiry?.status) {
+            alert.confirmBox('Are you sure?', "This inquiry is still not responded and also you won't be able to revert this!", { deleteHandler })
+        } else {
+            alert.confirmBox('Are you sure?', "You won't be able to revert this!", { deleteHandler })
+        }
+    }
+
+    const InquiryForm = () => {
         const formik = useFormik({
             initialValues: initialValues,
-            validationSchema: EnquirySchema,
+            validationSchema: InquirySchema,
             onSubmit: (values) => {
                 submitHandler(values);
             },
@@ -115,9 +144,10 @@ export default function EnquiryCard(props) {
                 </div>
                 <div className='my-3 mt-md-3'>
                     <textarea
-                        className={`w-100 enquiry-reply-body ${Boolean(formik.errors.reply) ? 'enquiry-reply-body-error' : ''}`}
+                        className={`w-100 inquiry-reply-body ${Boolean(formik.errors.reply) ? 'inquiry-reply-body-error' : ''}`}
                         rows={3}
                         name="reply"
+                        value={formik.values.reply}
                         placeholder="Response message..."
                         onChange={formik.handleChange}
                     />
@@ -133,20 +163,20 @@ export default function EnquiryCard(props) {
     }
 
     return (
-        <div className='enquiry-collapse-container px-2 my-3'>
+        <div className='inquiry-collapse-container px-2 my-3'>
             <div className='row m-0 py-4' onClick={() => setOpen(!open)}>
                 <div className='col-lg-2 break-line-1'>
-                    <p className='m-0 card-title'>{enquiry?.fName} {enquiry?.lName}</p>
+                    <p className='m-0 card-title'>{inquiry?.fName} {inquiry?.lName}</p>
                 </div>
                 <div className='col-lg-3 my-1 my-lg-0'>
-                    <p className='m-0 break-line-1'>{enquiry?.email}</p>
+                    <p className='m-0 break-line-1'>{inquiry?.email}</p>
                 </div>
                 <div className='col-lg-4 break-line-1'>
-                    <p className='m-0 text-muted'>{enquiry?.message}</p>
+                    <p className='m-0 text-muted'>{inquiry?.message}</p>
                 </div>
                 <div className='col-lg-1 text-right my-1 my-lg-0'>
                     {
-                        enquiry?.status ? (
+                        inquiry?.status ? (
                             <p className='m-0 unread-status-tag'>
                                 Unread
                             </p>
@@ -157,23 +187,27 @@ export default function EnquiryCard(props) {
                         )
                     }
                 </div>
-                <div className='col-lg-2 d-flex justify-content-end'>
-                    <p className='m-0 text-muted'>
-                        <TimeAgo date={enquiry?.createdAt} />
+                <div className='col-lg-2 d-flex justify-content-end btn-container'>
+                    <p className='m-0 text-muted break-line-1'>
+                        <TimeAgo date={inquiry?.createdAt} />
                     </p>
-                    <div className='btn-toggle-container ml-4'>
+                    <div className='ml-2'>
+                        <IconButton
+                            size="small"
+                            onClick={(e) => { openDeletePopup(e) }}
+                        >
+                            <DeleteIcon fontSize="inherit" />
+                        </IconButton>
+                    </div>
+                    <div className='btn-toggle-container ml-2'>
                         {open ? (
-                            <FaAngleUp
-                                className='btn-toggle'
-                                size={20}
-                                onClick={() => setOpen(!open)}
-                            />
+                            <IconButton size="small" onClick={() => setOpen(!open)}>
+                                <FaAngleUp />
+                            </IconButton>
                         ) : (
-                            <FaAngleDown
-                                className='btn-toggle'
-                                size={20}
-                                onClick={() => setOpen(!open)}
-                            />
+                            <IconButton size="small" onClick={() => setOpen(!open)}>
+                                <FaAngleDown />
+                            </IconButton>
                         )}
                     </div>
                 </div>
@@ -196,24 +230,24 @@ export default function EnquiryCard(props) {
                             <div className='col-lg-6 px-3'>
                                 <div className='d-flex'>
                                     <p className='m-0 text-primary'>From:</p>
-                                    <p className='m-0 ml-2 break-line-1'>{enquiry?.email}</p>
+                                    <p className='m-0 ml-2 break-line-1'>{inquiry?.email}</p>
                                 </div>
                                 <div className='mt-2'>
-                                    <p className='m-0 mb-1 text-primary'>Enquiry:</p>
-                                    <p className='m-0'>{enquiry?.message}</p>
+                                    <p className='m-0 mb-1 text-primary'>Inquiry:</p>
+                                    <p className='m-0'>{inquiry?.message}</p>
                                 </div>
                             </div>
                             <div className='col-lg-6 px-3'>
-                                {enquiry?.reply ? (
+                                {inquiry?.reply ? (
                                     <div>
                                         <div className='d-flex justify-content-between'>
                                             <p className='m-0 text-primary'>Our Response</p>
-                                            <p className='m-0 text-muted'>Replied: <TimeAgo date={enquiry?.updatedAt} /></p>
+                                            <p className='m-0 text-muted'>Replied: <TimeAgo date={inquiry?.updatedAt} /></p>
                                         </div>
-                                        <p className='m-0 mt-2'>{enquiry?.reply}</p>
+                                        <p className='m-0 mt-2'>{inquiry?.reply}</p>
                                     </div>
                                 ) : (
-                                    <EnquiryForm />
+                                    <InquiryForm />
                                 )
                                 }
                             </div>

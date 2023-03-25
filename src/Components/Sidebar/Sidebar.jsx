@@ -1,7 +1,8 @@
+import React, { useEffect, useState } from 'react';
 import './Sidebar.css';
-import { useRecoilState } from 'recoil';
-import { sidebarData } from './SidebarData/SidebarData.jsx';
-import { sidebarStateAtom } from '../../Store/globalState.jsx';
+import { useRecoilState, useRecoilValue } from 'recoil';
+import { patientSidebarData, doctorSidebarData, adminSidebarData } from './SidebarData/SidebarData.jsx';
+import { sidebarStateAtom, userState } from '../../Store/globalState.jsx';
 import useHeader from '../Header/Hooks/useHeader.jsx';
 import { NavLink } from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
@@ -11,7 +12,21 @@ import './Sidebar.css';
 const Sidebar = ({ children }) => {
 
   const isHeader = useHeader();
+  const [sidebarData, setSidebarData] = useState([])
   const [isOpen, setIsOpen] = useRecoilState(sidebarStateAtom);
+  const user = useRecoilValue(userState);
+  const userRole = user?.role;
+
+  useEffect(() => {
+    if (userRole === 0) {
+      setSidebarData(adminSidebarData);
+    } else if(userRole === 1) {
+      setSidebarData(doctorSidebarData);
+    } else {
+      setSidebarData(patientSidebarData);
+    }
+  }, [user])
+
 
   const showAnimation = {
     hidden: {

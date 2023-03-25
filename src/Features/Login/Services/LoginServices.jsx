@@ -11,3 +11,12 @@ export const login = async (loginCredentials) => {
         return user.data || user.response.data;
     }
 }
+
+export const doctorLogin = async (loginCredentials) => {
+
+    const user = await axiosService.post(LoginUrls.doctorLogin(), loginCredentials);
+
+    if (user.data || user.response.data) {
+        return user.data || user.response.data;
+    }
+}

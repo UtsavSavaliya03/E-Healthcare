@@ -38,4 +38,16 @@ export default class AxiosService extends React.Component {
 
         return response;
     }
+
+    async delete(url, headers) {
+        const response = await axios.delete(url, { headers: headers })
+            .then((response) => {
+                return response;
+            })
+            .catch((error) => {
+                return error;
+            });
+
+        return response;
+    }
 }
