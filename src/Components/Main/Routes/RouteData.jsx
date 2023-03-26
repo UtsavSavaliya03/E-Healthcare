@@ -44,7 +44,7 @@ export const routeData = [
     },
     {
         path: "/bookAppintment",
-        route: PublicRoute,
+        route: AuthorizedRoute,
         element: BookAppointment,
     },
     {
