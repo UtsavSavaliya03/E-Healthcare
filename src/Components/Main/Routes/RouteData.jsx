@@ -4,7 +4,7 @@ import Signup from '../../../Features/Signup/Signup.jsx';
 import Login from '../../../Features/Login/Login.jsx';
 import ForgotPassword from '../../../Features/ForgotPassword/ForgotPassword.jsx';
 import Landing from '../../../Features/Landing/Landing.jsx';
-import Dashboard from '../../../Features/Dashboard/Dashboard.jsx';
+import Dashboard from '../../../Features/Patient/Features/Dashboard/Dashboard.jsx';
 import Admin from '../../../Features/Admin/Admin.jsx';
 import AdminDashboard from '../../../Features/Admin/Features/Dashboard/Dashboard.jsx';
 import AddDoctor from '../../../Features/Admin/Features/Doctor/AddDoctor.jsx';
@@ -19,6 +19,7 @@ import Appointment from '../../../Features/Admin/Features/Appointment/Appointmen
 import Inquiry from '../../../Features/Admin/Features/Inquiry/Inquiry.jsx';
 import Backup from '../../../Features/Admin/Features/Backup/Backup.jsx';
 import Error404 from '../../../Features/Error 404/Error404.jsx';
+import BookAppointment from '../../../Features/Patient/Features/Appointment/BookAppointment.jsx'
 
 export const routeData = [
     {
@@ -40,6 +41,11 @@ export const routeData = [
         path: "/forgotPassword",
         route: PublicRoute,
         element: ForgotPassword,
+    },
+    {
+        path: "/bookAppintment",
+        route: AuthorizedRoute,
+        element: BookAppointment,
     },
     {
         path: "/dashboard",

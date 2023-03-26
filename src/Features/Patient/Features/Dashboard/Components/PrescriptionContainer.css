@@ -26,11 +26,11 @@
 }
 
 .prescription-container-wrapper-md:before {
-  background-image: url('../../../Assets/Backgrounds/Patient-dashboard-prescription-responsive-bg.png');
+  background-image: url('../../../../../Assets/Backgrounds/Patient-dashboard-prescription-responsive-bg.png');
 }
 
 .prescription-container-wrapper-lg:before {
-  background-image: url('../../../Assets/Backgrounds/Patient-dashboard-prescription-bg.png');
+  background-image: url('../../../../../Assets/Backgrounds/Patient-dashboard-prescription-bg.png');
 }
 
 .prescription-content {

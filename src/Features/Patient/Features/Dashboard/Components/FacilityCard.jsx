@@ -1,6 +1,6 @@
 import React from "react";
 import "./FacilityCard.css";
-import {facilitiesData} from "../../../Constant/OurFacilities/FacilitiesData.jsx";
+import {facilitiesData} from "../../../../../Constant/OurFacilities/FacilitiesData.jsx";
 
 export default function FacilityCard(props) {
 

@@ -1,0 +1,34 @@
+.bookappointment-credentials-form InputLabel {
+  font-size: 35px !important;
+}
+.book-appointment-header {
+  border-bottom: 1px solid rgb(119, 118, 118);
+}
+.book-appointment-search-form-container {
+  border-right: 1px solid rgb(119, 118, 118);
+}
+.book-appintment-card {
+  background-color: #f2f0f0;
+  border-radius: 4px;
+  box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px,
+    rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;
+}
+.book-appintment-card-body td {
+  vertical-align: middle;
+}
+.book-appointment-time-button-container button{
+  font-weight: bold;
+}
+.book-appointment-time-button-container button:hover {
+  background-color: #f2f0f0;
+  color: #0275d8;
+}
+@media only screen and (max-width: 780px) {
+  .book-appointment-header {
+    border: none;
+  }
+  .book-appointment-search-form-container {
+    border-top: 1px solid rgb(119, 118, 118);
+    border-right: none;
+  }
+}

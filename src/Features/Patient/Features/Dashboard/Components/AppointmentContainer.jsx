@@ -1,6 +1,6 @@
 import React from "react";
 import "./AppointmentContainer.css";
-import PatientDashboardVector from "../../../Assets/Backgrounds/Patient-dashboard-vector.svg";
+import PatientDashboardVector from "../../../../../Assets/Backgrounds/Patient-dashboard-vector.svg";
 import { TypeAnimation } from "react-type-animation";
 
 export default function Dashboard() {
