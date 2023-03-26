@@ -65,7 +65,7 @@ export default function Dashboard() {
             >
               <StatBox
                 title="431,225"
-                subtitle="Sales Obtained"
+                subtitle="Total Patients"
                 progress="0.50"
                 increase="+21%"
                 icon={
@@ -87,7 +87,7 @@ export default function Dashboard() {
             >
               <StatBox
                 title="32,441"
-                subtitle="New Clients"
+                subtitle="Total Hospitals"
                 progress="0.30"
                 increase="+5%"
                 icon={
@@ -108,8 +108,8 @@ export default function Dashboard() {
               justifyContent="center"
             >
               <StatBox
-                title="1,325,134"
-                subtitle="Traffic Received"
+                title="25,134"
+                subtitle="Total Doctors"
                 progress="0.80"
                 increase="+43%"
                 icon={

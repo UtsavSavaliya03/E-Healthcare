@@ -1,7 +1,7 @@
 import React from 'react';
 import "./PrescriptionContainer.css";
 import { useRecoilValue } from 'recoil';
-import { sidebarStateAtom } from '../../../Store/globalState.jsx';
+import { sidebarStateAtom } from '../../../../../Store/globalState.jsx';
 
 export default function PrescriptionContainer() {
 
