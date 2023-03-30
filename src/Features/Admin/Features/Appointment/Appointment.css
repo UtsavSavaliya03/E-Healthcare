@@ -1,0 +1,17 @@
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
+.appointment-container {
+    animation: fadeIn 1s;
+    min-height: calc(100vh - 125px);
+}
+.section-title h2 {
+    color: #0b6bca;
+  }

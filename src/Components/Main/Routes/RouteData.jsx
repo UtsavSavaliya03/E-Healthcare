@@ -28,6 +28,7 @@ import Doctor from '../../../Features/Doctor/Doctor.jsx';
 import DoctorDashboard from '../../../Features/Doctor/Features/Dashboard/Dashboard.jsx';
 import Workspace from '../../../Features/Doctor/Features/Workspace/Workspace.jsx';
 import DoctorAppointmentList from '../../../Features/Doctor/Features/Appointment/Appointment.jsx';
+import AddPrescription from '../../../Features/Doctor/Features/Prescription/Prescription.jsx';
 
 /* --------- Patient Components --------- */
 import Dashboard from '../../../Features/Patient/Features/Dashboard/Dashboard.jsx';
@@ -143,12 +144,16 @@ export const routeData = [
                 path: "appointments",
                 element: DoctorAppointmentList,
             },
+            {
+                path: "add-prescription",
+                element: AddPrescription,
+            },
         ]
     },
 
     /* --------- Patient routes --------- */
     {
-        path: "/bookAppintment",
+        path: "/book-appointment",
         route: AuthorizedRoute,
         element: BookAppointment,
     },
