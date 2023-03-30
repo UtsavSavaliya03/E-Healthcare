@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "./Prescription.css";
+import "./GeneratePrescription.css";
 import { useFormik } from "formik";
 import { doseData, intakeTimeData } from '../../../../Constant/Prescription/PrescriptionDetails.jsx';
 import {
@@ -18,7 +18,7 @@ import IconButton from '@mui/material/IconButton';
 import AddIcon from '@mui/icons-material/Add';
 import CloseIcon from '@mui/icons-material/Close';
 
-export default function Prescription() {
+export default function GeneratePrescription() {
     const notification = new Notificaion();
     const navigate = useNavigate();
     const token = localStorage.getItem("token") || null;

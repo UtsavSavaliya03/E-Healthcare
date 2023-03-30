@@ -1,0 +1,20 @@
+.text-blue {
+  color: #0b8fdc;
+}
+.view-hospital-title {
+  font-size: 45px;
+}
+.view-hospital-profile-container {
+  background-color: #0b8fdc;
+}
+.view-hospital-profile-container .hospital-icon {
+  width: 40%;
+  border-radius: 50%;
+}
+.horizontal-divider {
+  width: 150px;
+  height: 4.5px;
+  background-image: linear-gradient(to right, #587ca0, #99ecf6);
+  border-radius: 10px;
+  margin-top: 15px;
+}

@@ -29,3 +29,12 @@ export const searchHospitals = async (hospitalCredentials, header) => {
         return hospitals.data || hospitals.response.data;
     }
 }
+
+export const fetchHospitalById = async (id, header) => {
+
+    const hospitals = await axiosService.get(HospitalUrls.fetchHospitalById(id), header);
+
+    if (hospitals.data || hospitals.response.data) {
+        return hospitals.data || hospitals.response.data;
+    }
+}
