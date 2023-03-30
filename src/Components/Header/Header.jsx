@@ -72,7 +72,7 @@ export default function Header() {
                                 </div>
                             ) : (
                                 <div className='user-avatar'>
-                                    <Avatar size='40' round name={`${user?.fName} ${user?.lName}`} />
+                                    <Avatar size='40' round src={user?.profileImg} name={`${user?.fName} ${user?.lName}`} />
                                     <div className="dropdown">
                                         <ul className="dropdown-content">
                                             <div className="user d-flex justify-content-start align-items-center px-4 py-2">

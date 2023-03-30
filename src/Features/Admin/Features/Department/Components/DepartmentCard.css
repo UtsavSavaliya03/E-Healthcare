@@ -1,12 +1,13 @@
 .department-card {
   background-color: #fff;
-  max-width: 360px;
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  border-radius: 2rem;
-  box-shadow: 0px 1rem 1.5rem rgba(0, 0, 0, 0.5);
+  border-radius: 15px;
+  box-shadow: rgba(0, 0, 0, 0.25) 0px 5px 15px 0px;
+  cursor: pointer;
 }
+
 .department-card .department-card-banner {
   background-image: url("../../../../../Assets/Backgrounds/Neurology-department-bg.jpg");
   background-position: center;
@@ -26,28 +27,47 @@
   transform: translateY(50%);
   transition: transform 200ms cubic-bezier(0.18, 0.89, 0.32, 1.28);
 }
+
 .department-card .department-card-banner .department-card-svg:hover {
   transform: translateY(50%) scale(1.1);
 }
-.department-card .active-status-tag{
-    text-align: center;
-    border: 1px solid rgb(0, 216, 0);
-    color: rgb(0, 216, 0);
-    border-radius: 5px;
-    display: inline;
-    padding: 2px 10px;
+
+.department-card:hover .department-card-name {
+  opacity: 1;
+  transition: 0.3s;
+  color: #0b8fdc;
 }
-.department-card .inactive-status-tag{
-    text-align: center;
-    border: 1px solid orange;
-    color: orange;
-    border-radius: 5px;
-    display: inline;
-    padding: 2px 10px;
+
+.department-card .active-status-tag {
+  text-align: center;
+  border: 2px solid rgb(0, 216, 0);
+  color: rgb(0, 216, 0);
+  border-radius: 5px;
+  display: inline;
+  padding: 2px 10px;
+  font-weight: 600;
+}
+
+.department-card .inactive-status-tag {
+  text-align: center;
+  border: 2px solid orange;
+  color: orange;
+  border-radius: 5px;
+  display: inline;
+  padding: 2px 10px;
+  font-weight: 600;
 }
 
 .department-card .desc {
   text-align: justify;
   padding: 0 2rem 2.5rem;
   order: 100;
+}
+
+.break-line-5 {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 5;
+  -webkit-box-orient: vertical;
 }

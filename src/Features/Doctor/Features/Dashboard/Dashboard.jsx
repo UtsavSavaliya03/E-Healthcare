@@ -5,7 +5,6 @@ import Header from "./Components//Header";
 import LineChart from "./Components/LineChart.jsx";
 import "./Dashboard.css";
 import DoctorDashboardVector from "../../../../Assets/Icons/Doctor-dashboard-vector.png";
-import DoctorProtrait from "../../../../Assets/Icons/Doctor-protrait.jpg";
 import { styled } from "@mui/material/styles";
 import LinearProgress, {
   linearProgressClasses,
@@ -13,10 +12,14 @@ import LinearProgress, {
 import IconButton from "@mui/material/IconButton";
 import CheckIcon from "@mui/icons-material/Check";
 import ClearIcon from "@mui/icons-material/Clear";
+import { useRecoilValue } from 'recoil';
+import { userState } from '../../../../Store/globalState.jsx';
+import { Helmet } from "react-helmet";
 
 const Dashboard = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette);
+  const user = useRecoilValue(userState);
 
   const BorderLinearProgress = styled(LinearProgress)(({ theme }) => ({
     height: 10,
@@ -32,6 +35,11 @@ const Dashboard = () => {
 
   return (
     <Box p="20px" sx={{ backgroundColor: "white", width: "100%" }} className="">
+      <Helmet>
+        <title>Doctor | Dashboard</title>
+        <meta name="description" content="Helmet application" />
+      </Helmet>
+
       <Box className="ml-3">
         <Header title="DASHBOARD" subtitle="Welcome to doctor dashboard" />
       </Box>
@@ -49,7 +57,7 @@ const Dashboard = () => {
             >
               <Box className="mx-4 my-1 text-light">
                 <Typography variant="h4" fontWeight="600" color="white">
-                  Welcome Mary!
+                  Welcome {user?.fName}!
                 </Typography>
                 <Typography variant="h6" className="mt-2">
                   Here are your important tasks and reports.
@@ -105,40 +113,47 @@ const Dashboard = () => {
         </div>
         <div className="col-lg-3 col-md-3 col-sm-3 m-0">
           <Box
-            className="py-2 doctor-dashboard-box d-flex justify-content-center flex-column"
+            className="py-2 py-lg-3 doctor-dashboard-box d-flex justify-content-center flex-column"
             backgroundColor={colors.primary[400]}
             borderRadius="5px"
           >
             <Avatar
               alt="Remy Sharp"
-              src={DoctorProtrait}
-              sx={{ width: 100, height: 100 }}
+              src={user?.profileImg}
+              sx={{ width: 120, height: 120 }}
               className="my-4 align-self-center"
             />
             <Typography
               variant="h5"
               fontWeight="bold"
               color={colors.blueAccent[500]}
-              className="align-self-center"
+              className="align-self-center break-line-1"
             >
-              Dr. Jackson Mishra
+              Dr. {user?.fName} {user?.lName}
             </Typography>
             <Typography
               variant="h6"
               color={colors.grey[500]}
-              className="mb-3 mb-lg-4 mb-sm-2 align-self-center text-center"
+              className="align-self-center text-center break-line-1"
             >
-              Dermatologist - Texas Hospital
+              {user?.hospital?.name}
+            </Typography>
+            <Typography
+              variant="h6"
+              color={colors.grey[500]}
+              className="mb-3 mb-lg-4 mb-sm-2 align-self-center text-center break-line-1"
+            >
+              {user?.department?.name}
             </Typography>
             <Divider variant="middle" />
             <Box className="p-lg-4 p-sm-3 doctor-dashboard-progress-container text-left">
               <Typography
                 variant="h5"
                 fontWeight="bold"
-                className="doctor-profile-appointment-title"
+                className="doctor-profile-appointment-title break-line-1"
                 color={colors.blueAccent[500]}
               >
-                10 Appointments
+                10 Appointments per day
               </Typography>
               <Typography
                 variant="h6"
@@ -167,6 +182,7 @@ const Dashboard = () => {
                   variant="h6"
                   fontWeight="600"
                   color={colors.grey[500]}
+                  className='break-line-1'
                 >
                   Appointments
                 </Typography>
@@ -183,40 +199,9 @@ const Dashboard = () => {
                   variant="h6"
                   fontWeight="600"
                   color={colors.grey[500]}
+                  className='break-line-1'
                 >
                   Patients
-                </Typography>
-              </Box>
-              <Box className="col-lg-6 col-sm-12 mt-sm-1 doctor-dashboard-statistics-container">
-                <Typography
-                  variant="h5"
-                  fontWeight="bold"
-                  color={colors.blueAccent[500]}
-                >
-                  93,423
-                </Typography>
-                <Typography
-                  variant="h6"
-                  fontWeight="600"
-                  color={colors.grey[500]}
-                >
-                  Test Request
-                </Typography>
-              </Box>
-              <Box className="col-lg-6 col-sm-12 mb-1 mt-sm-1 doctor-dashboard-statistics-container">
-                <Typography
-                  variant="h5"
-                  fontWeight="bold"
-                  color={colors.blueAccent[500]}
-                >
-                  90,421
-                </Typography>
-                <Typography
-                  variant="h6"
-                  fontWeight="600"
-                  color={colors.grey[500]}
-                >
-                  Test Reports
                 </Typography>
               </Box>
             </Box>

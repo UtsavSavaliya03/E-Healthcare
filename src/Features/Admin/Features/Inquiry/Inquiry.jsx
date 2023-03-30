@@ -54,7 +54,7 @@ export default function Inquiry() {
   return (
     <div className='px-5 py-4 inquiry-container'>
       <Helmet>
-        <title>Inquiry | Health Horizon</title>
+        <title>Inquiries | Health Horizon</title>
       </Helmet>
       <Backdrop
         sx={{ zIndex: 1 }}

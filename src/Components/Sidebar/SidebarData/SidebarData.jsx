@@ -57,7 +57,7 @@ export const doctorSidebarData = [
     icon: <FaHospitalUser />,
   },
   {
-    path: "/appointment",
+    path: "doctor/appointments",
     name: "My Appointment",
     icon: <FaCalendarDay />,
   },
@@ -118,7 +118,7 @@ export const adminSidebarData = [
     ],
   },
   {
-    path: "main/appointment",
+    path: "main/appointments",
     name: "Appointments",
     icon: <FaCalendarDay />,
   },

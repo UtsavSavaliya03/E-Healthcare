@@ -100,5 +100,8 @@ export const DepartmentUrls = {
     fetchDepartment: () => {
         return baseUrl + `/department`;
     },
+    searchDepartments: (searchValue) => {
+        return baseUrl + `/department/search`;
+    }
 }
 
