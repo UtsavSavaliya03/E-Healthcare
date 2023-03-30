@@ -1,8 +1,121 @@
-import React from 'react';
-import './ViewHospital.css';
+import React, { useEffect } from "react";
+import "./ViewHospital.css";
+import HospitalIcon from "../../../../Assets/Icons/Hospital-icon.png";
+import { useLocation } from "react-router-dom";
+import { fetchHospitalById } from "../../Services/hospitalServices.jsx";
+import { useState } from "react";
+import Divider from "@mui/material/Divider";
+import Avatar from "react-avatar";
+import { Spinner } from "../../../../Components/Common/Spinners/Spinners.jsx";
 
 export default function ViewHospital() {
+  const location = useLocation();
+  const pathArray = location.pathname.split("/");
+  const token = localStorage.getItem("token") || null;
+  const hospitalId = atob(pathArray[3]) || null;
+  const [hospitals, setHospitals] = useState([]);
+  const [doctors, setDoctors] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  const fetchHospitalHandler = async () => {
+    setIsLoading(true);
+
+    const headers = {
+      Authorization: token,
+    };
+
+    const hospitals = await fetchHospitalById(hospitalId, headers);
+    setHospitals(hospitals.data?.hospital);
+    setDoctors(hospitals.data?.doctors);
+    console.log(hospitals);
+    setIsLoading(false);
+  };
+
+  useEffect(() => {
+    fetchHospitalHandler();
+  }, []);
+
   return (
-    <div>ViewHospital</div>
-  )
+    <>
+      {isLoading ? (
+        <div className="spinner-container">
+          <Spinner />
+        </div>
+      ) : (
+        <>
+          <div className="row m-0 view-hospital-container mb-lg-5">
+            <div className="col-12 text-center py-5">
+              <h1 className="text-blue font-weight-bold view-hospital-title">
+                Hospital Profile
+              </h1>
+              <div className="horizontal-divider mx-auto"></div>
+            </div>
+            <div className="col-lg-3 col-md-6 p-md-5">
+              <h3 className="font-weight-bold text-blue mb-4 mb-md-5">
+                Details
+              </h3>
+              <p className="font-weight-bold h5">Contact No :</p>
+              <p className="h5">{hospitals?.mobileNo}</p>
+              <p className="font-weight-bold h5 mt-md-4">Email :</p>
+              <p className="h5">{hospitals?.email}</p>
+            </div>
+            <div className="col-lg-5 col-md-6 p-md-5 mt-4 mt-md-0">
+              <h3 className="font-weight-bold text-blue mb-4 mb-md-5">
+                About Us
+              </h3>
+              <p className="h5">{hospitals?.shortBio}</p>
+            </div>
+            <div className="col-lg-4 col-md-12 p-md-5 py-5 py-md-0 view-hospital-profile-container text-light d-flex justify-content-center align-items-center flex-column">
+              <div className="d-flex justify-content-center align-items-center mb-4">
+                <img
+                  src={HospitalIcon}
+                  alt="Hospital Icon"
+                  className="hospital-icon"
+                />
+              </div>
+              <div>
+                <h2 className="font-weight-bold mb-5 text-center">
+                  {hospitals.name}
+                </h2>
+                <p className="font-weight-bold h5">Address Line :</p>
+                <p className="h5">{hospitals?.addressLine}</p>
+                <p className="font-weight-bold h5 mt-4">City :</p>
+                <p className="h5">{hospitals?.city?.name}</p>
+                <p className="font-weight-bold h5 mt-4">State :</p>
+                <p className="h5">{hospitals?.state?.name}</p>
+              </div>
+            </div>
+          </div>
+          <Divider variant="middle" />
+          <div className="p-md-5 department-doctor-container">
+            <div className="body-title py-3 px-3">
+              <h3 className="font-weight-bold text-blue">Doctors</h3>
+              <div className="horizontal-bar"></div>
+            </div>
+            <div className="row p-3">
+              {doctors.map((doctors, index) => (
+                <div
+                  className="col-lg-4 my-3 doctor-detail-box d-flex"
+                  key={index}
+                >
+                  <div className="dpt-doctor-img-container">
+                    <Avatar
+                      src={doctors?.profileImg}
+                      name={`${doctors?.fName} ${doctors?.lName}`}
+                      round={true}
+                      size={55}
+                    />
+                  </div>
+                  <div className="dpt-doctor-info ml-2">
+                    <h5 className="font-weight-bold">{`${doctors?.fName} ${doctors?.lName}`}</h5>
+                    <h6>{doctors?.email}</h6>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </>
+      )}
+    </>
+  );
 }

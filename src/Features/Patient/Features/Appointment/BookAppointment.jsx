@@ -8,8 +8,8 @@ import { fetchDepartments } from "../../../Admin/Services/departmentServices.jsx
 import Avatar from "@mui/material/Avatar";
 import DoctorCard from "./Components/DoctorCard";
 import Divider from "@mui/material/Divider";
-import "react-modern-calendar-datepicker/lib/DatePicker.css";
-import { Calendar } from "react-modern-calendar-datepicker";
+import 'react-calendar/dist/Calendar.css';
+import Calendar from 'react-calendar';
 import CloseIcon from "@mui/icons-material/Close";
 import { IconButton } from '@mui/material';
 
@@ -44,13 +44,7 @@ export default function BookAppointment() {
     fetchDepartmentsHandler();
   }, []);
 
-  const defaultValue = {
-    year: 2019,
-    month: 10,
-    day: 5,
-  };
-
-  const [selectedDay, setSelectedDay] = useState(defaultValue);
+  const [value, onChange] = useState(new Date());
   return (
     <div className="book-appointment-container row m-0">
       <div className="book-appointment-header py-5 mx-auto col-12">
@@ -204,7 +198,7 @@ export default function BookAppointment() {
                     </span>
                   </div>
                   <div className="col-lg-1 px-4">
-                    <IconButton color="primary">
+                    <IconButton className="btn-close-appointment" color="primary">
                       <CloseIcon />
                     </IconButton>
                   </div>
@@ -212,11 +206,7 @@ export default function BookAppointment() {
                 <Divider variant="middle" className="mt-0 pt-0" />
                 <div className="d-flex justify-content-between row m-0 p-4">
                   <div className="col-lg-4 col-md-12 d-flex justify-content-center align-items-center">
-                    <Calendar
-                      value={selectedDay}
-                      onChange={setSelectedDay}
-                      colorPrimary="#0275d8"
-                    />
+                  <Calendar onChange={onChange} value={value} />
                   </div>
                   <div className="col-lg-8 col-md-12 row m-0 d-flex justify-content-center align-items-center book-appointment-time-button-container mt-4 mt-lg-0">
                     <div className="col-4 d-flex justify-content-center align-items-center mb-2 mb-lg-0">
