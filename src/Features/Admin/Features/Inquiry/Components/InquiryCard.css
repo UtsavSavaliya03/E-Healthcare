@@ -30,7 +30,7 @@
 
 .inquiry-collapse-container .unread-status-tag {
     text-align: center;
-    border: 1px solid orange;
+    border: 2px solid orange;
     color: orange;
     border-radius: 5px;
     display: inline;
@@ -39,7 +39,7 @@
 
 .inquiry-collapse-container .read-status-tag {
     text-align: center;
-    border: 1px solid rgb(0, 216, 0);
+    border: 2px solid rgb(0, 216, 0);
     color: rgb(0, 216, 0);
     border-radius: 5px;
     display: inline;

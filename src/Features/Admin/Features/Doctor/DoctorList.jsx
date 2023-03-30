@@ -20,7 +20,6 @@ export default function DoctorList() {
     const [searchedDoctors, setSearchedDoctors] = useState([]);
     const [isSearched, setIsSearched] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
-    const [isDisableSearch, setIsDisableSearch] = useState(true);
     const [isLoadingBackdrop, setIsLoadingBackdrop] = useState(false);
     const [departments, setDepartments] = useState([]);
 
@@ -87,7 +86,7 @@ export default function DoctorList() {
     return (
         <>
             <Helmet>
-                <title>Doctor | Health Horizon</title>
+                <title>Doctors | Health Horizon</title>
             </Helmet>
             <Backdrop
                 sx={{ zIndex: 1 }}
@@ -113,6 +112,11 @@ export default function DoctorList() {
                                     </InputAdornment>
                                 ),
                             }}
+                            onKeyPress={(e) => {
+                                if (e.key === 'Enter') {
+                                    searchHandler()
+                                }
+                            }}
                         />
                     </div>
                     <div className='col-md-4 my-3 col-sm-8'>
@@ -122,7 +126,7 @@ export default function DoctorList() {
                             label="Department"
                             select
                             value={searchValue.department}
-                            onChange={(event) => onChangeHandler(event)}
+                            onChange={(event) => onChangeHandler(event, true)}
                         >
                             {
                                 departments &&

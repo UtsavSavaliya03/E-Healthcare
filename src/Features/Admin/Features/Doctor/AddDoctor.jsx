@@ -12,6 +12,8 @@ import { fetchDepartments } from '../../Services/departmentServices.jsx';
 import { useNavigate } from 'react-router-dom';
 import { bloodGroupData } from '../../../../Constant/Doctor/doctorDetails.jsx';
 import { Helmet } from "react-helmet";
+import { Spinner } from '../../../../Components/Common/Spinners/Spinners.jsx';
+import Backdrop from "@mui/material/Backdrop";
 let Country = require('country-state-city').Country;
 let State = require('country-state-city').State;
 let City = require('country-state-city').City;
@@ -22,9 +24,10 @@ export default function AddDoctors() {
   const notification = new Notificaion;
   const navigate = useNavigate();
   const token = localStorage.getItem('token') || null;
+  const [isLoading, setIsLoading] = useState(false);
   const Countries = Country.getAllCountries();
   const [profileImg, setProfileImg] = useState(profilePicture);
-  const [imgFile, setImgFile] = useState('');
+  const [imgFile, setImgFile] = useState(null);
   const [hospitals, setHospitals] = useState([]);
   const [departments, setDepartments] = useState([]);
 
@@ -157,6 +160,8 @@ export default function AddDoctors() {
 
   const submitHandler = async (doctorCredentials) => {
 
+    setIsLoading(true);
+
     let formData = new FormData();
     formData.append('image', imgFile);
     formData.append('fName', doctorCredentials?.fName);
@@ -181,6 +186,7 @@ export default function AddDoctors() {
     }
     const doctor = await addDoctor(formData, headers);
     notification.notify(doctor?.status, doctor?.message);
+    setIsLoading(false);
     if (doctor?.status) {
       navigate('/main/doctor-list');
     }
@@ -214,7 +220,7 @@ export default function AddDoctors() {
                 src={profileImg}
               />
               <div className='doctor-profile-icons'>
-                <i className="fas fa-camera camera-icon mx-1" onClick={() => upload}></i>
+                <i className="fas fa-camera camera-icon mx-1" onClick={upload}></i>
                 <i className="fas fa-times remove-icon mx-1" onClick={() => { setProfileImg(profilePicture) }}></i>
                 <input
                   id="profileImgUrl"
@@ -340,7 +346,7 @@ export default function AddDoctors() {
               <div className='col-sm-3 my-3 my-md-0'>
                 <TextField
                   type='date'
-                  className='w-100'
+                  className='w-100 date-input'
                   name='dateOfBirth'
                   label='Date Of Birth'
                   InputLabelProps={{
@@ -626,6 +632,12 @@ export default function AddDoctors() {
       <Helmet>
         <title>Doctor | Health Horizon</title>
       </Helmet>
+      <Backdrop
+        sx={{ zIndex: 1 }}
+        open={isLoading}
+      >
+        <Spinner />
+      </Backdrop>
       <div className='add-doctore-container py-lg-4 px-lg-5 py-3 px-3'>
         <AddDoctorForm />
       </div>

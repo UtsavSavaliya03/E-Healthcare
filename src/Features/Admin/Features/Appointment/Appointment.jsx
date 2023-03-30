@@ -3,10 +3,11 @@ import { Helmet } from "react-helmet";
 
 export default function Appointment() {
   return (
-    <>      <Helmet>
-    <title>Appointment | Health Horizon</title>
-  </Helmet>
-    <div>Appointment</div>
+    <>
+      <Helmet>
+        <title>Appointments | Health Horizon</title>
+      </Helmet>
+      <div>Appointment</div>
     </>
   )
 }

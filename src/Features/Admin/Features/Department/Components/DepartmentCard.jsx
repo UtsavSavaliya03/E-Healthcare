@@ -2,28 +2,43 @@ import React from "react";
 import "./DepartmentCard.css";
 import Avatar from '@mui/material/Avatar';
 import DepartmentCardSVG from "../../../../../Assets/Icons/Facility-card-heart.png";
+import { useNavigate} from "react-router-dom";
 
-export default function DepartmentCard() {
+export default function DepartmentCard(props) {
+
+  const { department } = props;
+  const navigate = useNavigate();
+
+  const redirectHandler = () => {
+    navigate(`/main/view-department/${btoa(department?._id)}`);
+  }
+
   return (
-    <div>
-      <div className="department-card">
+    <div className="col-4 my-3">
+      <div
+        className="department-card"
+        onClick={redirectHandler}
+      >
         <div className="department-card-banner">
           <Avatar
-            alt="Department Card SVG" 
+            alt="Department Card SVG"
             className="department-card-svg"
             src={DepartmentCardSVG}
             sx={{ width: 100, height: 100 }}
           />
         </div>
         <h2 className="department-card-name pt-4 mt-5 text-center font-weight-bold">
-          Neurology
+          {department?.name}
         </h2>
         <div className="department-card-title text-center">
-          <p className="active-status-tag">Active</p>
+          {department?.status ? (
+            <p className="active-status-tag">Active</p>
+          ) : (
+            <p className="inactive-status-tag">Inactive</p>
+          )}
         </div>
-        <div className="desc mt-4">
-          Morgan has collected ants since they were six years old and now has
-          many dozen ants but none in their pants.
+        <div className="m-4 break-line-5">
+          {department?.description}
         </div>
       </div>
     </div>

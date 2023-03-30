@@ -31,7 +31,7 @@ export default function Login() {
       localStorage.setItem('token', isLoggedin?.token);
       if (isLoggedin?.data?.role === 0) {
         navigate('/main/dashboard');
-      } else if (isLoggedin?.data?.role === 2) {
+      } else if (isLoggedin?.data?.role === 1) {
         navigate('/doctor/dashboard');
       } else {
         navigate('/dashboard');

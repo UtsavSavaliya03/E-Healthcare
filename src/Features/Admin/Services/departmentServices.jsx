@@ -20,3 +20,12 @@ export const fetchDepartments = async (header) => {
         return departments.data || departments.response.data;
     }
 }
+
+export const searchDepartments = async (searchValue, header) => {
+
+    const departments = await axiosService.post(DepartmentUrls.searchDepartments(), searchValue, header);
+
+    if (departments.data || departments.response.data) {
+        return departments.data || departments.response.data;
+    }
+}
