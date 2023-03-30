@@ -29,3 +29,11 @@ export const searchDepartments = async (searchValue, header) => {
         return departments.data || departments.response.data;
     }
 }
+
+export const fetchDepartmentById = async (id, header) => {
+
+    const departments = await axiosService.get(DepartmentUrls.fetchDepartmentById(id), header);
+    if (departments.data || departments.response.data) {
+        return departments.data || departments.response.data;
+    }
+}

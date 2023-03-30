@@ -32,3 +32,4 @@ export const bloodGroupData = [
         value: 'AB-',
     },
 ]
+
