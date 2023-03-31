@@ -46,9 +46,9 @@ export default function HospitalCard(props) {
               <p className="m-0 font-weight-bold">Address :</p>
               <p className="m-0 break-line-3">{hospital?.addressLine}</p>
               <p className="m-0 mt-2 font-weight-bold">City :</p>
-              <p className="m-0">{hospital?.state?.name}</p>
-              <p className="m-0 mt-2 font-weight-bold">State :</p>
               <p className="m-0">{hospital?.city?.name}</p>
+              <p className="m-0 mt-2 font-weight-bold">State :</p>
+              <p className="m-0">{hospital?.state?.name}</p>
             </div>
           </div>
         </div>

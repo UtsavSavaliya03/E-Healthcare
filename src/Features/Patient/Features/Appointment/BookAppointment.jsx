@@ -167,8 +167,13 @@ export default function BookAppointment() {
         </form>
       </div>
       <div className="col-lg-9 col-md-9 col-sm-12 row m-0 mt-md-5">
-        {/* <DoctorCard /> */}
-        <div className="col-12 mb-4">
+        <DoctorCard />
+        <DoctorCard />
+        <DoctorCard />
+        <DoctorCard />
+        <DoctorCard />
+        <DoctorCard />
+        {/* <div className="col-12 mb-4">
           <div className="book-appintment-card w-100">
             <div className="w-100">
               <div className="book-appintment-card-body">
@@ -265,7 +270,7 @@ export default function BookAppointment() {
               </div>
             </div>
           </div>
-        </div>
+        </div> */}
       </div>
     </div>
   );

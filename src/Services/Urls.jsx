@@ -105,6 +105,14 @@ export const DepartmentUrls = {
     },
     fetchDepartmentById: (id) => {
         return baseUrl + `/department/${id}`;
+    },
+    deleteDepartment: (id) => {
+        return baseUrl + `/department/${id}`;
     }
 }
 
+export const BackupUrls = {
+    backup: (type) => {
+        return baseUrl + `/backup/${type}`;
+    }
+}
