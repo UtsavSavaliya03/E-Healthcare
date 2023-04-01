@@ -1,19 +1,28 @@
-import React from 'react';
+import React, { useState, useRef } from 'react';
 import './BackupCard.css';
 import { FaDownload } from "react-icons/fa";
 import { TextField } from '@mui/material';
 import { useFormik } from 'formik';
 import moment from 'moment';
 import * as Yup from 'yup';
+import { backup } from '../../../Services/backupServices';
+import Backdrop from "@mui/material/Backdrop";
+import { Spinner } from '../../../../../Components/Common/Spinners/Spinners.jsx';
+import Notificaion from '../../../../../Components/Common/Notification/Notification.jsx';
+import { downloadCSV } from '../../../../../Services/CsvServices';
+
 
 export default function BackupCard(props) {
 
-    const { data } = props;
     const { title } = props;
+    const notification = new Notificaion;
+    const token = localStorage.getItem('token') || null;
+    const [isLoading, setIsLoading] = useState(false);
+    const [isInvalidDate, setIsInvalidDate] = useState(false);
 
-    let date = new Date()
+    let date = new Date();
     const initialValues = {
-        dateFrom: moment().subtract(date.getDate(), 'days').format("YYYY-MM-DD"),
+        dateFrom: moment().subtract(date.getDate() === 1 ? date.getDate() : date.getDate() - 1, 'days').format("YYYY-MM-DD"),
         dateTo: moment(new Date()).format("YYYY-MM-DD")
     }
 
@@ -23,13 +32,53 @@ export default function BackupCard(props) {
             .max(moment(new Date()).format("YYYY-MM-DD"), "Date must be at earlier than today's date")
             .required(' '),
         dateTo: Yup.date()
-            .min(initialValues?.dateFrom)
             .max(moment(new Date()).format("YYYY-MM-DD"), "Date must be at earlier than today's date")
             .required(' '),
-    })
+    });
 
-    const backupHandler = (params) => {
-        console.log(params);
+    const backupHandler = async (params) => {
+        validateDate(params);
+        const headers = {
+            'Authorization': token
+        }
+        const backupResponse = await backup(title, params, headers)
+
+        let csvData = [];
+        let counter = 0;
+
+        if (backupResponse?.data?.length < 1) {
+            notification.notify(false, 'No data available!');
+        }
+        backupResponse?.data?.map((user) => {
+            const newUser = Object.assign({}, user);
+            if (user?.country) {
+                newUser['country'] = JSON.stringify(user.country);
+                newUser['state'] = JSON.stringify(user.state);
+                newUser['city'] = JSON.stringify(user.city);
+            }
+            csvData.push(newUser);
+
+            if (++counter === backupResponse?.data?.length) {
+                downloadCSV(`${title}_From_${params?.dateFrom}_To_${params?.dateTo}`, csvData);
+                setIsLoading(false);
+            }
+        })
+
+        if (!(backupResponse?.status)) {
+            notification.notify(backupResponse?.status, backupResponse?.message);
+            setIsLoading(false);
+        }
+    }
+
+    const validateDate = (dateFrom, dateTo) => {
+        var msDiff = new Date(dateTo).getTime() - new Date(dateFrom).getTime();
+        var isValidDate = Math.floor(msDiff / (1000 * 60 * 60 * 24));
+        
+        if (isValidDate < 0) {
+            setIsInvalidDate(true);
+        } else {
+            setIsInvalidDate(false);
+        }
     }
 
     const BackupForm = () => {
@@ -40,6 +89,8 @@ export default function BackupCard(props) {
                 backupHandler(values);
             },
         });
+        
+        validateDate(formik.values.dateFrom, formik.values.dateTo);
 
         return (
             <form className='login-form' onSubmit={formik.handleSubmit} autoComplete="off">
@@ -91,8 +142,17 @@ export default function BackupCard(props) {
 
     return (
         <div className='backup-card m-0 mt-4 w-100'>
+            <Backdrop
+                sx={{ zIndex: 1 }}
+                open={isLoading}
+            >
+                <Spinner />
+                <div className='ml-4'>
+                    <h4 className='text-primary'>Generating CSV file...</h4>
+                </div>
+            </Backdrop>
             <div>
-                <h4 className='font-weight-bold'>{title}</h4>
+                <h4 className='font-weight-bold title'>{title}</h4>
                 <hr className='mb-4' />
             </div>
             <div className='w-100 pt-2'>

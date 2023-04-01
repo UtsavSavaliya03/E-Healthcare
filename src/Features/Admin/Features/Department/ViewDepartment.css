@@ -1,15 +1,61 @@
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+
+.department-container {
+  animation: fadeIn 1s;
+}
+
+.departmen-info-card-container {
+  background-color: white;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  border-radius: 5px;
+}
+
 .department-img {
   width: 100%;
   height: 410px;
 }
+
 .department-container,
 .department-doctor-container {
   box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
 }
 
 
-.text-blue{
+.text-blue {
   color: #0b8fdc;
+}
+
+.departmen-info-card-container .active-status-tag {
+  text-align: center;
+  border: 2px solid rgb(0, 216, 0);
+  color: rgb(0, 216, 0);
+  border-radius: 5px;
+  display: inline;
+  padding: 2px 10px;
+  font-weight: 600;
+}
+
+.departmen-info-card-container .inactive-status-tag {
+  text-align: center;
+  border: 2px solid orange;
+  color: orange;
+  border-radius: 5px;
+  display: inline;
+  padding: 2px 10px;
+  font-weight: 600;
+}
+
+.btn-delete-dpt:focus {
+  outline: none;
 }
 
 
@@ -17,6 +63,7 @@
   .department-container {
     flex-wrap: wrap;
   }
+
   .info-para {
     margin-top: 0px !important;
   }

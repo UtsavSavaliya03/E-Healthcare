@@ -37,3 +37,11 @@ export const fetchDepartmentById = async (id, header) => {
         return departments.data || departments.response.data;
     }
 }
+
+export const deleteDepartment = async (id, header) => {
+
+    const departments = await axiosService.delete(DepartmentUrls.deleteDepartment(id), header);
+    if (departments.data || departments.response.data) {
+        return departments.data || departments.response.data;
+    }
+}

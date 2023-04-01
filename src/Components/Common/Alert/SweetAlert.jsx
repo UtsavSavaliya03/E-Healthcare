@@ -21,7 +21,8 @@ export default class Notification extends Component {
             {
                 icon: 'warning',
                 showCancelButton: true,
-                cancelButtonColor: '#d33',
+                cancelButtonColor: '#0b8fdc',
+                confirmButtonColor: '#d33',
                 confirmButtonText: 'Delete',
                 title: title,
                 text: text,

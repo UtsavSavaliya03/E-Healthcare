@@ -27,7 +27,6 @@ export default function ViewHospital() {
     const hospitals = await fetchHospitalById(hospitalId, headers);
     setHospitals(hospitals.data?.hospital);
     setDoctors(hospitals.data?.doctors);
-    console.log(hospitals);
     setIsLoading(false);
   };
 
@@ -35,20 +34,39 @@ export default function ViewHospital() {
     fetchHospitalHandler();
   }, []);
 
+  const avatarCard = (doctor, index) => {
+    return (
+      <div className="col-lg-4 col-md-3 col-12 my-3 doctor-detail-box d-flex" key={index}>
+        <div className="dpt-doctor-img-container">
+          <Avatar
+            src={doctor?.profileImg}
+            name={`${doctor?.fName} ${doctor?.lName}`}
+            round={true}
+            size={55}
+          />
+        </div>
+        <div className="dpt-doctor-info ml-2">
+          <h5 className="font-weight-bold">{`${doctor?.fName} ${doctor?.lName}`}</h5>
+          <h6>{doctor?.email}</h6>
+        </div>
+      </div>
+    )
+  }
+
   return (
-    <>
+    <div className="p-4 view-hospital-container">
       {isLoading ? (
         <div className="spinner-container">
           <Spinner />
         </div>
       ) : (
         <>
-          <div className="row m-0 view-hospital-container mb-lg-5">
-            <div className="col-12 text-center py-5">
+          <div className="row m-0 view-hospital-card mb-5">
+            <div className="col-12 text-center pt-5 pb-3">
               <h1 className="text-blue font-weight-bold view-hospital-title">
                 Hospital Profile
               </h1>
-              <div className="horizontal-divider mx-auto"></div>
+              <hr className="mt-5" />
             </div>
             <div className="col-lg-3 col-md-6 p-md-5">
               <h3 className="font-weight-bold text-blue mb-4 mb-md-5">
@@ -86,36 +104,29 @@ export default function ViewHospital() {
               </div>
             </div>
           </div>
-          <Divider variant="middle" />
           <div className="p-md-5 department-doctor-container">
-            <div className="body-title py-3 px-3">
-              <h3 className="font-weight-bold text-blue">Doctors</h3>
+            <div className="body-title p-3">
+              <h3 className="font-weight-bold text-blue">Doctors in this hospital</h3>
               <div className="horizontal-bar"></div>
             </div>
-            <div className="row p-3">
-              {doctors.map((doctors, index) => (
-                <div
-                  className="col-lg-4 my-3 doctor-detail-box d-flex"
-                  key={index}
-                >
-                  <div className="dpt-doctor-img-container">
-                    <Avatar
-                      src={doctors?.profileImg}
-                      name={`${doctors?.fName} ${doctors?.lName}`}
-                      round={true}
-                      size={55}
-                    />
+            <div>
+              {
+                doctors?.length > 0 ? (
+                  <div className="row p-3">
+                    {doctors.map((doctor, index) => (
+                      avatarCard(doctor, index)
+                    ))}
                   </div>
-                  <div className="dpt-doctor-info ml-2">
-                    <h5 className="font-weight-bold">{`${doctors?.fName} ${doctors?.lName}`}</h5>
-                    <h6>{doctors?.email}</h6>
+                ) : (
+                  <div className="w-100 p-3">
+                    <h5 className="m-0 text-muted text-center">No Doctors</h5>
                   </div>
-                </div>
-              ))}
+                )
+              }
             </div>
           </div>
         </>
       )}
-    </>
+    </div>
   );
 }
