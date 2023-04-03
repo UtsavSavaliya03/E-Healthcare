@@ -1,0 +1,72 @@
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
+.add-prescription-container {
+    animation: fadeIn 1s;
+}
+
+.add-prescription-card {
+    background-color: white;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    border-radius: 5px;
+}
+
+ul .MuiButtonBase-root {
+    display: block !important;
+    padding: 5px 10px;
+}
+
+.btn-add-medicine:focus,
+.btn-remove-medicine:focus,
+.btn-edit-medicine:focus {
+    outline: none;
+}
+
+.btn-add-medicine {
+    background-color: rgb(231, 255, 228) !important;
+    color: rgb(0, 255, 4) !important;
+}
+
+.btn-remove-medicine {
+    background-color: rgb(255, 228, 228) !important;
+    color: rgb(255, 8, 0) !important;
+}
+
+.btn-edit-medicine {
+    background-color: rgb(228, 246, 255) !important;
+    color: rgb(0, 72, 255) !important;
+}
+
+.medicine-input .MuiOutlinedInput-notchedOutline {
+    border-color: #e74c3c;
+}
+
+.medicine-name input {
+    text-transform: capitalize;
+}
+
+.patient-info {
+    font-size: 18px;
+    font-weight: 600;
+}
+
+table {
+    text-transform: capitalize;
+}
+
+.edit-medicine-container input ,
+.edit-medicine-container .MuiSelect-select  {
+    padding: 5px 10px;
+    text-transform: capitalize;
+}
+
+.edit-medicine-container input:focus {
+    outline-color: #3498db;
+}

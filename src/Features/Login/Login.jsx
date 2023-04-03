@@ -8,6 +8,8 @@ import { Formik, Field, Form } from 'formik';
 import * as Yup from 'yup';
 import { Helmet } from "react-helmet";
 import Notification from '../../Components/Common/Notification/Notification.jsx';
+import { Spinner } from "../../Components/Common/Spinners/Spinners.jsx";
+import Backdrop from "@mui/material/Backdrop";
 
 export default function Login() {
 
@@ -15,8 +17,10 @@ export default function Login() {
   const navigate = useNavigate();
   const [user, setUser] = useRecoilState(userState);
   const [isPatientLogin, setIsPatientLogin] = useState(true);
+  const [isLoadingBackdrop, setIsLoadingBackdrop] = useState(false);
 
   const loginHandler = async (loginCredentials) => {
+    setIsLoadingBackdrop(true);
     let isLoggedin = {};
 
     if (isPatientLogin) {
@@ -36,8 +40,10 @@ export default function Login() {
       } else {
         navigate('/dashboard');
       }
+      setIsLoadingBackdrop(false);
     } else {
       alert.notify(isLoggedin?.status, isLoggedin?.message);
+      setIsLoadingBackdrop(false);
     }
   }
 
@@ -132,6 +138,12 @@ export default function Login() {
           </div>
         </div>
       </div>
+      <Backdrop
+        sx={{ zIndex: 1 }}
+        open={isLoadingBackdrop}
+      >
+        <Spinner />
+      </Backdrop>
     </>
   )
 }

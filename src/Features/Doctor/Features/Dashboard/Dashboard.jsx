@@ -34,7 +34,7 @@ const Dashboard = () => {
   }));
 
   return (
-    <Box p="20px" sx={{ backgroundColor: "white", width: "100%" }} className="">
+    <Box p="20px" sx={{ backgroundColor: "white", width: "100%" }} className="doctor-dashboard-container">
       <Helmet>
         <title>Doctor | Dashboard</title>
         <meta name="description" content="Helmet application" />

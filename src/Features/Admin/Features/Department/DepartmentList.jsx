@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import './DepartmentList.css';
 import { Helmet } from "react-helmet";
-import { TextField, MenuItem } from '@mui/material';
+import { TextField } from '@mui/material';
 import InputAdornment from '@mui/material/InputAdornment';
 import SearchIcon from '@mui/icons-material/Search';
 import DepartmentCard from "../Department/Components/DepartmentCard.jsx";

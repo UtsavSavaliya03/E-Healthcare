@@ -29,7 +29,7 @@ import {
 import { useRecoilState, useRecoilValue } from "recoil";
 import { Spinner } from "../../../../Components/Common/Spinners/Spinners.jsx";
 import { fetchHospitals } from "../../Services/hospitalServices.jsx";
-import { fetchDepartments } from "../../Services/departmentServices.jsx";
+import { fetchActiveDepartments } from "../../Services/departmentServices.jsx";
 import Backdrop from "@mui/material/Backdrop";
 import { Helmet } from "react-helmet";
 let Country = require("country-state-city").Country;
@@ -120,7 +120,7 @@ export default function ViewDoctor() {
       Authorization: token,
     };
 
-    const departments = await fetchDepartments(headers);
+    const departments = await fetchActiveDepartments(headers);
     setDepartments(departments?.department);
   };
 

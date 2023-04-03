@@ -8,7 +8,7 @@ import * as Yup from 'yup';
 import moment from 'moment';
 import { addDoctor } from '../../Services/doctorServices.jsx';
 import { fetchHospitals } from '../../Services/hospitalServices.jsx';
-import { fetchDepartments } from '../../Services/departmentServices.jsx';
+import { fetchActiveDepartments } from '../../Services/departmentServices.jsx';
 import { useNavigate } from 'react-router-dom';
 import { bloodGroupData } from '../../../../Constant/Doctor/doctorDetails.jsx';
 import { Helmet } from "react-helmet";
@@ -75,7 +75,7 @@ export default function AddDoctors() {
       'Authorization': token
     }
 
-    const departments = await fetchDepartments(headers);
+    const departments = await fetchActiveDepartments(headers);
     setDepartments(departments?.department);
   }
 

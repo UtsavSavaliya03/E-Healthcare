@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './Signup.css';
 import { signup } from './Services/SignupServices.jsx';
 import { useNavigate } from "react-router-dom";
@@ -6,14 +6,17 @@ import { Formik, Field, Form } from 'formik';
 import { Helmet } from "react-helmet";
 import * as Yup from 'yup';
 import Notification from '../../Components/Common/Notification/Notification.jsx';
+import { Spinner } from "../../Components/Common/Spinners/Spinners.jsx";
+import Backdrop from "@mui/material/Backdrop";
 
 export default function Signup() {
 
   const alert = new Notification();
   const navigate = useNavigate();
+  const [isLoadingBackdrop, setIsLoadingBackdrop] = useState(false);
 
   const signupHandler = async (signupCredentials) => {
-    console.log(signupCredentials)
+    setIsLoadingBackdrop(true);
 
     const params = {
       fName: signupCredentials?.fName,
@@ -32,6 +35,7 @@ export default function Signup() {
     } else {
       alert.notify(isRegistered?.status, isRegistered?.message);
     }
+    setIsLoadingBackdrop(false);
   }
 
   const SignupSchema = Yup.object().shape({
@@ -167,6 +171,12 @@ export default function Signup() {
           </div>
         </div>
       </div>
+      <Backdrop
+        sx={{ zIndex: 1 }}
+        open={isLoadingBackdrop}
+      >
+        <Spinner />
+      </Backdrop>
     </>
   )
 }
