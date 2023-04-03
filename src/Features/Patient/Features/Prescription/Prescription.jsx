@@ -4,23 +4,146 @@ import PrescriptionLogo from "../../../../Assets/Icons/Prescription-logo.png";
 import { jsPDF } from "jspdf";
 import html2canvas from "html2canvas";
 import PrescriptionFooter from "./Components/PrescriptionFooter.jsx";
+import IconButton from '@mui/material/IconButton';
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import DownloadIcon from '@mui/icons-material/Download';
 
 export default function Prescription() {
-  const createPDF = async () => {
-    const pdf = new jsPDF("portrait", "pt", "a4");
-    const data = await html2canvas(document.querySelector("#divToPrint"));
-    const img = data.toDataURL("image/png");
-    const imgProperties = pdf.getImageProperties(img);
-    const pdfWidth = pdf.internal.pageSize.getWidth();
-    const pdfHeight = (imgProperties.height * pdfWidth) / imgProperties.width;
-    pdf.addImage(img, "PNG", 0, 0, pdfWidth, pdfHeight);
-    // pdf.save("Prescription.pdf");
+  const downloadpdf = () => {
+    const input = document.getElementById("divToPrint");
+    html2canvas(input, { useCORS: true, allowTaint: true, scrollY: 0 }).then(
+      (canvas) => {
+        const image = { type: "jpeg", quality: 0.98 };
+        const margin = [0.5, 0.5];
+        const filename = "myfile.pdf";
 
-    window.open(pdf.output("bloburl"), "_blank");
+        var imgWidth = 8.5;
+        var pageHeight = 11;
+
+        var innerPageWidth = imgWidth - margin[0] * 2;
+        var innerPageHeight = pageHeight - margin[1] * 2;
+
+        // Calculate the number of pages.
+        var pxFullHeight = canvas.height;
+        var pxPageHeight = Math.floor(canvas.width * (pageHeight / imgWidth));
+        var nPages = Math.ceil(pxFullHeight / pxPageHeight);
+
+        // Define pageHeight separately so it can be trimmed on the final page.
+        var pageHeight = innerPageHeight;
+
+        // Create a one-page canvas to split up the full image.
+        var pageCanvas = document.createElement("canvas");
+        var pageCtx = pageCanvas.getContext("2d");
+        pageCanvas.width = canvas.width;
+        pageCanvas.height = pxPageHeight;
+
+        // Initialize the PDF.
+        var pdf = new jsPDF("p", "in", [8.5, 11]);
+
+        for (var page = 0; page < nPages; page++) {
+          // Trim the final page to reduce file size.
+          if (page === nPages - 1 && pxFullHeight % pxPageHeight !== 0) {
+            pageCanvas.height = pxFullHeight % pxPageHeight;
+            pageHeight =
+              (pageCanvas.height * innerPageWidth) / pageCanvas.width;
+          }
+
+          // Display the page.
+          var w = pageCanvas.width;
+          var h = pageCanvas.height;
+          pageCtx.fillStyle = "white";
+          pageCtx.fillRect(0, 0, w, h);
+          pageCtx.drawImage(canvas, 0, page * pxPageHeight, w, h, 0, 0, w, h);
+
+          // Add the page to the PDF.
+          if (page > 0) pdf.addPage();
+          debugger;
+          var imgData = pageCanvas.toDataURL(
+            "image/" + image.type,
+            image.quality
+          );
+          pdf.addImage(
+            imgData,
+            image.type,
+            margin[1],
+            margin[0],
+            innerPageWidth,
+            pageHeight
+          );
+        }
+
+        pdf.save(filename);
+      }
+    );
   };
-  return (
-    <>
-      <button onClick={createPDF}>Print</button>
+  const viewpdf = () => {
+    const input = document.getElementById("divToPrint");
+    html2canvas(input, { useCORS: true, allowTaint: true, scrollY: 0 }).then(
+      (canvas) => {
+        const image = { type: "jpeg", quality: 0.98 };
+        const margin = [0.5, 0.5];
+
+        var imgWidth = 8.5;
+        var pageHeight = 11;
+
+        var innerPageWidth = imgWidth - margin[0] * 2;
+        var innerPageHeight = pageHeight - margin[1] * 2;
+
+        // Calculate the number of pages.
+        var pxFullHeight = canvas.height;
+        var pxPageHeight = Math.floor(canvas.width * (pageHeight / imgWidth));
+        var nPages = Math.ceil(pxFullHeight / pxPageHeight);
+
+        // Define pageHeight separately so it can be trimmed on the final page.
+        var pageHeight = innerPageHeight;
+
+        // Create a one-page canvas to split up the full image.
+        var pageCanvas = document.createElement("canvas");
+        var pageCtx = pageCanvas.getContext("2d");
+        pageCanvas.width = canvas.width;
+        pageCanvas.height = pxPageHeight;
+
+        // Initialize the PDF.
+        var pdf = new jsPDF("p", "in", [8.5, 11]);
+
+        for (var page = 0; page < nPages; page++) {
+          // Trim the final page to reduce file size.
+          if (page === nPages - 1 && pxFullHeight % pxPageHeight !== 0) {
+            pageCanvas.height = pxFullHeight % pxPageHeight;
+            pageHeight =
+              (pageCanvas.height * innerPageWidth) / pageCanvas.width;
+          }
+
+          // Display the page.
+          var w = pageCanvas.width;
+          var h = pageCanvas.height;
+          pageCtx.fillStyle = "white";
+          pageCtx.fillRect(0, 0, w, h);
+          pageCtx.drawImage(canvas, 0, page * pxPageHeight, w, h, 0, 0, w, h);
+
+          // Add the page to the PDF.
+          if (page > 0) pdf.addPage();
+          debugger;
+          var imgData = pageCanvas.toDataURL(
+            "image/" + image.type,
+            image.quality
+          );
+          pdf.addImage(
+            imgData,
+            image.type,
+            margin[1],
+            margin[0],
+            innerPageWidth,
+            pageHeight
+          );
+        }
+        window.open(pdf.output("bloburl"), "_blank");
+      }
+    );
+  };
+
+  const prescriptionPdf = () => {
+    return (
       <div className="prescription-card-container" id="divToPrint">
         <div className="prescription-box">
           <div className="prescription-header ">
@@ -64,22 +187,15 @@ export default function Prescription() {
               </div>
             </div>
             <hr></hr>
-            <div className="prescription-medicine-content-container my-5 py-5">
+            <div className="prescription-medicine-content-container my-4 py-5">
               <div className="prescription-medicine-content px-5 py-3">
                 <p className="font-weight-bold h4 mb-4">
                   Paracetamol 500 mg [ 5 Tablets, Once a day ]
                 </p>
-                <p className="font-weight-bold h4 mb-4">
-                  Acetaminophen 1000 mg [ 12 Tablets, Thrice a day ]
-                </p>
-                <p className="font-weight-bold h4 mb-4">
-                  Bismuth subsalicylate 600 mg [ 2 Tablets, Once a day, After
-                  meal ]
-                </p>
               </div>
             </div>
             <div className="prescription-patient-details-container">
-              <div className="prescription-patient-details px-5">
+              <div className="prescription-patient-details px-5 pb-5 mb-5">
                 <table className="table table-borderless m-0 p-0">
                   <tbody className="m-0 p-0">
                     <tr>
@@ -116,6 +232,42 @@ export default function Prescription() {
           <PrescriptionFooter />
         </div>
       </div>
-    </>
+    );
+  };
+  return (
+    <div className="prescription-table-container px-md-5 m-0 p-0">
+      <div className="section-title pt-5 pb-4">
+        <h2 className="text-center m-0 font-weight-bold">Prescriptions</h2>
+      </div>
+      <table className="table rounded table-stripped prescription-table">
+        <thead>
+          <tr className="text-light">
+            <th className="pre-heading">Serial No</th>
+            <th className="pre-heading">Hospital Name</th>
+            <th className="pre-heading">Doctor Name</th>
+            <th className="pre-heading">Prescription Date</th>
+            <th className="pre-heading">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td data-title="No">15</td>
+            <td data-title="Hospital Name" className="break-line1">Apolo hospital</td>
+            <td data-title="Doctor Name">Kyle Rivera</td>
+            <td data-title="Appointment Date">
+              11<sup>th</sup> December 2018
+            </td>
+            <td className="prescription-action">
+              <IconButton aria-label="view" className="prescription-action-btn">
+                <VisibilityIcon className="prescription-action-btn"/>
+              </IconButton>
+              <IconButton aria-label="view" className="prescription-action-btn">
+                <DownloadIcon className="prescription-action-btn"/>
+              </IconButton>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   );
 }

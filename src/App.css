@@ -1,5 +1,9 @@
 @import url('./Assets/Bootstrap/bootstrap.min.css');
 
+button:focus{
+  outline: none;
+}
+
 /* -------- Scroll bar ------- */
 
 ::-webkit-scrollbar {

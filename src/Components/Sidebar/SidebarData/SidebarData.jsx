@@ -10,6 +10,9 @@ import {
   FaDatabase,
   FaFilePrescription,
   FaDesktop,
+  FaList,
+  FaHospitalAlt,
+  FaBookMedical,
 } from "react-icons/fa";
 
 export const patientSidebarData = [
@@ -21,7 +24,7 @@ export const patientSidebarData = [
   {
     path: "/hospitals",
     name: "Hospitals",
-    icon: <FaHospitalUser />,
+    icon: <FaHospitalAlt />,
   },
   {
     path: "/doctors",
@@ -29,9 +32,20 @@ export const patientSidebarData = [
     icon: <FaUserMd />,
   },
   {
-    path: "/appointment",
-    name: "My Appointment",
+    name: "Appointment",
     icon: <FaCalendarDay />,
+    subRoutes: [
+      {
+        path: "/book-appointment",
+        name: "Book Appointment",
+        icon: <FaBookMedical />,
+      },
+      {
+        path: "main/add-hospital",
+        name: "My Appointments",
+        icon: <FaList />,
+      },
+    ],
   },
   {
     path: "/prescription",

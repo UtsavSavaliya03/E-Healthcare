@@ -22,6 +22,7 @@
     "framer-motion": "^10.1.0",
     "html-to-image": "^1.11.11",
     "html2canvas": "^1.4.1",
+    "jquery": "^3.6.4",
     "jspdf": "^2.5.1",
     "moment": "^2.29.4",
     "react": "^18.2.0",
@@ -69,5 +70,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@types/jquery": "^3.5.16"
   }
 }
