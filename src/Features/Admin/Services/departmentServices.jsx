@@ -12,6 +12,15 @@ export const addDepartment = async (departmentCredentials, header) => {
     }
 }
 
+export const fetchActiveDepartments = async (header) => {
+
+    const departments = await axiosService.get(DepartmentUrls.fetchActiveDepartment(), header);
+
+    if (departments.data || departments.response.data) {
+        return departments.data || departments.response.data;
+    }
+}
+
 export const fetchDepartments = async (header) => {
 
     const departments = await axiosService.get(DepartmentUrls.fetchDepartment(), header);

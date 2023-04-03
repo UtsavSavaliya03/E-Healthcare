@@ -29,7 +29,7 @@ export default function Workspace() {
             <Tab label="prescriptions" value="prescriptions" />
           </TabList>
           <TabPanel value="patients" className='px-0'>
-            <PatientsList />
+            <PatientsList handleTabChange={handleTabChange} />
           </TabPanel>
           <TabPanel value="prescriptions" className='px-0'>
             <PrescriptionList />

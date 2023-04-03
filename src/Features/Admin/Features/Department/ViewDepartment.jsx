@@ -48,7 +48,7 @@ export default function ViewDepartment() {
     }
     const departmentResponse = await deleteDepartment(departmentId, headers);
     if (departmentResponse?.status) {
-      alert.alert('success', 'Done!', 'Deleted Ssccessfully!');
+      alert.alert('success', 'Done!', 'Deleted Successfully!');
       navigate('/main/department-list');
     } else {
       notification.notify(departmentResponse?.status, departmentResponse?.message);

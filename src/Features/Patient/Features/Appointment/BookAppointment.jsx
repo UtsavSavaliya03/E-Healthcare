@@ -4,7 +4,7 @@ import { TextField, MenuItem } from "@mui/material";
 import { useFormik } from "formik";
 import InputAdornment from "@mui/material/InputAdornment";
 import SearchIcon from "@mui/icons-material/Search";
-import { fetchDepartments } from "../../../Admin/Services/departmentServices.jsx";
+import { fetchActiveDepartments } from "../../../Admin/Services/departmentServices.jsx";
 import Avatar from "@mui/material/Avatar";
 import DoctorCard from "./Components/DoctorCard";
 import Divider from "@mui/material/Divider";
@@ -36,7 +36,7 @@ export default function BookAppointment() {
       Authorization: token,
     };
 
-    const departments = await fetchDepartments(headers);
+    const departments = await fetchActiveDepartments(headers);
     setDepartments(departments?.department);
   };
 

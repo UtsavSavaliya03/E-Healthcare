@@ -47,12 +47,14 @@ export default function BackupCard(props) {
         let counter = 0;
 
         if (backupResponse?.data?.length < 1) {
-            notification.notify(false, 'No data available!');
+            notification.notify(false, 'No data available in this range!');
         }
         backupResponse?.data?.map((user) => {
             const newUser = Object.assign({}, user);
-            if (user?.country) {
-                newUser['country'] = JSON.stringify(user.country);
+            if (user?.country || user?.state) {
+                if (user?.country) {
+                    newUser['country'] = JSON.stringify(user.country);
+                }
                 newUser['state'] = JSON.stringify(user.state);
                 newUser['city'] = JSON.stringify(user.city);
             }
@@ -73,7 +75,7 @@ export default function BackupCard(props) {
     const validateDate = (dateFrom, dateTo) => {
         var msDiff = new Date(dateTo).getTime() - new Date(dateFrom).getTime();
         var isValidDate = Math.floor(msDiff / (1000 * 60 * 60 * 24));
-        
+
         if (isValidDate < 0) {
             setIsInvalidDate(true);
         } else {
@@ -89,7 +91,7 @@ export default function BackupCard(props) {
                 backupHandler(values);
             },
         });
-        
+
         validateDate(formik.values.dateFrom, formik.values.dateTo);
 
         return (
@@ -155,7 +157,7 @@ export default function BackupCard(props) {
                 <h4 className='font-weight-bold title'>{title}</h4>
                 <hr className='mb-4' />
             </div>
-            <div className='w-100 pt-2'>
+            <div className='w-100 pt-1'>
                 <BackupForm />
             </div>
         </div>

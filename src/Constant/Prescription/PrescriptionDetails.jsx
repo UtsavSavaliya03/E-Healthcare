@@ -19,11 +19,11 @@ export const doseData = [
 
 export const intakeTimeData = [
     {
+        label: "After Meal",
+        value: "After Meal"
+    },
+    {
         label: "Before Meal",
         value: "Before Meal"
     },
-    {
-        label: "After Meal",
-        value: "After Meal."
-    }
 ]

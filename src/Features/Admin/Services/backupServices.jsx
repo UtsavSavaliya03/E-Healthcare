@@ -5,9 +5,9 @@ const axiosService = new AxiosService();
 
 export const backup = async (type, backupCredentials, header) => {
 
-    const department = await axiosService.post(BackupUrls.backup(type), backupCredentials, header);
+    const backupResponse = await axiosService.post(BackupUrls.backup(type), backupCredentials, header);
 
-    if (department.data || department.response.data) {
-        return department.data || department.response.data;
+    if (backupResponse.data || backupResponse.response.data) {
+        return backupResponse.data || backupResponse.response.data;
     }
 }

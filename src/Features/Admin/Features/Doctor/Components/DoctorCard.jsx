@@ -51,7 +51,7 @@ export default function DoctorCard(props) {
                                 <div className='doctor-card-copy-icon'>
                                     <IconButton
                                         size="small"
-                                        onClick={() => { navigator.clipboard.writeText('test@gmail.com') }}
+                                        onClick={() => { navigator.clipboard.writeText(doctor?.email) }}
                                     >
                                         <ContentCopyIcon fontSize="small" />
                                     </IconButton>

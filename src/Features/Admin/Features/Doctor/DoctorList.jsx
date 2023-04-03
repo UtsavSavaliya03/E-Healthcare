@@ -7,7 +7,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import { Spinner } from '../../../../Components/Common/Spinners/Spinners.jsx';
 import { fetchDoctors, searchDoctor } from '../../Services/doctorServices.jsx'
 import Backdrop from "@mui/material/Backdrop";
-import { fetchDepartments } from '../../Services/departmentServices.jsx';
+import { fetchActiveDepartments } from '../../Services/departmentServices.jsx';
 import { Helmet } from "react-helmet";
 import IconButton from '@mui/material/IconButton';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
@@ -38,7 +38,7 @@ export default function DoctorList() {
             'Authorization': token
         }
 
-        const departments = await fetchDepartments(headers);
+        const departments = await fetchActiveDepartments(headers);
         setDepartments([{ _id: 1, name: 'All' }, ...departments?.department]);
     }
 

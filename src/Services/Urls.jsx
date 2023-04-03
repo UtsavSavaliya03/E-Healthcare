@@ -97,6 +97,9 @@ export const DepartmentUrls = {
     addDepartment: () => {
         return baseUrl + `/department`;
     },
+    fetchActiveDepartment: () => {
+        return baseUrl + `/department/active`;
+    },
     fetchDepartment: () => {
         return baseUrl + `/department`;
     },
@@ -108,6 +111,24 @@ export const DepartmentUrls = {
     },
     deleteDepartment: (id) => {
         return baseUrl + `/department/${id}`;
+    }
+}
+
+export const PatientsUrls = {
+    fetchPatients: () => {
+        return baseUrl + `/patient`;
+    },
+    searchPatients: (patientId) => {
+        return baseUrl + `/patient/search/${patientId}`;
+    }
+}
+
+export const PrescriptionUrls = {
+    addPrescription: () => {
+        return baseUrl + `/prescription`;
+    },
+    fetchPrescription: (id) => {
+        return baseUrl + `/prescription/${id}`;
     }
 }
 

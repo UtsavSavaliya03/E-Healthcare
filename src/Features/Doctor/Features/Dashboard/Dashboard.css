@@ -1,3 +1,17 @@
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+.doctor-dashboard-container {
+  animation: fadeIn 1s;
+}
+
 .break-line-1 {
   overflow: hidden;
   text-overflow: ellipsis;
@@ -29,10 +43,12 @@
     margin-top: 5px !important;
   }
 }
+
 @media only screen and (max-width: 780px) {
   .doctor-dashboard-vector {
     display: none;
   }
+
   .doctor-dashboard-progress-container {
     padding: 20px;
   }
