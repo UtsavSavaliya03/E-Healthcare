@@ -1,6 +1,6 @@
 .prescription-card-container {
   position: relative;
-  height: 2160px;
+  min-height: 1699px;
 }
 
 .prescription-header {
@@ -22,9 +22,48 @@
 .table-borderless th {
   color: #0b8fdc;
 }
-.prescriptionFooter{
+.prescriptionFooter {
   position: absolute;
   bottom: 0px;
   left: 0px;
   width: 100%;
+}
+.prescription-table {
+  background-color: #ffffff;
+}
+.prescription-table tr td{
+  font-size: 18px;
+}
+.prescription-table tr th{
+  font-size: 21px;
+}
+.pre-heading {
+  font-size: 18px;
+}
+.prescription-bar {
+  width: 90px;
+  background: linear-gradient(
+    90deg,
+    rgba(8, 0, 139, 1) 0%,
+    rgba(9, 9, 121, 1) 26%,
+    rgba(0, 212, 255, 1) 100%
+  );
+  height: 5px;
+  border-radius: 5px;
+}
+.prescription-table-container{
+  min-height: calc(100vh - 125px);
+}
+.prescription-table thead {
+  background-color: #0b8fdc;
+}
+.section-title h2{
+  color: #0b8fdc;
+}
+.prescription-action-btn:focus{
+  outline: none;
+}
+.prescription-action-btn{
+  margin-top: -4px!important;
+  color: #0b8fdc;
 }

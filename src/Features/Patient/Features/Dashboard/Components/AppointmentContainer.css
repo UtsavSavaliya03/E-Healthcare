@@ -23,7 +23,8 @@
   text-transform: uppercase;
   cursor: pointer;
   transition: opacity 0.4s;
-  font-size: 18px;
+  font-size: 19px;
+  font-weight: 600;
   box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
 }
 .btnAppointment:hover {

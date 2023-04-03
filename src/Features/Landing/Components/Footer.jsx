@@ -57,19 +57,16 @@ function Footer() {
                       healthhorizon.life@gmail.com
                     </p>
                     <div className="footer-social">
-                      <a href="/">
+                      <a href="https://twitter.com/HealthHori18626" target="_blank">
                         <i className="fab fa-twitter" />
                       </a>
-                      <a href="/">
+                      <a href="https://www.facebook.com/profile.php?id=100091245141575" target="_blank">
                         <i className="fab fa-facebook-f" />
                       </a>
-                      <a href="/">
-                        <i className="fab fa-youtube" />
-                      </a>
-                      <a href="/">
+                      <a href="https://www.instagram.com/healthhorizon.life/" target="_blank">
                         <i className="fab fa-instagram" />
                       </a>
-                      <a href="/">
+                      <a href="http://www.linkedin.com/in/Health-Horizon" target="_blank">
                         <i className="fab fa-linkedin-in" />
                       </a>
                     </div>
