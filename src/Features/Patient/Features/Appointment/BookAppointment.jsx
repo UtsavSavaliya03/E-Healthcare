@@ -5,6 +5,8 @@ import { useFormik } from "formik";
 import InputAdornment from "@mui/material/InputAdornment";
 import SearchIcon from "@mui/icons-material/Search";
 import { fetchActiveDepartments } from "../../../Admin/Services/departmentServices.jsx";
+import { useRecoilValue } from "recoil";
+import { userState } from '../../../../Store/globalState.jsx';
 import Avatar from "@mui/material/Avatar";
 import DoctorCard from "./Components/DoctorCard";
 import Divider from "@mui/material/Divider";
@@ -17,6 +19,8 @@ let State = require("country-state-city").State;
 let City = require("country-state-city").City;
 
 export default function BookAppointment() {
+
+  const user = useRecoilValue(userState);
   const States = State.getStatesOfCountry("IN");
   const [departments, setDepartments] = useState([]);
   const token = localStorage.getItem("token") || null;
@@ -45,44 +49,25 @@ export default function BookAppointment() {
   }, []);
 
   const [value, onChange] = useState(new Date());
+
   return (
     <div className="book-appointment-container row m-0">
       <div className="book-appointment-header py-5 mx-auto col-12">
-        <p className="h1 font-weight-bold text-dark text-center">
+        <p className="h1 font-weight-bold text-blue text-center">
           Search Doctor, Make an Appointment
         </p>
         <p className="h5 mt-3 font-weight-bold text-secondary text-center">
-          Discover the best doctors, clinic & hospital in the city nearest to
+          Discover the best doctors & hospitals in the city nearest to
           you.
         </p>
-        <div className="mt-5">
-          <form
-            action=""
-            className="row m-0 d-flex justify-content-center"
-            method="post"
-            autoComplete="off"
-          >
-            <TextField
-              name="Name"
-              label="Name"
-              className="col-lg-3 col-md-5"
-              //   value={formik.values.fName}
-              //   error={formik.touched.fName && Boolean(formik.errors.fName)}
-              //   onChange={formik.handleChange}
-            />
-            <TextField
-              name="Email"
-              label="Email"
-              className="col-lg-3 col-md-5 ml-md-3 mt-md-0 mt-3"
-              //   value={formik.values.fName}
-              //   error={formik.touched.fName && Boolean(formik.errors.fName)}
-              //   onChange={formik.handleChange}
-            />
-          </form>
-        </div>
+        <hr className="w-50" />
+        <p className="h5 mt-3 font-weight-bold text-secondary text-center">
+          Book an appoinment as a <span className="text-blue">{`${user?.fName} ${user?.lName} (${user?.patientId})`}</span>
+        </p>
       </div>
+
       <div className="col-lg-3 col-md-3 col-sm-12 py-5 book-appointment-search-form-container d-flex justify-content-center">
-        <form action="" className="w-lg-75 w-md-100 px-md-3">
+        <form action="" className="w-lg-75 w-md-100 px-md-3" autoComplete="off">
           <TextField
             className="w-100"
             id="input-with-icon-adornment"
@@ -124,7 +109,7 @@ export default function BookAppointment() {
             onChange={formik.handleChange}
           >
             {formik.values.state &&
-            City.getCitiesOfState("IN", formik.values.state?.isoCode)?.length >
+              City.getCitiesOfState("IN", formik.values.state?.isoCode)?.length >
               0 ? (
               City.getCitiesOfState("IN", formik.values.state?.isoCode)?.map(
                 (city, index) => (

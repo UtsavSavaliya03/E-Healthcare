@@ -1,0 +1,71 @@
+.prescription-card-container {
+    position: absolute;
+    min-height: 1699px;
+    z-index: -10;
+    top: -1500%;
+}
+
+.prescription-header {
+    background-color: #0b8fdc;
+    height: fit-content;
+}
+
+.prescription-content-container hr {
+    border: 1px solid rgb(185, 183, 183);
+}
+
+.prescription-content-container table {
+    background-color: transparent !important;
+}
+
+.prescription-doctor-name {
+    color: #0b8fdc;
+}
+
+.table-borderless .email {
+    text-transform: lowercase;
+}
+
+.table-borderless td,
+.table-borderless th {
+    border: none;
+    padding: 5px 10px 5px 0px;
+    font-size: 24px;
+}
+
+.table-borderless td {
+    font-weight: 600;
+    color: #0b8fdc;
+}
+
+.prescriptionFooter {
+    position: absolute;
+    bottom: 0px;
+    left: 0px;
+    width: 100%;
+}
+
+.pre-heading {
+    font-size: 10px;
+}
+
+.section-title h2 {
+    color: #0b8fdc;
+}
+
+.prescription-action-btn:focus {
+    outline: none;
+}
+
+.prescription-action-btn {
+    margin-top: -4px !important;
+    color: #0b8fdc;
+}
+
+.break-line-1 {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+}

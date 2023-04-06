@@ -32,7 +32,6 @@ import DoctorAppointmentList from '../../../Features/Doctor/Features/Appointment
 /* --------- Patient Components --------- */
 import Dashboard from '../../../Features/Patient/Features/Dashboard/Dashboard.jsx';
 import BookAppointment from '../../../Features/Patient/Features/Appointment/BookAppointment.jsx';
-import Prescription from '../../../Features/Patient/Features/Prescription/Prescription.jsx';
 
 
 
@@ -160,10 +159,5 @@ export const routeData = [
         path: "/dashboard",
         route: AuthorizedRoute,
         element: Dashboard,
-    },
-    {
-        path: "/prescription",
-        route: AuthorizedRoute,
-        element: Prescription,
     },
 ]

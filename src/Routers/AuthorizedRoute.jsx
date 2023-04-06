@@ -6,5 +6,5 @@ export default function AuthorizedRoute() {
 
     const isLogin = useLogin();
 
-    return (isLogin ? <Outlet /> : <Navigate to='/login' />);
+    return (isLogin ? <Outlet /> : <Navigate to='/' />);
 }

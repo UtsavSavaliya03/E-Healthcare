@@ -293,10 +293,10 @@ export default function GeneratePrescription(props) {
                                                                         </td>
                                                                         <td className="pb-2">
                                                                             <IconButton
-                                                                                className={`${(editMedicine?.name?.length < 1 || editMedicine?.qty?.length < 1) ? 'btn-remove-medicine' : 'btn-add-medicine'}`}
+                                                                                className={`${(editMedicine?.name?.length < 1 || parseInt(editMedicine?.qty) < 1) ? 'btn-remove-medicine' : 'btn-add-medicine'}`}
                                                                                 size="small"
                                                                                 onClick={editHandler}
-                                                                                disabled={(editMedicine?.name?.length < 1 || editMedicine?.qty?.length < 1) ? true : false}
+                                                                                disabled={(editMedicine?.name?.length < 1 || parseInt(editMedicine?.qty) < 1) ? true : false}
                                                                             >
                                                                                 <DoneIcon fontSize="inherit" />
                                                                             </IconButton>
