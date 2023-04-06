@@ -1,0 +1,55 @@
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+.doctor-dashboard-container {
+  animation: fadeIn 1s;
+}
+
+.break-line-1 {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+}
+
+@import url("https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@400;600;700&display=swap");
+
+.laboratory-dashboard-box {
+  box-shadow: rgba(181, 181, 181, 0.2) 0px 2px 8px 0px;
+}
+
+.laboratory-dashboard-vector {
+  max-width: 200px !important;
+}
+
+@media only screen and (max-width: 1000px) {
+  .laboratory-dashboard-box {
+    margin-bottom: 25px;
+  }
+
+  .doctor-profile-appointment-title {
+    font-size: 17px !important;
+  }
+
+  .doctor-dashboard-statistics-container {
+    margin-top: 5px !important;
+  }
+}
+
+@media only screen and (max-width: 780px) {
+  .doctor-dashboard-vector {
+    display: none;
+  }
+
+  .doctor-dashboard-progress-container {
+    padding: 20px;
+  }
+}

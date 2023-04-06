@@ -4,7 +4,7 @@ import { mockTransactions } from "../../../../Constant/Admin/mockData.js";
 import Header from "./Components//Header";
 import LineChart from "./Components/LineChart.jsx";
 import "./Dashboard.css";
-import DoctorDashboardVector from "../../../../Assets/Icons/Doctor-dashboard-vector.png";
+import LaboratoryDashboardVector from "../../../../Assets/Icons/Laboratory-dashboard-vector.png";
 import { styled } from "@mui/material/styles";
 import LinearProgress, {
   linearProgressClasses,
@@ -15,6 +15,7 @@ import ClearIcon from "@mui/icons-material/Clear";
 import { useRecoilValue } from 'recoil';
 import { userState } from '../../../../Store/globalState.jsx';
 import { Helmet } from "react-helmet";
+import LaboratoryLogo from '../../../../Assets/Icons/Laboratory-logo.png'
 
 const Dashboard = () => {
   const theme = useTheme();
@@ -36,12 +37,12 @@ const Dashboard = () => {
   return (
     <Box p="20px" sx={{ backgroundColor: "white", width: "100%" }} className="doctor-dashboard-container">
       <Helmet>
-        <title>Doctor | Dashboard</title>
+        <title>Laboratory | Dashboard</title>
         <meta name="description" content="Helmet application" />
       </Helmet>
 
       <Box className="ml-3">
-        <Header title="DASHBOARD" subtitle="Welcome to Doctor Dashboard" />
+        <Header title="DASHBOARD" subtitle="Welcome to Laboratory Dashboard" />
       </Box>
 
       <Box className="doctor-dashboard-container row m-0">
@@ -63,14 +64,14 @@ const Dashboard = () => {
                   Here are your important tasks and reports.
                 </Typography>
                 <Typography variant="h6">
-                  Please check your appointment requests.
+                  Please check your test requests.
                 </Typography>
               </Box>
               <Box>
                 <img
-                  src={DoctorDashboardVector}
-                  alt="DoctorDashboardVector"
-                  className="doctor-dashboard-vector"
+                  src={LaboratoryDashboardVector}
+                  alt="LaboratoryDashboardVector"
+                  className="laboratory-dashboard-vector"
                 />
               </Box>
             </Box>
@@ -78,7 +79,7 @@ const Dashboard = () => {
 
           <div className="col-lg-12 col-md-12 col-sm-12">
             <Box
-              className="py-2 my-lg-4 doctor-dashboard-box"
+              className="py-2 my-lg-4 laboratory-dashboard-box"
               backgroundColor={colors.primary[400]}
               borderRadius="5px"
             >
@@ -94,14 +95,14 @@ const Dashboard = () => {
                     fontWeight="600"
                     color={colors.grey[100]}
                   >
-                    Total Users
+                    Total Test Reports
                   </Typography>
                   <Typography
                     variant="h3"
                     fontWeight="bold"
                     color={colors.blueAccent[500]}
                   >
-                    5,93,423
+                    33,423
                   </Typography>
                 </Box>
               </Box>
@@ -119,7 +120,7 @@ const Dashboard = () => {
           >
             <Avatar
               alt="Remy Sharp"
-              src={user?.profileImg}
+              src={LaboratoryLogo}
               sx={{ width: 120, height: 120 }}
               className="my-4 align-self-center"
             />
@@ -129,7 +130,7 @@ const Dashboard = () => {
               color={colors.blueAccent[500]}
               className="align-self-center break-line-1"
             >
-              Dr. {user?.fName} {user?.lName}
+              {user?.fName} {user?.lName}
             </Typography>
             <Typography
               variant="h6"
@@ -160,7 +161,7 @@ const Dashboard = () => {
                 className="doctor-profile-appointment-title break-line-1"
                 color={colors.blueAccent[500]}
               >
-                10 Appointments Per Day
+                Tests Per Day
               </Typography>
               <Typography
                 variant="h6"
@@ -168,7 +169,7 @@ const Dashboard = () => {
                 fontWeight="bold"
                 color={colors.grey[500]}
               >
-                Appointment limit
+                Test limit
               </Typography>
               <BorderLinearProgress
                 className="mt-1 mb-lg-2"
@@ -192,7 +193,7 @@ const Dashboard = () => {
                   color={colors.grey[500]}
                   className='break-line-1'
                 >
-                  Appointments
+                  Tests Requests
                 </Typography>
               </Box>
               <Box className="col-lg-6 col-sm-12 mb-lg-3 mt-sm-1 doctor-dashboard-statistics-container">
@@ -209,7 +210,7 @@ const Dashboard = () => {
                   color={colors.grey[500]}
                   className='break-line-1'
                 >
-                  Patients
+                  Test Reports
                 </Typography>
               </Box>
             </Box>
@@ -237,7 +238,7 @@ const Dashboard = () => {
                   variant="h5"
                   fontWeight="600"
                 >
-                  Appointment Requests
+                  Test Requests
                 </Typography>
               </Box>
               {mockTransactions.map((transaction, i) => (
@@ -268,6 +269,7 @@ const Dashboard = () => {
                       {transaction.user}
                     </Typography>
                   </Box>
+                  <Box color={colors.grey[100]}>{transaction.date}</Box>
                   <Box color={colors.grey[100]}>{transaction.date}</Box>
                   <Box color={colors.blueAccent[500]}>
                     <IconButton
@@ -309,7 +311,7 @@ const Dashboard = () => {
                   variant="h5"
                   fontWeight="600"
                 >
-                  Appointments
+                  Tests
                 </Typography>
               </Box>
               {mockTransactions.map((transaction, i) => (
@@ -340,6 +342,7 @@ const Dashboard = () => {
                       {transaction.user}
                     </Typography>
                   </Box>
+                  <Box color={colors.grey[100]}>{transaction.date}</Box>
                   <Box color={colors.grey[100]}>{transaction.date}</Box>
                 </Box>
               ))}
