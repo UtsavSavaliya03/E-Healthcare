@@ -49,6 +49,9 @@ export const NewsletterUrls = {
     subscribe: () => {
         return baseUrl + `/newsletter`;
     },
+    sendMail: () => {
+        return baseUrl + `/newsletter/sendMail`;
+    },
 }
 
 export const DoctorUrls = {

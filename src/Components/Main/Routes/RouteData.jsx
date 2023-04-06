@@ -22,12 +22,18 @@ import viewDepartment from '../../../Features/Admin/Features/Department/ViewDepa
 import AdminAppointmentList from '../../../Features/Admin/Features/Appointment/Appointment.jsx';
 import Inquiry from '../../../Features/Admin/Features/Inquiry/Inquiry.jsx';
 import Backup from '../../../Features/Admin/Features/Backup/Backup.jsx';
+import Newsletter from '../../../Features/Admin/Features/Newsletter/Newsletter.jsx';
 
 /* --------- Doctor Components --------- */
 import Doctor from '../../../Features/Doctor/Doctor.jsx';
 import DoctorDashboard from '../../../Features/Doctor/Features/Dashboard/Dashboard.jsx';
 import Workspace from '../../../Features/Doctor/Features/Workspace/Workspace.jsx';
 import DoctorAppointmentList from '../../../Features/Doctor/Features/Appointment/Appointment.jsx';
+
+/* --------- Laboratory Components --------- */
+import Laboratory from '../../../Features/Laboratory/Laboratory.jsx';
+import LaboratoryDashboard from '../../../Features/Laboratory/Features/Dashboard/Dashboard.jsx'
+import AddLaboratory from '../../../Features/Admin/Features/Laboratory/AddLaboratory.jsx';
 
 /* --------- Patient Components --------- */
 import Dashboard from '../../../Features/Patient/Features/Dashboard/Dashboard.jsx';
@@ -90,6 +96,10 @@ export const routeData = [
                 element: DoctorList
             },
             {
+                path: "add-laboratory",
+                element: AddLaboratory
+            },
+            {
                 path: "add-hospital",
                 element: AddHospital
             },
@@ -122,6 +132,10 @@ export const routeData = [
                 element: Inquiry
             },
             {
+                path: "newsletter",
+                element: Newsletter
+            },
+            {
                 path: "backup",
                 element: Backup
             },
@@ -146,6 +160,19 @@ export const routeData = [
                 path: "appointments",
                 element: DoctorAppointmentList,
             },
+        ]
+    },
+
+    /* --------- Laboratory routes --------- */
+    {
+        path: "/laboratory",
+        route: AuthorizedRoute,
+        element: Laboratory,
+        children: [
+            {
+                path: "dashboard",
+                element: LaboratoryDashboard,
+            }
         ]
     },
 

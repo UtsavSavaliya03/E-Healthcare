@@ -10,7 +10,7 @@ import * as Yup from 'yup';
 
 export default function AddDepartment() {
 
-  const notification = new Notificaion;
+  const notification = new Notificaion();
   const navigate = useNavigate();
   const token = localStorage.getItem('token') || null;
 

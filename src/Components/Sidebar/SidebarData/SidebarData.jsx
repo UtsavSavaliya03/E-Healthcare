@@ -13,6 +13,8 @@ import {
   FaList,
   FaHospitalAlt,
   FaBookMedical,
+  FaEnvelope,
+  FaMicroscope
 } from "react-icons/fa";
 
 export const patientSidebarData = [
@@ -132,6 +134,22 @@ export const adminSidebarData = [
     ],
   },
   {
+    name: "Laboratories",
+    icon: <FaMicroscope />,
+    subRoutes: [
+      {
+        path: "main/doctor-list",
+        name: "Laboratory List",
+        icon: <FaListUl />,
+      },
+      {
+        path: "main/add-laboratory",
+        name: "Add Laboratory",
+        icon: <FaPlus />,
+      },
+    ],
+  },
+  {
     path: "main/appointments",
     name: "Appointments",
     icon: <FaCalendarDay />,
@@ -140,6 +158,11 @@ export const adminSidebarData = [
     path: "main/inquiries",
     name: "Inquiries",
     icon: <FaQuestionCircle />,
+  },
+  {
+    path: "main/newsletter",
+    name: "Newsletter",
+    icon: <FaEnvelope />,
   },
   {
     path: "main/backup",
