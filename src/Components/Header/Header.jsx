@@ -53,7 +53,7 @@ export default function Header() {
     setIsOpenSidebar(false);
     localStorage.clear();
     setUser({});
-    navigate("/login");
+    navigate("/");
   };
 
   const sidebarHandler = () => {

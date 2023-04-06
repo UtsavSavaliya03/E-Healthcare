@@ -1,6 +1,6 @@
 import React from "react";
 import "./PrescriptionFooter.css";
-import Logo from "../../../../../Assets/Logos/Logo.png";
+import Logo from "../../../../Assets/Logos/Logo.png";
 
 export default function Footer() {
   return (

@@ -5,8 +5,8 @@ import Tab from '@material-ui/core/Tab';
 import TabContext from '@material-ui/lab/TabContext';
 import TabList from '@material-ui/lab/TabList';
 import TabPanel from '@material-ui/lab/TabPanel';
-import PatientsList from './Components/PatientsList.jsx'
-import PrescriptionList from './Components/PrescriptionsList.jsx'
+import PatientsList from './Components/PatientsList.jsx';
+import PrescriptionList from './Components/PrescriptionsList.jsx';
 
 export default function Workspace() {
 

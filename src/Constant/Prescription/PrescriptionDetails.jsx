@@ -1,19 +1,19 @@
 export const doseData = [
     {
         label: "O.D.",
-        value: "O.D."
+        value: "Once"
     },
     {
         label: "B.I.D.",
-        value: "B.I.D."
+        value: "Twice"
     },
     {
         label: "T.I.D.",
-        value: "T.I.D."
+        value: "Thrice"
     },
     {
         label: "Q.I.D.",
-        value: "Q.I.D."
+        value: "Four times"
     }
 ]
 
