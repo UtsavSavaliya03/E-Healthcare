@@ -41,7 +41,7 @@ export const patientSidebarData = [
         icon: <FaBookMedical />,
       },
       {
-        path: "main/add-hospital",
+        path: "/my-appointments",
         name: "My Appointments",
         icon: <FaList />,
       },

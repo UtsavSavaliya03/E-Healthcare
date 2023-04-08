@@ -5,7 +5,7 @@ import { TextField, MenuItem } from '@mui/material';
 import InputAdornment from '@mui/material/InputAdornment';
 import SearchIcon from '@mui/icons-material/Search';
 import { Spinner } from '../../../../Components/Common/Spinners/Spinners.jsx';
-import { fetchDoctors, searchDoctor } from '../../Services/doctorServices.jsx'
+import { fetchDoctors, searchDoctor } from '../../Services/doctorServices.jsx';
 import Backdrop from "@mui/material/Backdrop";
 import { fetchActiveDepartments } from '../../Services/departmentServices.jsx';
 import { Helmet } from "react-helmet";
@@ -58,8 +58,8 @@ export default function DoctorList() {
         }
 
         const params = {
-            name: searchValue?.searchText === '' ? '' : (searchValue?.searchText).trim(),
-            department: searchValue?.department === 1 ? null : searchValue?.department
+            fName : (searchValue?.searchText).charAt(0).toUpperCase() + (searchValue?.searchText).slice(1),
+            department: searchValue?.department == 1 ? '' : searchValue?.department
         }
 
         const doctors = await searchDoctor(params, headers);

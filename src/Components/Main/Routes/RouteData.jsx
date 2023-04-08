@@ -32,6 +32,7 @@ import DoctorAppointmentList from '../../../Features/Doctor/Features/Appointment
 /* --------- Patient Components --------- */
 import Dashboard from '../../../Features/Patient/Features/Dashboard/Dashboard.jsx';
 import BookAppointment from '../../../Features/Patient/Features/Appointment/BookAppointment.jsx';
+import MyAppointmensts from '../../../Features/Patient/Features/Appointment/MyAppointmensts.jsx';
 
 
 
@@ -154,6 +155,11 @@ export const routeData = [
         path: "/book-appointment",
         route: AuthorizedRoute,
         element: BookAppointment,
+    },
+    {
+        path: "/my-appointments",
+        route: AuthorizedRoute,
+        element: MyAppointmensts,
     },
     {
         path: "/dashboard",
