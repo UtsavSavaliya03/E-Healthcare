@@ -138,7 +138,7 @@ export const adminSidebarData = [
     icon: <FaMicroscope />,
     subRoutes: [
       {
-        path: "main/doctor-list",
+        path: "main/laboratory-list",
         name: "Laboratory List",
         icon: <FaListUl />,
       },

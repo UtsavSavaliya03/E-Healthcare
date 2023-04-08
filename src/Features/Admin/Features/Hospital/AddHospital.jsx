@@ -70,6 +70,7 @@ export default function AddHospital() {
     if (hospital?.status) {
       navigate('/main/hospital-list');
     }
+    
   }
 
   const AddHospitalForm = () => {
@@ -84,7 +85,7 @@ export default function AddHospital() {
     return (
       <div className='add-hospital-card pb-4'>
         <div className='add-doctore-header px-0'>
-          <h3 className='m-0 py-2 px-3'>Add New Hospital</h3>
+          <h3 className='m-0 text-blue p-4'>Add New Hospital</h3>
           <hr className='m-0' />
         </div>
         <div className='body-title py-3 px-4'>

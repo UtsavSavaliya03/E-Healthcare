@@ -1,0 +1,35 @@
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
+.main-hospital-container {
+    animation: fadeIn 1s;
+    min-height: calc(100vh - 125px);
+}
+
+.hospital-list-searchbar-container {
+    box-shadow: rgba(0, 0, 0, 0.15) 0px 5px 15px 0px;
+    background-color: white;
+    align-items: center;
+    border-radius: 5px;
+}
+
+.hospital-list-searchbar-container .btn-search {
+    border-radius: 5px;
+    width: 100%;
+    text-transform: uppercase;
+    font-weight: 700;
+    letter-spacing: 1px;
+    color: white;
+    border: none;
+    background: linear-gradient(90deg, rgb(13, 3, 213) 0%, rgb(12, 12, 195) 26%, rgba(0, 212, 255, 1) 100%);
+    padding: 15px 10px;
+    cursor: pointer;
+    opacity: 0.9;
+}

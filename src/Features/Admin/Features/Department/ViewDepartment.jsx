@@ -11,6 +11,8 @@ import { IconButton } from '@mui/material';
 import Backdrop from "@mui/material/Backdrop";
 import DeleteIcon from '@mui/icons-material/Delete';
 import Notificaion from '../../../../Components/Common/Notification/Notification.jsx';
+import EditIcon from '@mui/icons-material/Edit';
+
 
 export default function ViewDepartment() {
 
@@ -53,6 +55,7 @@ export default function ViewDepartment() {
     } else {
       notification.notify(departmentResponse?.status, departmentResponse?.message);
     }
+    setIsDeleteLoading(false);
   }
 
   const openDeletePopup = () => {
@@ -94,12 +97,20 @@ export default function ViewDepartment() {
               <div className='info-para w-100'>
                 <div className='d-flex justify-content-between align-items-center w-100 mb-3'>
                   <h2 className='text-blue font-weight-bold m-0'>{departmentDetails?.name}</h2>
-                  <IconButton
-                    className='ml-2 btn-delete-dpt'
-                    onClick={openDeletePopup}
-                  >
-                    <DeleteIcon />
-                  </IconButton>
+                  <div className='d-flex justify-content-between align-items-center action-btn-container'>
+                    <IconButton
+
+                      className='m-2 btn-edit-dpt d-flex ml-auto'
+                    >
+                      <EditIcon />
+                    </IconButton>
+                    <IconButton
+                      className='ml-2 btn-delete-dpt'
+                      onClick={openDeletePopup}
+                    >
+                      <DeleteIcon />
+                    </IconButton>
+                  </div>
                 </div>
                 <div className='mb-4'>
                   {departmentDetails?.status ? (
@@ -137,7 +148,7 @@ export default function ViewDepartment() {
       )}
       <Backdrop
         sx={{ zIndex: 1 }}
-        open={isLoading}
+        open={isDeleteLoading}
       >
         <Spinner />
       </Backdrop>

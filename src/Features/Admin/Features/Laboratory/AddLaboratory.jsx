@@ -7,7 +7,7 @@ import {
 } from "@mui/material";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { addDoctor } from "../../Services/doctorServices.jsx";
+import { addLaboratory } from "../../Services/laboratoryServices.jsx";
 import { useNavigate } from "react-router-dom";
 import { Helmet } from "react-helmet";
 import { Spinner } from "../../../../Components/Common/Spinners/Spinners.jsx";
@@ -22,7 +22,7 @@ export default function AddLaboratory() {
   const [isLoading, setIsLoading] = useState(false);
 
   const initialValues = {
-    lName: "",
+    name: "",
     email: "",
     mobileNo: "",
     shortBio: "",
@@ -33,8 +33,7 @@ export default function AddLaboratory() {
   };
 
   const LaboratorySchema = Yup.object().shape({
-    lName: Yup.string()
-      .matches(/^[A-Z]+$/i, "Allow only alphabets.")
+    name: Yup.string()
       .trim()
       .required(" "),
     email: Yup.string().email("Invalid email address.").trim().required(" "),
@@ -45,9 +44,8 @@ export default function AddLaboratory() {
       .required(" "),
     shortBio: Yup.string().required(" "),
     addressLine: Yup.string().required(" "),
-    country: Yup.object().required(" "),
-    state: Yup.object(),
-    city: Yup.object(),
+    state: Yup.object().required(" "),
+    city: Yup.object().required(" "),
     pincode: Yup.string()
       .typeError("Invalid pincode")
       .trim()
@@ -58,24 +56,25 @@ export default function AddLaboratory() {
   const submitHandler = async (laboratoryCredentials) => {
     setIsLoading(true);
 
-    let formData = new FormData();
-    formData.append("lName", laboratoryCredentials?.lName);
-    formData.append("email", laboratoryCredentials?.email);
-    formData.append("mobileNo", laboratoryCredentials?.mobileNo.toString());
-    formData.append("shortBio", laboratoryCredentials?.shortBio);
-    formData.append("addressLine", laboratoryCredentials?.addressLine);
-    formData.append("state", JSON.stringify(laboratoryCredentials?.state));
-    formData.append("city", JSON.stringify(laboratoryCredentials?.city));
-    formData.append("pincode", laboratoryCredentials?.pincode);
-
+    const params = {
+      name: laboratoryCredentials?.name,
+      email: laboratoryCredentials?.email,
+      mobileNo: laboratoryCredentials?.mobileNo.toString(),
+      shortBio: laboratoryCredentials?.shortBio,
+      addressLine: laboratoryCredentials?.addressLine,
+      state: laboratoryCredentials?.state,
+      city: laboratoryCredentials?.city,
+      pincode: laboratoryCredentials?.pincode,
+    }
     const headers = {
       Authorization: token,
     };
-    const doctor = await addDoctor(formData, headers);
-    notification.notify(doctor?.status, doctor?.message);
+    const laboratory = await addLaboratory(params, headers);
+    
+    notification.notify(laboratory?.status, laboratory?.message);
     setIsLoading(false);
-    if (doctor?.status) {
-      navigate("/main/doctor-list");
+    if (laboratory?.status) {
+      navigate("/main/add-laboratory");
     }
   };
 
@@ -85,6 +84,7 @@ export default function AddLaboratory() {
       validationSchema: LaboratorySchema,
       onSubmit: (values) => {
         submitHandler(values);
+        
       },
     });
 
@@ -108,14 +108,14 @@ export default function AddLaboratory() {
               <div className="col-sm-4 my-3 my-md-0">
                 <TextField
                   className="w-100"
-                  name="lName"
+                  name="name"
                   label="Name"
-                  value={formik.values.lName}
-                  error={formik.touched.lName && Boolean(formik.errors.lName)}
+                  value={formik.values.name}
+                  error={formik.touched.name && Boolean(formik.errors.name)}
                   onChange={formik.handleChange}
                 />
                 <div className="add-doctor-error-message text-right mr-1">
-                  {formik.touched.lName ? formik.errors.lName : null}
+                  {formik.touched.name ? formik.errors.name : null}
                 </div>
               </div>
               <div className="col-sm-4 my-3 my-md-0">
@@ -232,10 +232,10 @@ export default function AddLaboratory() {
                   onChange={formik.handleChange}
                 >
                   {formik.values.state &&
-                  City.getCitiesOfState(
-                    "IN",
-                    formik.values.state?.isoCode
-                  ) ? (
+                    City.getCitiesOfState(
+                      "IN",
+                      formik.values.state?.isoCode
+                    ) ? (
                     City.getCitiesOfState(
                       "IN",
                       formik.values.state?.isoCode
@@ -270,10 +270,8 @@ export default function AddLaboratory() {
               </div>
             </div>
             <hr className="mx-3 mb-4" />
-            <div className="w-100 text-right px-4">
-              <button className="btn-create-doctor" type="submit">
-                Create
-              </button>
+            <div className='w-100 text-right px-5'>
+              <button className='btn-create-doctor' type='submit'>Create</button>
             </div>
           </form>
         </div>

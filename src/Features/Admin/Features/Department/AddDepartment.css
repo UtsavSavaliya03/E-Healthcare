@@ -1,60 +1,139 @@
 @keyframes fadeIn {
-    0% {
-        opacity: 0;
-    }
+  0% {
+    opacity: 0;
+  }
 
-    100% {
-        opacity: 1;
-    }
+  100% {
+    opacity: 1;
+  }
 }
 
+@keyframes fadeOut {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
 .add-department-container {
-    animation: fadeIn 1s;
-    background-color: #fafbff;
-    min-height: calc(100vh - 125px);
+  animation: fadeIn 1s;
+  background-color: #fafbff;
+  min-height: calc(100vh - 125px);
 }
 
 .add-department-card {
-    background-color: white;
-    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
-    border-radius: 5px;
+  background-color: white;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  border-radius: 5px;
 }
 
 .add-department-header h3 {
-    font-weight: 600;
+  font-weight: 600;
 }
 
 .department-profile-img-container {
-    position: relative;
-    width: 150px;
-    border-radius: 50%;
+  position: relative;
+  width: 150px;
+  border-radius: 50%;
 }
 
 .department-profile-img-container .department-profile-img {
-    height: 150px;
-    width: 150px;
-    border-radius: 50%;
-    border: 3px solid white;
-    display: block;
-    box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.50);
+  height: 150px;
+  width: 150px;
+  border-radius: 50%;
+  border: 3px solid white;
+  display: block;
+  box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.5);
+}
+
+.btn-create-department {
+  padding: 5px 50px;
+  text-transform: uppercase;
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+  font-size: 20px;
+  border-radius: 5px;
+  border: none;
+  background: linear-gradient(
+    45deg,
+    rgb(10, 0, 199) 0%,
+    rgba(9, 9, 121, 1) 26%,
+    rgba(0, 212, 255, 1) 100%
+  );
+  opacity: 0.9;
+  letter-spacing: 2px;
+}
+
+.btn-create-department:hover {
+  opacity: 1;
+}
+
+.btn-create-department:focus {
+  outline: none;
+}
+.dpt-background-img {
+  height: 230px;
 }
 
 .department-profile-icons {
+  position: absolute;
+  top: 7%;
+  right: 2%;
+  visibility: hidden;
+  opacity: 0;
+  
+}
+
+.dpt-background-img-container:hover .department-profile-icons {
+  cursor: pointer;
+  visibility: visible;
+  animation: fadeOut 1s;
+  opacity: 1;
+}
+
+.department-profile-icons .camera-icon {
+  background-color: rgb(121, 168, 255);
+  color: white;
+  padding: 5px;
+  border-radius: 50%;
+  box-shadow: 0px 3px 10px rgba(0, 0, 0, 1);
+}
+
+.department-profile-icons .remove-icon {
+  background-color: rgb(255, 81, 81);
+  padding: 5px 8px;
+  color: white;
+  border-radius: 50%;
+  box-shadow: 0px 3px 10px rgba(0, 0, 0, 1);
+}
+
+.doctor-profile-icons {
     position: absolute;
     top: 70%;
-    left: 30%;
+    left: 27%;
     visibility: hidden;
     opacity: 0;
 }
 
-.department-profile-img-container:hover .department-profile-icons {
+.doctor-profile-img-container:hover .doctor-profile-icons {
     cursor: pointer;
     visibility: visible;
     animation: fadeOut 1s;
     opacity: 1;
 }
-
-.department-profile-icons .camera-icon {
+.dpt-profile-img-container{
+    position: absolute; 
+     top: 50%;
+    left: 5%;
+    
+}
+.doctor-profile-img{
+    background-color: #fff;
+}
+.doctor-profile-icons .camera-icon {
     background-color: rgb(121, 168, 255);
     color: white;
     padding: 5px;
@@ -62,32 +141,14 @@
     box-shadow: 0px 3px 10px rgba(0, 0, 0, 1);
 }
 
-.department-profile-icons .remove-icon {
+.doctor-profile-icons .remove-icon {
     background-color: rgb(255, 81, 81);
     padding: 5px 8px;
     color: white;
     border-radius: 50%;
     box-shadow: 0px 3px 10px rgba(0, 0, 0, 1);
 }
-
-.btn-create-department {
-    padding: 5px 50px;
-    text-transform: uppercase;
-    color: white;
-    font-weight: 600;
-    cursor: pointer;
-    font-size: 20px;
-    border-radius: 5px;
-    border: none;
-    background: linear-gradient(45deg, rgb(10, 0, 199) 0%, rgba(9, 9, 121, 1) 26%, rgba(0, 212, 255, 1) 100%);
-    opacity: 0.9;
-    letter-spacing: 2px;
+.dpt-background-img-container{
+position: relative;
 }
 
-.btn-create-department:hover {
-    opacity: 1;
-}
-
-.btn-create-department:focus {
-    outline: none;
-}

@@ -1,4 +1,5 @@
-import { Box, Typography, useTheme, Avatar, Divider } from "@mui/material";
+import React, { useEffect, useState } from "react";
+import { Box, Typography, useTheme, Divider } from "@mui/material";
 import { tokens } from "../../../../Services/theme.js";
 import { mockTransactions } from "../../../../Constant/Admin/mockData.js";
 import Header from "./Components//Header";
@@ -16,11 +17,18 @@ import { useRecoilValue } from 'recoil';
 import { userState } from '../../../../Store/globalState.jsx';
 import { Helmet } from "react-helmet";
 import LaboratoryLogo from '../../../../Assets/Icons/Laboratory-logo.png'
+import { fetchTestRequestsByStatus, updateTestRequestsById } from '../../Services/laboratoryServices.jsx';
+import Avatar from 'react-avatar';
+import moment from 'moment';
+
 
 const Dashboard = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette);
   const user = useRecoilValue(userState);
+  const [testRequests, setTestRequests] = useState([])
+  const [approvedRequests, setApprovedRequests] = useState([])
+  const token = localStorage.getItem("token") || null;
 
   const BorderLinearProgress = styled(LinearProgress)(({ theme }) => ({
     height: 10,
@@ -33,6 +41,67 @@ const Dashboard = () => {
       backgroundColor: colors.blueAccent[500],
     },
   }));
+
+  const fetchTestRequestHandler = async (status) => {
+    const headers = {
+      'Authorization': token
+    }
+    const testRequests = await fetchTestRequestsByStatus(status, headers)
+    setTestRequests(testRequests?.data)
+
+  }
+  const fetchApprovedTestRequestHandler = async (status) => {
+    const headers = {
+      'Authorization': token
+    }
+    const testRequests = await fetchTestRequestsByStatus(status, headers)
+    setApprovedRequests(testRequests?.data)
+
+  }
+  const acceptTestRequest = async (id, status) => {
+    const param = {
+      'status': status
+    }
+    const headers = {
+      'Authorization': token
+    }
+
+    await updateTestRequestsById(id, param, headers)
+    let currentObject;
+    const updatedTestRequests = testRequests.filter((request) => {
+      if (request._id == id) {
+        currentObject = request;
+      }
+      return request._id !== id
+    })
+    setTestRequests(updatedTestRequests);
+    setApprovedRequests(current => [...current, currentObject])
+
+  }
+  const rejectTestRequest = async (id, status) => {
+    const param = {
+      'status': status
+    }
+    const headers = {
+      'Authorization': token
+    }
+
+    await updateTestRequestsById(id, param, headers)
+
+    const updatedTestRequests = testRequests.filter((request) => {
+      return request._id !== id
+    })
+    setTestRequests(updatedTestRequests);
+
+
+  }
+  useEffect(() => {
+    /* --- Status - 0 for pending --- */
+    fetchTestRequestHandler(0)
+    /* --- Status - 1 for approved --- */
+    fetchApprovedTestRequestHandler(1)
+  }, [])
+
 
   return (
     <Box p="20px" sx={{ backgroundColor: "white", width: "100%" }} className="doctor-dashboard-container">
@@ -114,12 +183,13 @@ const Dashboard = () => {
         </div>
         <div className="col-lg-3 col-md-3 col-sm-3 m-0">
           <Box
-            className="py-2 py-lg-3 doctor-dashboard-box d-flex justify-content-center flex-column"
+            className="py-2 doctor-dashboard-box d-flex justify-content-center flex-column"
             backgroundColor={colors.primary[400]}
             borderRadius="5px"
           >
             <Avatar
               alt="Remy Sharp"
+              round
               src={LaboratoryLogo}
               sx={{ width: 120, height: 120 }}
               className="my-4 align-self-center"
@@ -241,52 +311,61 @@ const Dashboard = () => {
                   Test Requests
                 </Typography>
               </Box>
-              {mockTransactions.map((transaction, i) => (
-                <Box
-                  key={`${transaction.txId}-${i}`}
-                  display="flex"
-                  justifyContent="space-between"
-                  alignItems="center"
-                  borderBottom="4px solid white"
-                  p="15px"
+              {testRequests.length === 0 ? <Box color={colors.grey[100]} display="flex"
+                justifyContent="center"
+                alignItems="center" sx={{ textAlign: "center", minHeight: "85px" }}><Typography
+                  className="text-secondary"
+                  variant="h5"
+                  fontWeight="600"
+
                 >
-                  <Box>
-                    <Avatar
-                      alt={transaction?.user}
-                      src={transaction?.avatar}
-                      sx={{ width: 50, height: 50 }}
-                    />
+                  No Test Request Pending
+                </Typography></Box>
+                : testRequests.map((request, index) => (
+                  <Box
+                    key={`${request._id}`}
+                    display="flex"
+                    justifyContent="space-between"
+                    alignItems="center"
+                    borderBottom="4px solid white"
+                    p="15px"
+                  >
+                    <Box>
+                      <Avatar className='doctor-profile-avatar' size='50' round name={`${request?.patient?.fName} ${request?.patient?.lName}`} src={request?.patient?.profileImg} />
+
+                    </Box>
+                    <Box>
+                      <Typography
+                        color={colors.blueAccent[500]}
+                        variant="h5"
+                        fontWeight="600"
+                      >
+                        {request?.patient?.patientId}
+                      </Typography>
+                      <Typography color={colors.grey[100]}>
+                        {`${request?.patient?.fName} ${request?.patient?.lName}`}
+                      </Typography>
+                    </Box>
+                    <Box color={colors.grey[100]}>{request?.type}</Box>
+                    <Box color={colors.grey[100]}>{moment(request?.createdAt).format('LL')}</Box>
+                    <Box color={colors.blueAccent[500]}>
+                      <IconButton
+                        aria-label="Accept appointment"
+                        sx={{ color: colors.blueAccent[500] }}
+                        onClick={() => acceptTestRequest(request?._id, 1)}
+                      >
+                        <CheckIcon sx={{ fontSize: "28px" }} />
+                      </IconButton>
+                      <IconButton
+                        aria-label="Reject appointment"
+                        sx={{ color: "red" }}
+                        onClick={() => rejectTestRequest(request?._id, 3)}
+                      >
+                        <ClearIcon sx={{ fontSize: "28px" }} />
+                      </IconButton>
+                    </Box>
                   </Box>
-                  <Box>
-                    <Typography
-                      color={colors.blueAccent[500]}
-                      variant="h5"
-                      fontWeight="600"
-                    >
-                      {transaction.txId}
-                    </Typography>
-                    <Typography color={colors.grey[100]}>
-                      {transaction.user}
-                    </Typography>
-                  </Box>
-                  <Box color={colors.grey[100]}>{transaction.date}</Box>
-                  <Box color={colors.grey[100]}>{transaction.date}</Box>
-                  <Box color={colors.blueAccent[500]}>
-                    <IconButton
-                      aria-label="Accept appointment"
-                      sx={{ color: colors.blueAccent[500] }}
-                    >
-                      <CheckIcon sx={{ fontSize: "28px" }} />
-                    </IconButton>
-                    <IconButton
-                      aria-label="Reject appointment"
-                      sx={{ color: "red" }}
-                    >
-                      <ClearIcon sx={{ fontSize: "28px" }} />
-                    </IconButton>
-                  </Box>
-                </Box>
-              ))}
+                ))}
             </Box>
           </div>
           <div className="col-lg-6 col-md-6 col-sm-12 mb-3">
@@ -311,41 +390,45 @@ const Dashboard = () => {
                   variant="h5"
                   fontWeight="600"
                 >
-                  Tests
+                  Approved Test Requests
                 </Typography>
               </Box>
-              {mockTransactions.map((transaction, i) => (
-                <Box
-                  key={`${transaction.txId}-${i}`}
-                  display="flex"
-                  justifyContent="space-between"
-                  alignItems="center"
-                  borderBottom="4px solid white"
-                  p="15px"
+              {approvedRequests.length === 0 ? <Box color={colors.grey[100]} display="flex"
+                justifyContent="center"
+                alignItems="center" sx={{ textAlign: "center", minHeight: "85px" }}><Typography
+                  className="text-secondary"
+                  variant="h5"
+                  fontWeight="600"
+
                 >
-                  <Box>
-                    <Avatar
-                      alt={transaction?.user}
-                      src={transaction?.avatar}
-                      sx={{ width: 50, height: 50 }}
-                    />
+                  No Approved Test Request 
+                </Typography></Box> : approvedRequests?.map((request, index) => (
+                  <Box
+                    key={`${request._id}`}
+                    display="flex"
+                    justifyContent="space-between"
+                    alignItems="center"
+                    borderBottom="4px solid white"
+                    p="15px"
+                  >
+                    <Box>
+                      <Avatar className='doctor-profile-avatar' size='50' round name={`${request?.patient?.fName} ${request?.patient?.lName}`} src={request?.patient?.profileImg} />
+                    </Box>
+                    <Box >
+                      <Typography
+                        color={colors.blueAccent[500]}
+                        variant="h5"
+                        fontWeight="600"
+                      >
+                        {request?.patient?.patientId}
+                      </Typography>
+                      <Typography color={colors.grey[100]}>
+                        {`${request?.patient?.fName} ${request?.patient?.lName}`}                    </Typography>
+                    </Box>
+                    <Box color={colors.grey[100]}>{request?.type}</Box>
+                    <Box color={colors.grey[100]}>{moment(request?.createdAt).format('LL')}</Box>
                   </Box>
-                  <Box>
-                    <Typography
-                      color={colors.blueAccent[500]}
-                      variant="h5"
-                      fontWeight="600"
-                    >
-                      {transaction.txId}
-                    </Typography>
-                    <Typography color={colors.grey[100]}>
-                      {transaction.user}
-                    </Typography>
-                  </Box>
-                  <Box color={colors.grey[100]}>{transaction.date}</Box>
-                  <Box color={colors.grey[100]}>{transaction.date}</Box>
-                </Box>
-              ))}
+                ))}
             </Box>
           </div>
         </div>

@@ -66,7 +66,7 @@ export default function DepartmentList() {
         <Spinner />
       </Backdrop>
       <div className='department-list-searchbar-container py-3 px-1 mb-3 row m-0'>
-        <div className='col-md-4 offset-6 col-sm-12 mb-md-0'>
+        <div className='col-md-10 col-sm-12 mb-md-0'>
           <TextField
             autoComplete='off'
             fullWidth

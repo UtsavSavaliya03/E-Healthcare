@@ -34,6 +34,9 @@ import DoctorAppointmentList from '../../../Features/Doctor/Features/Appointment
 import Laboratory from '../../../Features/Laboratory/Laboratory.jsx';
 import LaboratoryDashboard from '../../../Features/Laboratory/Features/Dashboard/Dashboard.jsx'
 import AddLaboratory from '../../../Features/Admin/Features/Laboratory/AddLaboratory.jsx';
+import LaboratoryList from '../../../Features/Admin/Features/Laboratory/LaboratoryList.jsx';
+import ViewLaboratory from '../../../Features/Admin/Features/Laboratory/ViewLaboratory.jsx';
+import LaboratoryWorkspace from '../../../Features/Laboratory/Features/Workspace/Workspace.jsx';
 
 /* --------- Patient Components --------- */
 import Dashboard from '../../../Features/Patient/Features/Dashboard/Dashboard.jsx';
@@ -99,6 +102,14 @@ export const routeData = [
             {
                 path: "add-laboratory",
                 element: AddLaboratory
+            },
+            {
+                path: "laboratory-list",
+                element: LaboratoryList
+            },
+            {
+                path: "view-laboratory/:id",
+                element: ViewLaboratory
             },
             {
                 path: "add-hospital",
@@ -173,7 +184,11 @@ export const routeData = [
             {
                 path: "dashboard",
                 element: LaboratoryDashboard,
-            }
+            },
+            {
+                path: "workspace",
+                element: LaboratoryWorkspace,
+            },
         ]
     },
 

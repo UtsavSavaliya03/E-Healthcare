@@ -1,0 +1,33 @@
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
+.workspace-container {
+    animation: fadeIn 1s;
+    background-color: #fafbff;
+    min-height: calc(100vh - 125px);
+}
+
+.workspace-card .MuiButtonBase-root:focus {
+    outline: none;
+}
+.workspace-card .MuiTabs-indicator {
+    background-color: #0b8fdc !important;
+}
+
+.workspace-card .MuiTab-textColorInherit {
+    color: #0a609a;
+    font-weight: 600;
+    font-size: 16px;
+}
+
+.workspace-card .Mui-selected {
+    color: #0a609a;
+    font-weight: 600;
+}

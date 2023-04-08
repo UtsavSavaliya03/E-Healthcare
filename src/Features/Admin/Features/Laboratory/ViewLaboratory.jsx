@@ -1,10 +1,9 @@
 import React, { useEffect } from "react";
-import "./ViewHospital.css";
-import HospitalIcon from "../../../../Assets/Icons/Hospital-icon.png";
+import "./ViewLaboratory.css";
+import LaboratoryIcon from "../../../../Assets/Icons/LaboratoryIcon.png";
 import { useLocation, useNavigate } from "react-router-dom";
-import { fetchHospitalById, deleteHospital } from "../../Services/hospitalServices.jsx";
+import { fetchLaboratoryById,deleteLaboratoryById } from "../../Services/laboratoryServices.jsx";
 import { useState } from "react";
-import Divider from "@mui/material/Divider";
 import Avatar from "react-avatar";
 import { Spinner } from "../../../../Components/Common/Spinners/Spinners.jsx";
 import { IconButton } from '@mui/material';
@@ -15,37 +14,33 @@ import Backdrop from "@mui/material/Backdrop";
 import Notificaion from '../../../../Components/Common/Notification/Notification.jsx';
 
 
-
-
-export default function ViewHospital() {
+export default function ViewLaboratory() {
   const alert = new Alert();
   const location = useLocation();
   const notification = new Notificaion;
   const navigate = useNavigate();
   const pathArray = location.pathname.split("/");
   const token = localStorage.getItem("token") || null;
-  const hospitalId = atob(pathArray[3]) || null;
-  const [hospitals, setHospitals] = useState([]);
-  const [doctors, setDoctors] = useState([]);
+  const laboratoryId = atob(pathArray[3]) || null;
+  const [Laboratory, setLaboratory] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isDeleteLoading, setIsDeleteLoading] = useState(false);
 
 
-  const fetchHospitalHandler = async () => {
+  const fetchLaboratoryHandler = async () => {
     setIsLoading(true);
 
     const headers = {
-      Authorization: token,
+      'Authorization': token,
     };
 
-    const hospitals = await fetchHospitalById(hospitalId, headers);
-    setHospitals(hospitals.data?.hospital);
-    setDoctors(hospitals.data?.doctors);
+    const laboratory = await fetchLaboratoryById(laboratoryId, headers);
+    setLaboratory(laboratory?.data);
     setIsLoading(false);
   };
 
   useEffect(() => {
-    fetchHospitalHandler();
+    fetchLaboratoryHandler();
   }, []);
 
   const deleteHandler = async () => {
@@ -53,37 +48,18 @@ export default function ViewHospital() {
     const headers = {
       'Authorization': token
     }
-    const hospitalResponse = await deleteHospital(hospitalId, headers);
-    if (hospitalResponse?.status) {
+    const laboratoryResponse = await deleteLaboratoryById(laboratoryId, headers);
+    if (laboratoryResponse?.status) {
       alert.alert('success', 'Done!', 'Deleted Successfully!');
-      navigate('/main/hospital-list');
+      navigate('/main/laboratory-list');
     } else {
-      notification.notify(hospitalResponse?.status, hospitalResponse?.message);
+      notification.notify(laboratoryResponse?.status, laboratoryResponse?.message);
     }
     setIsDeleteLoading(false);
   }
 
   const openDeletePopup = () => {
     alert.confirmBox('Are you sure?', "You won't be able to revert this!", { deleteHandler })
-  }
-
-  const avatarCard = (doctor, index) => {
-    return (
-      <div className="col-lg-4 col-md-3 col-12 my-3 doctor-detail-box d-flex" key={index}>
-        <div className="dpt-doctor-img-container">
-          <Avatar
-            src={doctor?.profileImg}
-            name={`${doctor?.fName} ${doctor?.lName}`}
-            round={true}
-            size={55}
-          />
-        </div>
-        <div className="dpt-doctor-info ml-2">
-          <h5 className="font-weight-bold">{`${doctor?.fName} ${doctor?.lName}`}</h5>
-          <h6>{doctor?.email}</h6>
-        </div>
-      </div>
-    )
   }
 
   return (
@@ -94,11 +70,11 @@ export default function ViewHospital() {
         </div>
       ) : (
         <>
-          <div className="row m-0 view-hospital-card mb-5">
+          <div className="row m-0 view-hospital-card">
             <div className="col-12 text-center pt-5 pb-3">
               <div className="d-flex align-items-center justify-content-center pl-2">
                 <h1 className="text-blue text-center font-weight-bold ml-4 view-hospital-title my-0">
-                  Hospital Profile
+                  Laboratory Profile
                 </h1>
                 <div className="hospital-action-btn-container ml-auto">
                   <IconButton
@@ -108,7 +84,7 @@ export default function ViewHospital() {
                   </IconButton>
                   <IconButton
                     className='m-2 btn-delete-hospital'
-                    onClick={openDeletePopup}
+                  onClick={openDeletePopup}
                   >
                     <DeleteIcon />
                   </IconButton>
@@ -121,58 +97,40 @@ export default function ViewHospital() {
                 Details
               </h3>
               <p className="font-weight-bold h5">Contact No :</p>
-              <p className="h5">{hospitals?.mobileNo}</p>
+              <p className="h5">{Laboratory?.mobileNo}</p>
               <p className="font-weight-bold h5 mt-md-4">Email :</p>
-              <p className="h5">{hospitals?.email}</p>
+              <p className="h5">{Laboratory?.email}</p>
             </div>
             <div className="col-lg-5 col-md-6 p-md-5 mt-4 mt-md-0">
               <h3 className="font-weight-bold text-blue mb-4 mb-md-5">
                 About Us
               </h3>
-              <p className="h5">{hospitals?.shortBio}</p>
+              <p className="h5">{Laboratory?.shortBio}</p>
             </div>
             <div className="col-lg-4 col-md-12 p-md-5 py-5 py-md-0 view-hospital-profile-container text-light d-flex justify-content-center align-items-center flex-column">
               <div className="d-flex justify-content-center align-items-center mb-4">
                 <img
-                  src={HospitalIcon}
-                  alt="Hospital Icon"
+                  src={LaboratoryIcon}
+                  alt="Laboratory Icon"
                   className="hospital-icon"
                 />
               </div>
               <div>
                 <h2 className="font-weight-bold mb-5 text-center">
-                  {hospitals.name}
+                  {Laboratory.name}
                 </h2>
                 <p className="font-weight-bold h5">Address Line :</p>
-                <p className="h5">{hospitals?.addressLine}</p>
+                <p className="h5">{Laboratory?.addressLine}</p>
                 <p className="font-weight-bold h5 mt-4">City :</p>
-                <p className="h5">{hospitals?.city?.name}</p>
+                <p className="h5">{Laboratory?.city?.name}</p>
                 <p className="font-weight-bold h5 mt-4">State :</p>
-                <p className="h5">{hospitals?.state?.name}</p>
+                <p className="h5">{Laboratory?.state?.name}</p>
+                <p className="font-weight-bold h5 mt-4">Pincode :</p>
+                <p className="h5">{Laboratory?.pincode}</p>
               </div>
             </div>
           </div>
-          <div className="p-md-5 department-doctor-container">
-            <div className="body-title p-3">
-              <h3 className="font-weight-bold text-blue">Doctors in this hospital</h3>
-              <div className="horizontal-bar"></div>
-            </div>
-            <div>
-              {
-                doctors?.length > 0 ? (
-                  <div className="row p-3">
-                    {doctors.map((doctor, index) => (
-                      avatarCard(doctor, index)
-                    ))}
-                  </div>
-                ) : (
-                  <div className="w-100 p-3">
-                    <h5 className="m-0 text-muted text-center">No Doctors</h5>
-                  </div>
-                )
-              }
-            </div>
-          </div>
+
         </>
       )}
       <Backdrop

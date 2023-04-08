@@ -11,10 +11,10 @@ export default function Backup() {
       </Helmet>
       <div className='px-5 py-4'>
         <div className='header'>
-          <h3>Backup</h3>
+          <h3 className='text-blue'>Backup</h3>
           <div className='horizontal-bar'></div>
-        </div>
-        <BackupCard title={'hospitals'} />
+        </div >
+        <BackupCard  title={'hospitals'} />
         <BackupCard title={'doctors'} />
         <BackupCard title={'patients'} />
       </div>

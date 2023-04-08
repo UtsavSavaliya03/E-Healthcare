@@ -32,7 +32,7 @@ export default function PatientCard(props) {
                     </div>
                     <div className='d-flex'>
                         <p className='m-0'>Address:</p>
-                        <p className='m-0 ml-3 break-line-2'>{patient?.address}</p>
+                        <p className='m-0 ml-3 break-line-2'>{patient?.addressLine}</p>
                     </div>
                 </div>
             </div>
