@@ -1,31 +1,44 @@
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
 .bookappointment-credentials-form InputLabel {
   font-size: 35px !important;
 }
+
 .book-appointment-header {
   border-bottom: 1px solid rgb(119, 118, 118);
 }
+
 .book-appointment-search-form-container {
   border-right: 1px solid rgb(119, 118, 118);
 }
+
 .book-appintment-card {
+  animation: fadeIn 1s;
   background-color: #f2f0f0;
   border-radius: 4px;
-  box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px,
-    rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;
+  box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;
 }
+
+.book-appintment-card-body .user-avatar {
+  box-shadow: 0 0 0 2px #d4d4d4;
+}
+
 .book-appintment-card-body td {
   vertical-align: middle;
 }
-.book-appointment-time-button-container button {
-  font-weight: bold;
-}
-.book-appointment-time-button-container button:hover {
-  background-color: #f2f0f0;
-  color: #0275d8;
-}
+
 .btn-close-appointment:focus {
   outline: none;
 }
+
 .react-calendar {
   width: 400px;
   max-width: 100%;
@@ -37,41 +50,42 @@
   font-family: Arial, Helvetica, sans-serif;
   line-height: 1.125em;
 }
-.react-calendar__navigation button {
-  color: #0275d8 !important;
-  min-width: 44px;
-  background: none;
-  font-size: 16px;
-  margin-top: 8px;
-}
+
 .react-calendar__navigation button:enabled:hover,
 .react-calendar__navigation button:enabled:focus {
   background-color: #f8f8fa;
 }
+
 .react-calendar__navigation button[disabled] {
   background-color: #f0f0f0;
 }
+
 abbr[title] {
   text-decoration: none;
 }
+
 .react-calendar__month-view__days__day--weekend {
   color: black !important;
 }
+
 .react-calendar__month-view__days__day--neighboringMonth {
   color: #757575 !important;
 }
+
 .react-calendar__tile:enabled:hover,
 .react-calendar__tile:enabled:focus {
   background: #f8f8fa;
   color: #6f48eb;
   border-radius: 6px;
 }
+
 .react-calendar__tile--now {
   background: #6f48eb33;
   border-radius: 6px;
   font-weight: bold;
   color: #6f48eb;
 }
+
 .react-calendar__tile--now:enabled:hover,
 .react-calendar__tile--now:enabled:focus {
   background: #6f48eb33;
@@ -79,25 +93,109 @@ abbr[title] {
   font-weight: bold;
   color: #6f48eb;
 }
+
 .react-calendar__tile--hasActive:enabled:hover,
 .react-calendar__tile--hasActive:enabled:focus {
   background: #f8f8fa;
 }
+
 .react-calendar__tile--active {
   background: #6f48eb;
   border-radius: 6px;
   font-weight: bold;
   color: white !important;
 }
+
 .react-calendar__tile--active:enabled:hover,
 .react-calendar__tile--active:enabled:focus {
   background: #6f48eb;
   color: white;
 }
+
+.radioPad__wrapper {
+  display: block;
+  cursor: pointer;
+  color: white;
+  font-weight: bold;
+  background-color: #42a6fe;
+  text-transform: uppercase;
+  margin: 10px;
+  text-align: center;
+  padding: 10px 45px;
+  border-radius: 5px;
+}
+
+.radioPad__wrapper--selected {
+  background: #0275d8 !important;
+}
+
+.radioPad__wrapper--disable {
+  background: #ababab !important;
+  cursor: not-allowed;
+}
+
+.radioPad__wrapper:hover {
+  background: #0275d8;
+}
+
+.radioPad__radio {
+  visibility: hidden;
+  height: 0;
+  width: 0;
+  opacity: 0;
+}
+
+.btn-proceed {
+  padding: 5px 50px;
+  text-transform: uppercase;
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+  font-size: 20px;
+  border-radius: 5px;
+  border: none;
+  background-color: #339efc;
+  letter-spacing: 2px;
+}
+
+.btn-proceed:hover {
+  background-color: #0087fe;
+}
+
+.btn-proceed:focus {
+  outline: none;
+}
+
+.description-input {
+  background-color: white;
+}
+
+.btn-proceed:disabled {
+  cursor: not-allowed;
+}
+
+.btn-search {
+  padding: 5px 50px;
+  text-transform: uppercase;
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+  font-size: 20px;
+  border-radius: 5px;
+  border: none;
+  background-color: #0087fe;
+  letter-spacing: 2px;
+}
+
+.btn-search:hover {
+  background-color: #0275d8;
+}
+
 @media only screen and (max-width: 780px) {
   .book-appointment-header {
     border: none;
   }
+
   .book-appointment-search-form-container {
     border-top: 1px solid rgb(119, 118, 118);
     border-right: none;

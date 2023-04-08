@@ -53,7 +53,7 @@ export default function Login() {
       .trim()
       .required('Email address is required'),
     password: Yup.string()
-      .matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/, ' ')
+      .matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/, 'Provide valid password.')
       .min(8, 'Password is too short')
       .trim()
       .required('No password provided'),

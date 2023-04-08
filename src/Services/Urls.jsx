@@ -140,3 +140,9 @@ export const BackupUrls = {
         return baseUrl + `/backup/${type}`;
     }
 }
+
+export const AppointmentUrls = {
+    bookAppointment: () => {
+        return baseUrl + `/appointment`;
+    }
+}

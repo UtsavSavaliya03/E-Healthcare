@@ -7,6 +7,7 @@
   overflow: hidden;
   position: relative;
   box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;
+  cursor: pointer;
 }
 
 .appointment-doctor-card-container .doctor-card-picture {
@@ -43,23 +44,22 @@
   height: 100%;
   border-radius: 50%;
   background-color: #1369ce;
-  position: absolute;
   top: 0;
   left: 0;
   z-index: -1;
 }
 
-.appointment-doctor-card-container .doctor-card-picture img {
+.appointment-doctor-card-container .doctor-card-picture .user-avatar {
   width: 100%;
   height: auto;
   border-radius: 50%;
   transform: scale(1);
   transition: all 0.9s ease 0s;
+  box-shadow: 0 0 0 10px #1369ce;
 }
 
-.appointment-doctor-card-container:hover .doctor-card-picture img {
-  box-shadow: 0 0 0 14px #f7f5ec;
-  transform: scale(0.7);
+.appointment-doctor-card-container:hover .doctor-card-picture .user-avatar {
+  box-shadow: 0 0 0 5px #f7f5ec;
 }
 
 .appointment-doctor-card-container .title {
@@ -88,14 +88,26 @@
   display: inline-block;
 }
 
-.appointment-doctor-card-container .social li a {
+.appointment-doctor-card-container .social li .btn-book-appointment {
   display: block;
   padding: 10px;
   font-size: 16px;
   color: white;
   transition: all 0.3s ease 0s;
   text-decoration: none;
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
 }
-.arrow-icon{
-    vertical-align: middle;
+
+.arrow-icon {
+  vertical-align: middle;
+}
+
+.break-line-1 {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
 }
