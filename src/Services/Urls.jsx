@@ -18,7 +18,10 @@ export const LoginUrls = {
 export const UserUrls = {
     findUser: (userId) => {
         return baseUrl + `/users/${userId}`;
-    }
+    },
+    updateUser: (userId) => {
+        return baseUrl + `/users/${userId}`;
+    },
 }
 
 export const PasswordUrls = {
@@ -74,6 +77,48 @@ export const DoctorUrls = {
         return baseUrl + `/doctor/search`;
     },
 }
+export const LaboratoryUrls = {
+    addLaboratory: () => {
+        return baseUrl + `/laboratory`;
+    },
+    fetchLaboratories: () => {
+        return baseUrl + `/laboratory`;
+    },
+    fetchLaboratoryById: (id) => {
+        return baseUrl + `/laboratory/${id}`;
+    },
+    deleteLaboratoryById: (id) => {
+        return baseUrl + `/laboratory/${id}`;
+    },
+    searchLaboratories: () => {
+        return baseUrl + `/laboratory/search`;
+    },
+    fetchLaboratoryByPincode: (pincode) => {
+        return baseUrl + `/laboratory/pincode/${pincode}`;
+    },
+    
+
+}
+export const TestRequestUrls = {
+    addTestRequest: () => {
+        return baseUrl + `/testRequest`;
+    },
+    fetchTestRequestsByStatus: (status) => {
+        return baseUrl + `/testRequest/status/${status}`;
+    },
+    updateTestRequestsById: (id) => {
+        return baseUrl + `/testRequest/${id}`;
+    },
+    searchPatients: (patientId) => {
+        return baseUrl + `/testRequest/search/${patientId}`;
+    },
+}
+export const TestReportUrls = {
+    addTestReport: () => {
+        return baseUrl + `/testReport`;
+    },
+}
+
 
 export const HospitalUrls = {
     addHospital: () => {
@@ -123,7 +168,8 @@ export const PatientsUrls = {
     },
     searchPatients: (patientId) => {
         return baseUrl + `/patient/search/${patientId}`;
-    }
+    },
+
 }
 
 export const PrescriptionUrls = {

@@ -54,8 +54,27 @@
   font-weight: 600;
 }
 
-.btn-delete-dpt:focus {
+.action-btn-container {
+  opacity: 0;
+  transition: opacity 0.8s;
+}
+
+.departmen-info-card-container:hover .action-btn-container {
+  opacity: 1;
+  transition: opacity 0.8s;
+} 
+
+.btn-delete-dpt:focus,
+.btn-edit-dpt:focus {
   outline: none;
+}
+.btn-delete-dpt{
+  background-color: rgb(252, 216, 224) !important;
+  color: rgb(249, 37, 104) !important;
+}
+.btn-edit-dpt{
+  background-color: rgb(215, 215, 244) !important;
+  color: rgb(84, 84, 243) !important;
 }
 
 

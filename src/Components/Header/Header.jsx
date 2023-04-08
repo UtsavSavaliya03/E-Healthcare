@@ -93,15 +93,15 @@ export default function Header() {
                           className="dropdown-avatar"
                           size="50"
                           round={true}
-                          name={user.fName + " " + user.lName}
+                          name={user?.fName + " " + user?.lName}
                         />
                       </div>
                       <div className="pl-3">
                         <h6 className="m-0 dropdown-title break-title-1">
-                          {user.fName + " " + user.lName}
+                          {user?.fName + " " + user?.lName}
                         </h6>
                         <p className="m-0 text-muted break-title-1">
-                          {user.email}
+                          {user?.email}
                         </p>
                       </div>
                       <div className="clear"></div>

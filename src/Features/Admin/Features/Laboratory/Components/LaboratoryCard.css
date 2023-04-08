@@ -1,0 +1,80 @@
+.hospital-card-box {
+  margin: 1% 0 1% 1%;
+  perspective: 800px;
+  transition: all 0.3s ease 0s;
+  cursor: pointer;
+}
+
+.hospital-card-box:hover .hospital-card {
+  transform: rotateY(180deg);
+}
+
+.hospital-card {
+  background: white;
+  cursor: default;
+  height: 370px;
+  transform-style: preserve-3d;
+  transition: transform 1s ease 0s;
+  width: 100%;
+  border-radius: 0.5rem;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+}
+
+.hospital-card .front,
+.hospital-card .back {
+  backface-visibility: hidden;
+  box-sizing: border-box;
+  display: block;
+  height: 100%;
+  position: absolute;
+  width: 100%;
+  border-radius: 0.5rem;
+  cursor: pointer;
+}
+.hospital-card .back {
+  transform: rotateY(180deg);
+}
+
+.hospital-card-box .hospital-card .back {
+  background: #e4eff5;
+}
+
+.hospital-card-title,
+.hospital-card-icon{
+    color: #0b8fdc;
+}
+
+.break-line-1 {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+}
+
+.break-line-3 {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+}
+
+.break-line-8 {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 8;
+  -webkit-box-orient: vertical;
+}
+
+@media screen and (max-width: 767px) {
+  .hospital-card-box {
+    margin-left: 2.8%;
+    margin-top: 3%;
+  }
+  .hospital-card-box:last-child {
+    margin-bottom: 3%;
+  }
+}
+

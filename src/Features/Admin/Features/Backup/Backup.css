@@ -18,8 +18,11 @@
 }
 
 .backup-container .header .horizontal-bar {
-    width: 120px;
+    width: 45px;
     background: linear-gradient(90deg, rgba(8, 0, 139, 1) 0%, rgba(9, 9, 121, 1) 26%, rgba(0, 212, 255, 1) 100%);
     height: 5px;
     border-radius: 5px;
+}
+.backup-container .title{
+    font-size: 20px;
 }

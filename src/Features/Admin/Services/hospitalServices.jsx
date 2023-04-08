@@ -38,3 +38,11 @@ export const fetchHospitalById = async (id, header) => {
         return hospitals.data || hospitals.response.data;
     }
 }
+export const deleteHospital = async (id, header) => {
+
+    const hospitals = await axiosService.delete(HospitalUrls.deleteHospital(id), header);
+
+    if (hospitals.data || hospitals.response.data) {
+        return hospitals.data || hospitals.response.data;
+    }
+}
