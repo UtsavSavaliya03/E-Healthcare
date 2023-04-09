@@ -6,14 +6,13 @@ import TabContext from '@material-ui/lab/TabContext';
 import TabList from '@material-ui/lab/TabList';
 import TabPanel from '@material-ui/lab/TabPanel';
 import PatientsList from './Components/PatientsList.jsx';
-import PrescriptionList from './Components/PrescriptionsList.jsx';
-
+import TestReportList from './Components/TestReportList';
 export default function Workspace() {
 
   const [tabValue, setTabValue] = React.useState('patients');
 
   const handleTabChange = (event, newValue) => {
-    setTabValue(newValue);
+    setTabValue((newValue).toString())
   };
 
   return (
@@ -29,10 +28,10 @@ export default function Workspace() {
             <Tab label="test reports" value="testReports" />
           </TabList>
           <TabPanel value="patients" className='px-0'>
-            <PatientsList handleTabChange={handleTabChange} />
+            <PatientsList />
           </TabPanel>
-          <TabPanel value="prescriptions" className='px-0'>
-            <PrescriptionList />
+          <TabPanel value="testReports" className='px-0'>
+            <TestReportList />
           </TabPanel>
         </TabContext>
       </div>

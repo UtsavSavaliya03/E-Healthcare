@@ -10,7 +10,8 @@ import { useNavigate } from "react-router-dom";
 import { Helmet } from "react-helmet";
 import { Spinner } from "../../../../../../Components/Common/Spinners/Spinners.jsx";
 import Backdrop from "@mui/material/Backdrop";
-import { addTestReport } from '../../../../Services/laboratoryServices.jsx';
+import { updateTestRequestsById,addTestReport } from '../../../../Services/laboratoryServices.jsx';
+
 
 
 export default function AddElectrolyteReport(props) {
@@ -60,9 +61,9 @@ export default function AddElectrolyteReport(props) {
             sodium: electrolyteCredentials?.sodium + " mEq/L",
             potassium: electrolyteCredentials?.potassium + " mEq/L",
             chloride: electrolyteCredentials?.chloride + " mEq/L",
-            bicarbonate: electrolyteCredentials?.bicarbonate+" mEq/L",
-            calcium: electrolyteCredentials?.calcium+" mg/dL",
-            magnesium: electrolyteCredentials?.magnesium+" mg/dL",
+            bicarbonate: electrolyteCredentials?.bicarbonate + " mEq/L",
+            calcium: electrolyteCredentials?.calcium + " mg/dL",
+            magnesium: electrolyteCredentials?.magnesium + " mg/dL",
         }
         const param = {
             reportInformation: reportData,
@@ -76,9 +77,14 @@ export default function AddElectrolyteReport(props) {
         };
         const electrolyteReport = await addTestReport(param, headers);
 
-        notification.notify(electrolyteReport?.status, electrolyteReport?.message);
-        setIsLoading(false);
-        
+        await updateTestRequestsById(report?._id, {'status':2}, headers);
+
+        if (electrolyteReport?.status) {
+            notification.notify(electrolyteReport?.status, electrolyteReport?.message);
+            props.handleClosePatient();
+            setIsLoading(false);
+        }
+
     };
 
     const AddElectrolyteReportForm = () => {
@@ -94,7 +100,7 @@ export default function AddElectrolyteReport(props) {
         return (
             <div className="add-doctore-body pb-4">
                 <div className="add-doctore-header px-0">
-                    <h3 className="m-0 p-4 text-blue ">Add Test Report</h3>
+                    <h3 className="m-0 p-4 text-blue ">Add Electrolyte Test Report</h3>
                     <hr className="m-0" />
                 </div>
                 <div className="row px-4 my-md-3">

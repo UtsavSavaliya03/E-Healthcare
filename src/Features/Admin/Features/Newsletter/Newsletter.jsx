@@ -31,19 +31,19 @@ export default function Newsletter() {
   };
 
   return (
-    <div className="newsletter-mail-form-container login-container p-0 m-0">
+    <div className="newsletter-mail-form-container  p-0 m-0">
       <div className="row m-0 p-0">
-        <p className="h1 text-center newsletter-mail-form-title font-weight-bold text-secondary py-5 col-12">
+        <p className="h1 text-center newsletter-mail-form-title font-weight-bold text-secondary py-2 pt-5 col-12">
           Welcome to SendBox!
         </p>
-        <div className="col-md-6 px-5 py-4 d-flex justify-content-center align-items-center">
+        <div className="col-md-6 px-5 py-1 d-flex justify-content-center align-items-center">
           <img
             src={NewsletterEmailLogo}
             alt="NewsletterEmailLogo"
             className="NewsletterEmailLogo"
           />
         </div>
-        <div className="col-md-6 login-form-container d-flex justify-content-center align-items-center py-5">
+        <div className="col-md-6 newsletter-form-container d-flex justify-content-center align-items-center py-5">
           <Formik
             initialValues={{ subject: "", message: "" }}
             validationSchema={NewsletterSchema}
@@ -53,7 +53,7 @@ export default function Newsletter() {
             }}
           >
             {({ errors, touched }) => (
-              <Form className="login-form" autoComplete="off">
+              <Form className="newsletter-form mt-5" autoComplete="off">
                 <div className="mb-4 mt-4">
                   <div
                     className={`form-control ${
@@ -61,7 +61,7 @@ export default function Newsletter() {
                     }`}
                   >
                     <Field
-                      className="input-field"
+                      className="input-field title-container"
                       name="subject"
                       type="text"
                       placeholder="Subject"
@@ -81,7 +81,7 @@ export default function Newsletter() {
                   >
                     <Field
                       as="textarea"
-                      className="input-field"
+                      className="input-field message-container"
                       rows={5}
                       name="message"
                       placeholder="Message..."

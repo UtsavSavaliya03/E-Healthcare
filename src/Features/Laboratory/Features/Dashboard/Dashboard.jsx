@@ -50,6 +50,7 @@ const Dashboard = () => {
     setTestRequests(testRequests?.data)
 
   }
+  console.log(testRequests)
   const fetchApprovedTestRequestHandler = async (status) => {
     const headers = {
       'Authorization': token
@@ -92,9 +93,7 @@ const Dashboard = () => {
       return request._id !== id
     })
     setTestRequests(updatedTestRequests);
-
-
-  }
+}
   useEffect(() => {
     /* --- Status - 0 for pending --- */
     fetchTestRequestHandler(0)
@@ -205,7 +204,7 @@ const Dashboard = () => {
             <Typography
               variant="h6"
               color={colors.grey[500]}
-              className="align-self-center break-line-1 mt-1"
+              className="px-3 align-self-center break-line-1 mt-1"
             >
               {user?.email}
             </Typography>

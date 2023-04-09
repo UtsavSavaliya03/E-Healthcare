@@ -76,7 +76,7 @@ export default function Login() {
             <div className="horizontal-separator mb-3"></div>
             <p className="welcome-message">
               {
-                loginType == 'patient' ? 'Please, provide login credential to proceed and have access to all our services' : `${loginType == 'doctor' ? 'Please, provide login credential to access patient records, manage appointments, and view test results.' : 'Please, provide login credential to manage tests requests, view test reports, and generate reports for doctors and patients.'}`
+                loginType == 'patient' ? 'Please, provide login credential to proceed and have access to all our services' : `${loginType == 'doctor' ? 'Please, provide login credential to access patient records, manage appointments, and view test results.' : 'Please, provide login credential to manage and view test reports, and generate reports for doctors and patients.'}`
               }
             </p>
             <div className='text-center'>

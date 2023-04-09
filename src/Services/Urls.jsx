@@ -96,7 +96,7 @@ export const LaboratoryUrls = {
     fetchLaboratoryByPincode: (pincode) => {
         return baseUrl + `/laboratory/pincode/${pincode}`;
     },
-    
+
 
 }
 export const TestRequestUrls = {
@@ -189,6 +189,9 @@ export const BackupUrls = {
 
 export const AppointmentUrls = {
     bookAppointment: () => {
+        return baseUrl + `/appointment`;
+    },
+    fetchAppointments: () => {
         return baseUrl + `/appointment`;
     }
 }

@@ -2,10 +2,7 @@ import React from "react";
 import { Box, Typography, useTheme } from "@mui/material";
 import { tokens } from "../../../../Services/theme.js";
 import { mockTransactions } from "../../../../Constant/Admin/mockData.js";
-import EmailIcon from "@mui/icons-material/Email";
-import PointOfSaleIcon from "@mui/icons-material/PointOfSale";
-import PersonAddIcon from "@mui/icons-material/PersonAdd";
-import TrafficIcon from "@mui/icons-material/Traffic";
+import { FaMicroscope, FaUserAlt, FaStethoscope, FaHospitalAlt } from 'react-icons/fa';
 import Header from "./Components/Header.jsx";
 import LineChart from "./Components/LineChart.jsx";
 import BarChart from "./Components/BarChart.jsx";
@@ -36,28 +33,6 @@ export default function Dashboard() {
             <Box
               className="py-4 admin-dashboard-box"
               backgroundColor={colors.primary[400]}
-              borderRadius="5px"
-              display="flex"
-              alignItems="center"
-              justifyContent="center"
-            >
-              <StatBox
-                title="12,361"
-                subtitle="Emails Sent"
-                progress="0.75"
-                increase="+14%"
-                icon={
-                  <EmailIcon
-                    sx={{ color: colors.blueAccent[500], fontSize: "26px" }}
-                  />
-                }
-              />
-            </Box>
-          </div>
-          <div className="col-lg-3 col-md-3 col-sm-12">
-            <Box
-              className="py-4 admin-dashboard-box"
-              backgroundColor={colors.primary[400]}
               display="flex"
               borderRadius="5px"
               alignItems="center"
@@ -69,8 +44,31 @@ export default function Dashboard() {
                 progress="0.50"
                 increase="+21%"
                 icon={
-                  <PointOfSaleIcon
-                    sx={{ color: colors.blueAccent[500], fontSize: "26px" }}
+                  <FaUserAlt
+                    style={{ color: colors.blueAccent[500], fontSize: "26px" }}
+                  />
+                }
+              />
+            </Box>
+          </div>
+          <div className="col-lg-3 col-md-3 col-sm-12">
+            <Box
+              className="py-4 admin-dashboard-box"
+              backgroundColor={colors.primary[400]}
+              borderRadius="5px"
+              display="flex"
+              alignItems="center"
+              justifyContent="center"
+            >
+              <StatBox
+                title="12,361"
+                subtitle="Total Laboratories"
+                progress="0.75"
+                increase="+14%"
+                
+                icon={
+                  <FaMicroscope
+                    style={{ color: colors.blueAccent[500], fontSize: "26px" }}
                   />
                 }
               />
@@ -91,8 +89,8 @@ export default function Dashboard() {
                 progress="0.30"
                 increase="+5%"
                 icon={
-                  <PersonAddIcon
-                    sx={{ color: colors.blueAccent[500], fontSize: "26px" }}
+                  <FaHospitalAlt
+                    style={{ color: colors.blueAccent[500], fontSize: "26px" }}
                   />
                 }
               />
@@ -113,8 +111,8 @@ export default function Dashboard() {
                 progress="0.80"
                 increase="+43%"
                 icon={
-                  <TrafficIcon
-                    sx={{ color: colors.blueAccent[500], fontSize: "26px" }}
+                  <FaStethoscope
+                    style={{ color: colors.blueAccent[500], fontSize: "26px" }}
                   />
                 }
               />

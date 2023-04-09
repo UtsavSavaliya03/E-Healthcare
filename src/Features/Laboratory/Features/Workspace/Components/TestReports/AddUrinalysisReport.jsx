@@ -10,10 +10,11 @@ import { useNavigate } from "react-router-dom";
 import { Helmet } from "react-helmet";
 import { Spinner } from "../../../../../../Components/Common/Spinners/Spinners.jsx";
 import Backdrop from "@mui/material/Backdrop";
+import { updateTestRequestsById, addTestReport } from '../../../../Services/laboratoryServices.jsx';
 
 
 export default function AddUrinalysisReport(props) {
-    const {report}=props;
+    const { report } = props;
 
     const notification = new Notificaion();
     const navigate = useNavigate();
@@ -56,30 +57,40 @@ export default function AddUrinalysisReport(props) {
     const submitHandler = async (urineCredentials) => {
         setIsLoading(true);
 
-        const params = {
+        const reportData = {
             color: urineCredentials?.color,
             appearance: urineCredentials?.appearance,
             specificGravity: urineCredentials?.specificGravity,
             ph: urineCredentials?.ph,
-            redBloodCells: urineCredentials?.redBloodCells,
-            whiteBloodCells: urineCredentials?.whiteBloodCells,
+            redBloodCells: urineCredentials?.redBloodCells + " /hpf",
+            whiteBloodCells: urineCredentials?.whiteBloodCells + " /hpf",
 
 
         }
+        const params = {
+            reportInformation: reportData,
+            doctor: report?.doctor,
+            patient: report?.patient?._id,
+            laboratory: report?.laboratory,
+            type: report?.type
+        }
         const headers = {
-            Authorization: token,
+            'Authorization': token,
         };
-        // const urinalysisReport = await addUrinalysisReportReport(params, headers);
+        const urinalysisReport = await addTestReport(params, headers);
 
-        // notification.notify(urinalysisReport?.status, urinalysisReport?.message);
-        // setIsLoading(false);
-        // if (urinalysisReport?.status) {
-        //     navigate("/main/add-laboratory");
-        // }
+        await updateTestRequestsById(report?._id, { 'status': 2 }, headers);
+        if (urinalysisReport?.status) {
+            notification.notify(urinalysisReport?.status, urinalysisReport?.message);
+            props.handleClosePatient();
+            setIsLoading(false);
+        }
+
+
     };
 
     const AddUrinalysisReportForm = () => {
-        
+
 
         const formik = useFormik({
             initialValues: initialValues,
