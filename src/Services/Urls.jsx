@@ -7,8 +7,8 @@ export const SignupUrls = {
 }
 
 export const LoginUrls = {
-    login: () => {
-        return baseUrl + '/users/login';
+    login: (type) => {
+        return baseUrl + `/users/login/${type}`;
     },
     doctorLogin: () => {
         return baseUrl + '/users/doctorLogin';

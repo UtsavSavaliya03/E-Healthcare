@@ -4,20 +4,20 @@ import { userState } from "../../Store/globalState";
 import { useRecoilValue } from "recoil";
 import { useNavigate } from "react-router-dom";
 
-export default function Doctor() {
+export default function Patient() {
 
   const navigate = useNavigate();
   const user = useRecoilValue(userState);
 
   useEffect(() => {
     if (user?._id) {
-      if (user?.role !== 1) {
+      if (user?.role !== 3) {
         if (user?.role === 0) {
           navigate('/main/dashboard');
-        } if (user?.role === 2) {
-          navigate('/laboratory/dashboard');
+        } if (user?.role === 1) {
+            navigate('/doctor/dashboard');
         } else {
-          navigate('/patient/dashboard');
+            navigate('/laboratory/dashboard');
         }
       }
     }

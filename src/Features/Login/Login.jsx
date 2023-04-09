@@ -10,6 +10,8 @@ import { Helmet } from "react-helmet";
 import Notification from '../../Components/Common/Notification/Notification.jsx';
 import { Spinner } from "../../Components/Common/Spinners/Spinners.jsx";
 import Backdrop from "@mui/material/Backdrop";
+import ToggleButton from '@mui/material/ToggleButton';
+import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 
 export default function Login() {
 
@@ -18,16 +20,14 @@ export default function Login() {
   const [user, setUser] = useRecoilState(userState);
   const [isPatientLogin, setIsPatientLogin] = useState(true);
   const [isLoadingBackdrop, setIsLoadingBackdrop] = useState(false);
+  const [totalLoginType, setTotalLoginType] = useState(['patient', 'doctor', 'laboratory']);
+  const [loginType, setLoginType] = useState('patient');
 
   const loginHandler = async (loginCredentials) => {
     setIsLoadingBackdrop(true);
     let isLoggedin = {};
 
-    if (isPatientLogin) {
-      isLoggedin = await login(loginCredentials);
-    } else {
-      isLoggedin = await doctorLogin(loginCredentials);
-    }
+    isLoggedin = await login(loginType, loginCredentials);
 
     if (isLoggedin?.status) {
       setUser({ ...isLoggedin?.data, isLogin: true });
@@ -37,8 +37,10 @@ export default function Login() {
         navigate('/main/dashboard');
       } else if (isLoggedin?.data?.role === 1) {
         navigate('/doctor/dashboard');
+      } else if (isLoggedin?.data?.role === 2) {
+        navigate('/laboratory/dashboard');
       } else {
-        navigate('/dashboard');
+        navigate('/patient/dashboard');
       }
       setIsLoadingBackdrop(false);
     } else {
@@ -66,34 +68,34 @@ export default function Login() {
         <meta name="description" content="Helmet application" />
       </Helmet>
 
-      <div className={`login-container ${isPatientLogin ? 'login-patient-bg' : "login-doctor-bg"}`}>
+      <div className={`login-container ${loginType == 'patient' ? 'login-patient-bg' : `${loginType == 'doctor' ? 'login-doctor-bg' : 'login-laboratory-bg'}`}`}>
         <i class="fas fa-home fa-2x home-icon m-3" onClick={() => navigate('/')}></i>
         <div className="login-form-wrapper">
-          <div className='login-form-container'>
+          <div className='login-form-container px-0'>
             <p className="login-title">Welcome back</p>
             <div className="horizontal-separator mb-3"></div>
-            <p className="welcome-message">Please, provide login credential to proceed and have access to all our services</p>
-            <div>
-              <h5 className='m-0'>
+            <p className="welcome-message">
+              {
+                loginType == 'patient' ? 'Please, provide login credential to proceed and have access to all our services' : `${loginType == 'doctor' ? 'Please, provide login credential to access patient records, manage appointments, and view test results.' : 'Please, provide login credential to manage tests requests, view test reports, and generate reports for doctors and patients.'}`
+              }
+            </p>
+            <div className='text-center'>
+              <h5 className='m-0 d-inline'>
                 Want to login as a
-                {
-                  isPatientLogin ? (
-                    <span
-                      className='login-method-tag ml-1'
-                      onClick={() => setIsPatientLogin(false)}
-                    >
-                      Doctor?
-                    </span>
-                  ) : (
-                    <span
-                      className='login-method-tag ml-1'
-                      onClick={() => setIsPatientLogin(true)}
-                    >
-                      Patient?
-                    </span>
-                  )
-                }
               </h5>
+              <div className='ml-2 login-toggler d-inline'>
+                {
+                  totalLoginType?.map((type, index) => (
+                    <h5
+                      key={index}
+                      className={`m-0 d-inline mr-2 login-type ${type == loginType ? 'login-type--selected' : ''}`}
+                      onClick={() => setLoginType(type)}
+                    >
+                      {type}?
+                    </h5>
+                  ))
+                }
+              </div>
             </div>
             <Formik
               initialValues={{ email: '', password: '' }}
@@ -103,7 +105,7 @@ export default function Login() {
               }}
             >
               {({ errors, touched }) => (
-                <Form className='login-form' autoComplete="off">
+                <Form className='login-form px-4' autoComplete="off">
 
                   <div className='mb-4 mt-4'>
                     <div className={`form-control ${(errors.email) && (touched.email) ? 'invalid-input' : ''}`}>
@@ -129,8 +131,13 @@ export default function Login() {
 
                   <div className='d-block mx-auto link-container'>
                     <a href="/forgotPassword" className='additional-link'>Forget Password?</a>
-                    <label className='mx-2'>or</label>
-                    <a href="/signup" className='additional-link'>Sign Up</a>
+                    {
+                      loginType == 'patient' &&
+                      <>
+                        <label className='mx-2'>or</label>
+                        <a href="/signup" className='additional-link'>Sign Up</a>
+                      </>
+                    }
                   </div>
                 </Form>
               )}

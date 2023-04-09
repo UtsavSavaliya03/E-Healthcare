@@ -55,7 +55,7 @@ export default function Dashboard() {
         </p>
         <button
           className="btnAppointment text-light mt-4"
-          onClick={() => navigate("/book-appointment")}
+          onClick={() => navigate("/patient/book-appointment")}
         >
           Appointment
         </button>
