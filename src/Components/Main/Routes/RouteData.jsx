@@ -30,7 +30,6 @@ import Doctor from '../../../Features/Doctor/Doctor.jsx';
 import DoctorDashboard from '../../../Features/Doctor/Features/Dashboard/Dashboard.jsx';
 import Workspace from '../../../Features/Doctor/Features/Workspace/Workspace.jsx';
 import DoctorAppointmentList from '../../../Features/Doctor/Features/Appointment/Appointment.jsx';
-import DoctorHospitals from '../../../Features/Doctor/Features/Hospitals/Hospitals.jsx';
 
 /* --------- Laboratory Components --------- */
 import Laboratory from '../../../Features/Laboratory/Laboratory.jsx';
@@ -177,10 +176,6 @@ export const routeData = [
             {
                 path: "workspace",
                 element: Workspace,
-            },
-            {
-                path: "hospitals",
-                element: DoctorHospitals,
             },
             {
                 path: "appointments",

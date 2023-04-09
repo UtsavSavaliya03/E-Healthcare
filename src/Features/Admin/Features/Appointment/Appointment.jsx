@@ -10,7 +10,6 @@ export default function Appointment() {
   const [appointments, setAppointments] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
 
-
   const fetchAppointmentHandle = async () => {
     setIsLoading(true);
     const headers = {
@@ -30,10 +29,10 @@ export default function Appointment() {
       <Helmet>
         <title>Appointments | Health Horizon</title>
       </Helmet>
-      <div className="section-title my-4 ">
-        <h2 className='text-center font-weight-bold'>Appointments</h2>
-        <div className="apt-bar mx-auto"></div>
+      <div className="section-title pt-4">
+        <h2 className='font-weight-bold pl-4'>Appointments</h2>
       </div>
+      <hr className='mx-3' />
       <div className='row m-0'>
         {
           appointments?.length > 0 ? (

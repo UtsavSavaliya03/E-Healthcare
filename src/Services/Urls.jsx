@@ -159,6 +159,9 @@ export const DepartmentUrls = {
     },
     deleteDepartment: (id) => {
         return baseUrl + `/department/${id}`;
+    },
+    updateDepartment: (id) => {
+        return baseUrl + `/department/update/${id}`;
     }
 }
 

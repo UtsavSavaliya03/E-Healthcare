@@ -12,6 +12,7 @@
     animation: fadeIn 1s;
     min-height: calc(100vh - 125px);
 }
+
 .section-title h2 {
     color: #0b6bca;
-  }
+}

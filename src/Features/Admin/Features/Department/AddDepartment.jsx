@@ -9,7 +9,8 @@ import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import departmentProfilePicture from '../../../../Assets/Icons/user.png';
 import backgroundPicture from '../../../../Assets/Backgrounds/bg-dpt.jpg';
-
+import { Spinner } from "../../../../Components/Common/Spinners/Spinners.jsx";
+import Backdrop from "@mui/material/Backdrop";
 
 export default function AddDepartment() {
 
@@ -20,7 +21,7 @@ export default function AddDepartment() {
   const [departmentImgFile, setdepartmentImgFile] = useState(null);
   const [departmentBackgroundImgFile, setdepartmentBackgroundImgFile] = useState(null);
   const [backgroundImg, setBackgroundImg] = useState(backgroundPicture);
-
+  const [isLoading, setIsLoading] = useState(false);
 
   const initialValues = {
     name: '',
@@ -39,20 +40,70 @@ export default function AddDepartment() {
   })
 
   const submitHandler = async (departmentCredentials) => {
-
-    const params = {
-      name: departmentCredentials?.name,
-      description: departmentCredentials?.description,
-      status: departmentCredentials?.status === 'false' ? false : true
-    }
+    setIsLoading(true);
+    let formData = new FormData();
+    formData.append("profileImg", departmentImgFile);
+    formData.append("backgroungImg", departmentBackgroundImgFile);
+    formData.append("name", departmentCredentials?.name);
+    formData.append("description", departmentCredentials?.description);
+    formData.append("status", departmentCredentials?.status === 'false' ? false : true);
 
     const headers = {
-      'Authorization': token
+      Authorization: token
     }
-    const department = await addDepartment(departmentCredentials, headers);
+    const department = await addDepartment(formData, headers);
     notification.notify(department?.status, department?.message);
+
     if (department?.status) {
       navigate('/main/department-list');
+    }
+
+    setIsLoading(false);
+    setDepartmentProfileImg(departmentProfilePicture);
+    setdepartmentImgFile(null);
+    setdepartmentBackgroundImgFile(null);
+  }
+
+  const upload = () => {
+    document.getElementById("departmentProfileImgUrl").click()
+  }
+  const uploadBackground = () => {
+    document.getElementById("departmentBackgroundImgUrl").click()
+  }
+
+  const maxSelectFile = (event) => {
+    let files = event.target.files;
+    if (files.length > 1) {
+      notification.notify(false, 'Maximum 1 file is allowed...!');
+      event.target.value = null;
+      return false;
+    } else {
+      for (let i = 0; i < files.length; i++) {
+        if (files[i].size > 1000000) { // 1 MB
+          notification.notify(false, "File must be less then 1 Mb...!")
+          return false;
+        }
+      }
+    }
+    return true;
+  }
+
+  const fileChangeHandler = (event) => {
+    const file = event.target.files[0];
+    if (file != null) {
+      if (maxSelectFile(event)) {
+        setDepartmentProfileImg(URL.createObjectURL(file));
+        setdepartmentImgFile(file);
+      }
+    }
+  }
+  const backgroundFileChangeHandler = (event) => {
+    const file = event.target.files[0];
+    if (file != null) {
+      if (maxSelectFile(event)) {
+        setBackgroundImg(URL.createObjectURL(file));
+        setdepartmentBackgroundImgFile(file);
+      }
     }
   }
 
@@ -64,50 +115,6 @@ export default function AddDepartment() {
         submitHandler(values);
       },
     });
-
-    const upload = () => {
-      document.getElementById("departmentProfileImgUrl").click()
-    }
-    const uploadBackground = () => {
-      document.getElementById("departmentBackgroundImgUrl").click()
-    }
-
-    const maxSelectFile = (event) => {
-      let files = event.target.files;
-      if (files.length > 1) {
-        notification.notify(false, 'Maximum 1 file is allowed...!');
-        event.target.value = null;
-        return false;
-      } else {
-        for (let i = 0; i < files.length; i++) {
-          if (files[i].size > 1000000) { // 1 MB
-            notification.notify(false, "File must be less then 1 Mb...!")
-            return false;
-          }
-        }
-      }
-      return true;
-    }
-
-    const fileChangeHandler = (event) => {
-      const file = event.target.files[0];
-      if (file != null) {
-        if (maxSelectFile(event)) {
-          setDepartmentProfileImg(URL.createObjectURL(file));
-          setdepartmentImgFile(file);
-        }
-      }
-    }
-    const backgroundFileChangeHandler = (event) => {
-      const file = event.target.files[0];
-      if (file != null) {
-        if (maxSelectFile(event)) {
-          setBackgroundImg(URL.createObjectURL(file));
-          setdepartmentBackgroundImgFile(file);
-        }
-      }
-    }
-
     return (
       <>
         <div className='add-department-card pb-4'>
@@ -159,12 +166,8 @@ export default function AddDepartment() {
                 </div>
               </div>
             </div>
-
-
           </div>
-
           <hr className='w-100 mt-5' />
-
           <div className='px-2'>
             <div className='body-title py-3 px-3'>
               <h5>About</h5>
@@ -237,6 +240,9 @@ export default function AddDepartment() {
       <div className='add-department-container py-4 px-5'>
         <AddDepartmentForm />
       </div>
+      <Backdrop sx={{ zIndex: 1 }} open={isLoading}>
+        <Spinner />
+      </Backdrop>
     </div>
   )
 }
