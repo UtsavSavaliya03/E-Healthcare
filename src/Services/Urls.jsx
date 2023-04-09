@@ -134,7 +134,7 @@ export const HospitalUrls = {
         return baseUrl + `/hospital/${id}`;
     },
     updateHospital: (id) => {
-        return baseUrl + `/hospital/${id}`;
+        return baseUrl + `/hospital/update/${id}`;
     },
     deleteHospital: (id) => {
         return baseUrl + `/hospital/${id}`;

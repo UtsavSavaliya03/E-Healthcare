@@ -765,20 +765,11 @@ export default function ViewDoctor() {
                       label="City Of Hospital"
                       select
                       value={formik.values.cityOfHospital}
-                      error={
-                        formik.touched.cityOfHospital &&
-                        Boolean(formik.errors.cityOfHospital)
-                      }
+                      error={ formik.touched.cityOfHospital && Boolean(formik.errors.cityOfHospital)}
                       onChange={formik.handleChange}
                     >
-                      {City.getCitiesOfState(
-                        "IN",
-                        formik.values.stateOfHospital
-                      ) ? (
-                        City.getCitiesOfState(
-                          "IN",
-                          formik.values.stateOfHospital
-                        )?.map((city, index) => (
+                      {City.getCitiesOfState("IN", formik.values.stateOfHospital) ? (
+                        City.getCitiesOfState("IN", formik.values.stateOfHospital)?.map((city, index) => (
                           <MenuItem key={index} value={city?.name}>
                             {city?.name}
                           </MenuItem>
