@@ -1,6 +1,6 @@
 .prescription-card-container {
     position: absolute;
-    min-height: 1699px;
+    min-height: 1649px;
     z-index: -10;
     top: -1500%;
 }

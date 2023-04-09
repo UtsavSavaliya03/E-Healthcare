@@ -69,11 +69,6 @@ export const doctorSidebarData = [
     icon: <FaDesktop />,
   },
   {
-    path: "doctor/hospitals",
-    name: "Hospitals",
-    icon: <FaHospitalUser />,
-  },
-  {
     path: "doctor/appointments",
     name: "My Appointment",
     icon: <FaCalendarDay />,

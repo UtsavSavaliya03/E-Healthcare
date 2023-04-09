@@ -1,8 +1,8 @@
 import React from "react";
 import "./DepartmentCard.css";
 import Avatar from '@mui/material/Avatar';
-import DepartmentCardSVG from "../../../../../Assets/Icons/Facility-card-heart.png";
 import { useNavigate} from "react-router-dom";
+import backgroundPicture from '../../../../../Assets/Backgrounds/bg-dpt.jpg';
 
 export default function DepartmentCard(props) {
 
@@ -19,11 +19,11 @@ export default function DepartmentCard(props) {
         className="department-card"
         onClick={redirectHandler}
       >
-        <div className="department-card-banner">
+        <div className="department-card-banner" style={{backgroundImage: `url(${department?.backgroundImg || backgroundPicture})`}}>
           <Avatar
-            alt="Department Card SVG"
+            alt={department?.name}
             className="department-card-svg"
-            src={DepartmentCardSVG}
+            src={department?.profileImg}
             sx={{ width: 100, height: 100 }}
           />
         </div>

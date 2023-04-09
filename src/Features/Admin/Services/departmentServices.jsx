@@ -54,3 +54,11 @@ export const deleteDepartment = async (id, header) => {
         return departments.data || departments.response.data;
     }
 }
+
+export const updateDepartment = async (id, department, header) => {
+
+    const departments = await axiosService.post(DepartmentUrls.updateDepartment(id),department, header);
+    if (departments.data || departments.response.data) {
+        return departments.data || departments.response.data;
+    }
+}
