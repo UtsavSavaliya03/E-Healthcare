@@ -10,6 +10,7 @@ import { useNavigate } from "react-router-dom";
 import { Helmet } from "react-helmet";
 import { Spinner } from "../../../../../../Components/Common/Spinners/Spinners.jsx";
 import Backdrop from "@mui/material/Backdrop";
+import { updateTestRequestsById, addTestReport } from '../../../../Services/laboratoryServices.jsx';
 
 
 export default function AddLipidProfileReport(props) {
@@ -56,26 +57,34 @@ export default function AddLipidProfileReport(props) {
     const submitHandler = async (lipidProfileCredentials) => {
         setIsLoading(true);
 
-        const params = {
-            totalCholesterol: lipidProfileCredentials?.totalCholesterol,
-            triglycerides: lipidProfileCredentials?.triglycerides,
-            highDensityLipoprotein: lipidProfileCredentials?.highDensityLipoprotein,
-            lowDensityLipoprotein: lipidProfileCredentials?.lowDensityLipoprotein,
-            veryLowDensityLipoprotein: lipidProfileCredentials?.veryLowDensityLipoprotein,
-            hdlRatio: lipidProfileCredentials?.hdlRatio,
+        const reportData = {
+            totalCholesterol: lipidProfileCredentials?.totalCholesterol + " mg/dL",
+            triglycerides: lipidProfileCredentials?.triglycerides + " mg/dL",
+            highDensityLipoprotein: lipidProfileCredentials?.highDensityLipoprotein + " mg/dL",
+            lowDensityLipoprotein: lipidProfileCredentials?.lowDensityLipoprotein + " mg/dL",
+            veryLowDensityLipoprotein: lipidProfileCredentials?.veryLowDensityLipoprotein + " mg/dL",
+            hdlRatio: lipidProfileCredentials?.hdlRatio + " mg/dL",
 
 
         }
+        const params = {
+            reportInformation: reportData,
+            doctor: report?.doctor,
+            patient: report?.patient?._id,
+            laboratory: report?.laboratory,
+            type: report?.type
+        }
         const headers = {
-            Authorization: token,
+            'Authorization': token,
         };
-        // const lipidProfileReport = await addLipidProfileReportReport(params, headers);
+        const lipidProfileReport = await addTestReport(params, headers);
+        await updateTestRequestsById(report?._id, { 'status': 2 }, headers);
+        if (lipidProfileReport?.status) {
+            notification.notify(lipidProfileReport?.status, lipidProfileReport?.message);
+            props.handleClosePatient();
+            setIsLoading(false);
+        }
 
-        // notification.notify(lipidProfileReport?.status, lipidProfileReport?.message);
-        // setIsLoading(false);
-        // if (lipidProfileReport?.status) {
-        //     navigate("/main/add-laboratory");
-        // }
     };
 
     const AddLipidProfileForm = () => {
@@ -92,7 +101,7 @@ export default function AddLipidProfileReport(props) {
         return (
             <div className="add-doctore-body pb-4">
                 <div className="add-doctore-header px-0">
-                    <h3 className="m-0 p-4 text-blue ">Add Test Report</h3>
+                    <h3 className="m-0 p-4 text-blue ">Add Lipid Profile Test Report</h3>
                     <hr className="m-0" />
                 </div>
                 <div className="row px-4 my-md-3">

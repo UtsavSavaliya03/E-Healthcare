@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import './PrescriptionsList.css';
+import './TestReportList.css';
 import { useRecoilValue } from "recoil";
 import { userState } from '../../../../../Store/globalState.jsx';
 import { fetchPrescription } from '../../../../Doctor/Services/prescriptionServices.jsx';
@@ -11,7 +11,7 @@ import moment from 'moment';
 import PrescriptionDownloader from '../../../../../Components/Common/Prescription/PrescriptionDownloader';
 import Backdrop from "@mui/material/Backdrop";
 
-export default function PrescriptionsList() {
+export default function TestReportList() {
 
   const prescriptionServices = new PrescriptionDownloader();
   const doctor = useRecoilValue(userState);

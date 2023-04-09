@@ -26,8 +26,9 @@ export default function PatientsList(props) {
   const [isLoadingBackdrop, setIsLoadingBackdrop] = useState(false);
   const [isSearched, setIsSearched] = useState(false);
 
-  const handleClosePatient = (e, prescriptions) => {
-    props.handleTabChange(e, prescriptions);
+  const handleClosePatient = () => {
+    setSelectedReport();
+    fetchPatientsHandler(1);
   }
 
   const searchHandler = async () => {
@@ -66,22 +67,21 @@ export default function PatientsList(props) {
   }
 
   const displayReport = () => {
-    console.log(selectedReport, '---------')
     switch (selectedReport?.type) {
       case 'Urinalysis':
-        return <AddUrinalysisReport report={selectedReport} />
+        return <AddUrinalysisReport report={selectedReport} handleClosePatient={handleClosePatient} />
 
       case 'Lipid Profile':
-        return <AddLipidProfileReport report={selectedReport} />
+        return <AddLipidProfileReport report={selectedReport} handleClosePatient={handleClosePatient} />
 
       case 'Electrolyte':
-        return <AddElectrolyteReport report={selectedReport} />
+        return <AddElectrolyteReport report={selectedReport} handleClosePatient={handleClosePatient} />
 
       case 'Compelete Blood Count':
-        return <AddCbcReport report={selectedReport} />
+        return <AddCbcReport report={selectedReport} handleClosePatient={handleClosePatient} />
 
       case 'Blood Glucose':
-        return <AddBloodGlucoseReport report={selectedReport} />
+        return <AddBloodGlucoseReport report={selectedReport} handleClosePatient={handleClosePatient} />
 
     }
 
@@ -97,7 +97,7 @@ export default function PatientsList(props) {
         ) : (
           <div>
             {
-              testRequest.length > 0 ? (
+              testRequest?.length > 0 ? (
                 <div className='row m-0'>
                   {
                     testRequest?.map((request, index) => (

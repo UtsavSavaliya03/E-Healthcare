@@ -10,6 +10,8 @@ import { useNavigate } from "react-router-dom";
 import { Helmet } from "react-helmet";
 import { Spinner } from "../../../../../../Components/Common/Spinners/Spinners.jsx";
 import Backdrop from "@mui/material/Backdrop";
+import { updateTestRequestsById, addTestReport } from '../../../../Services/laboratoryServices.jsx';
+
 
 
 export default function AddBloodGlucoseReport(props) {
@@ -48,23 +50,31 @@ export default function AddBloodGlucoseReport(props) {
     const submitHandler = async (bloodGlucoseCredentials) => {
         setIsLoading(true);
 
-        const params = {
-            fastingPlasmaGlucose: bloodGlucoseCredentials?.fastingPlasmaGlucose,
-            twoHourPostprandialGlucose: bloodGlucoseCredentials?.twoHourPostprandialGlucose,
-            randomPlasmaGlucose: bloodGlucoseCredentials?.randomPlasmaGlucose,
-            hba1c: bloodGlucoseCredentials?.hba1c,
+        const reportData = {
+            fastingPlasmaGlucose: bloodGlucoseCredentials?.fastingPlasmaGlucose +" mg/dL",
+            twoHourPostprandialGlucose: bloodGlucoseCredentials?.twoHourPostprandialGlucose +" mg/dL",
+            randomPlasmaGlucose: bloodGlucoseCredentials?.randomPlasmaGlucose +" mg/dL",
+            hba1c: bloodGlucoseCredentials?.hba1c +" %",
 
         }
+        const params = {
+            reportInformation: reportData,
+            doctor: report?.doctor,
+            patient: report?.patient?._id,
+            laboratory: report?.laboratory,
+            type: report?.type
+        }
         const headers = {
-            Authorization: token,
+            'Authorization': token,
         };
-        // const bloodGlucoseReport = await addBloodGlucoseReport(params, headers);
+        const bloodGlucoseReport = await addTestReport(params, headers);
 
-        // notification.notify(bloodGlucoseReport?.status, bloodGlucoseReport?.message);
-        // setIsLoading(false);
-        // if (bloodGlucoseReport?.status) {
-        //     navigate("/main/add-laboratory");
-        // }
+        await updateTestRequestsById(report?._id, { 'status': 2 }, headers);
+        if (bloodGlucoseReport?.status) {
+            notification.notify(bloodGlucoseReport?.status, bloodGlucoseReport?.message);
+            props.handleClosePatient();
+            setIsLoading(false);
+        }
     };
 
     const AddBloodGlucoseForm = () => {

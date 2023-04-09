@@ -1,6 +1,13 @@
 .admin-dashboard-box{
     box-shadow: rgba(181, 181, 181, 0.2) 0px 2px 8px 0px;
   }
+  .break-line-1 {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+  }
   
   @media only screen and (max-width: 1000px) {
     .admin-dashboard-box{

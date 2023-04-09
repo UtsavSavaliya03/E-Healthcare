@@ -118,14 +118,14 @@ export default function GeneratePrescription(props) {
             const testRequest = await addTestRequest(testRequestData, headers);
         }
 
-        // const headers = {
-        //     'Authorization': token,
-        // };
-        // const prescription = await addPrescription(params, headers);
-        // notification.notify(prescription?.status, prescription?.message);
-        // if (prescription?.status) {
-        //     props.handleClosePatient(true, "prescriptions");
-        // }
+        const headers = {
+            'Authorization': token,
+        };
+        const prescription = await addPrescription(params, headers);
+        notification.notify(prescription?.status, prescription?.message);
+        if (prescription?.status) {
+            props.handleClosePatient(true, "prescriptions");
+        }
     };
 
     const editHandler = () => {

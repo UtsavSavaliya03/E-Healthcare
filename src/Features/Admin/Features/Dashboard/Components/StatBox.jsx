@@ -1,5 +1,6 @@
 import { Box, Typography, useTheme } from "@mui/material";
 import { tokens } from "../../../../../Services/theme.js";
+import '../Dashboard.css';
 import ProgressCircle from "./ProgressCircle";
 
 const StatBox = ({ title, subtitle, icon, progress, increase }) => {
@@ -14,6 +15,7 @@ const StatBox = ({ title, subtitle, icon, progress, increase }) => {
           <Typography
             variant="h5"
             fontWeight="bold"
+            className="break-line-1"
             sx={{ color: colors.grey[100] }}
           >
             {title}
