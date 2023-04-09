@@ -1,0 +1,57 @@
+.doctor-card-container {
+    border-radius: 5px;
+    box-shadow: rgba(0, 0, 0, 0.15) 0px 5px 15px 0px;
+    background-color: white;
+}
+
+.doctor-card-container button:focus {
+    outline: none;
+}
+
+.doctor-card-container .doctor-profile-avatar {
+    box-shadow: rgba(0, 0, 0, 0.20) 0px 3px 8px;
+}
+
+.doctor-card-header .header-title {
+    font-weight: 600;
+    text-transform: capitalize;
+}
+
+.doctor-card-header .description {
+    color: gray;
+}
+
+.doctor-card-body .label {
+    font-weight: 600;
+    color: #0b8fdc;
+    letter-spacing: 1px;
+}
+.doctor-card-body .value {
+    font-weight: 600;
+    font-size: 17px;
+}
+
+.break-line-1 {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+}
+
+.doctor-card-copy-icon,
+.doctor-card-header-button-container {
+    opacity: 0;
+    transition: opacity 0.5s;
+}
+
+.doctor-card-container:hover .doctor-card-copy-icon,
+.doctor-card-container:hover .doctor-card-header-button-container {
+    opacity: 1.0;
+    transition: opacity 0.5s;
+}
+
+.doctor-card-container .btn-view-profile button {
+    font-weight: 700 !important;
+    font-size: 16px;
+}

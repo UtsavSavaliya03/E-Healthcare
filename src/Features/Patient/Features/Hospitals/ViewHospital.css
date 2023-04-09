@@ -1,0 +1,59 @@
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+.view-hospital-container {
+  animation: fadeIn 1s;
+  background-color: #fafbff;
+}
+
+.view-hospital-card,
+.department-doctor-container {
+  background-color: white;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  border-radius: 5px;
+}
+
+.text-blue {
+  color: #0b8fdc;
+}
+
+.view-hospital-title {
+  font-size: 45px;
+}
+
+.view-hospital-profile-container {
+  background-color: #0b8fdc;
+  border-bottom-right-radius: 5px;
+}
+
+.view-hospital-profile-container .hospital-icon {
+  width: 40%;
+  border-radius: 50%;
+}
+.btn-delete-hospital:focus {
+  outline: none;
+}
+.btn-delete-hospital{
+  background-color: rgb(255, 210, 218) !important;
+  color: rgb(255, 0, 81) !important;
+}
+.btn-edit-hospital{
+  background-color: rgb(210, 210, 255) !important;
+  color: blue !important;
+}
+
+.hospital-action-btn-container {
+  opacity: 0;
+  transition: opacity 0.8s;
+}
+.view-hospital-card:hover .hospital-action-btn-container {
+  opacity: 1;
+  transition: opacity 0.8s;
+} 

@@ -1,4 +1,4 @@
-.prescription-card-container {
+.report-card-container {
     position: absolute;
     min-height: 1649px;
     z-index: -10;
@@ -68,4 +68,7 @@
     display: -webkit-box;
     -webkit-line-clamp: 1;
     -webkit-box-orient: vertical;
+}
+.report-field-name,.report-field-value{
+    font-size: 25px!important;
 }

@@ -1,0 +1,123 @@
+import React, { useState, useEffect } from 'react';
+import './MyReports.css';
+import { useRecoilValue } from "recoil";
+import { userState } from '../../../../Store/globalState.jsx';
+import { fetchTestReportsByUser } from '../../Services/userServices.jsx';
+import IconButton from '@mui/material/IconButton';
+import { Spinner } from '../../../../Components/Common/Spinners/Spinners.jsx';
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import DownloadIcon from '@mui/icons-material/Download';
+import moment from 'moment';
+import TestReportDownloader from '../../../../Components/Common/TestReport/TestReportDownloader.jsx';
+import Backdrop from "@mui/material/Backdrop";
+
+export default function MyReports() {
+
+  const testReportsServices = new TestReportDownloader();
+  const user = useRecoilValue(userState);
+  const token = localStorage.getItem("token") || null;
+  const [reports, setReports] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [isLoadingBackdrop, setIsLoadingBackdrop] = useState(false);
+
+
+  const fetchTestReportsHandler = async () => {
+    setIsLoading(true);
+    if (!(user?._id)) {
+      return;
+    }
+
+    const headers = {
+      'Authorization': token,
+    };
+
+    const reportResponse = await fetchTestReportsByUser(user?._id, headers);
+    console.log(reportResponse?.data);
+    setReports(reportResponse?.data);
+    setIsLoading(false);
+  }
+
+  useEffect(() => {
+    fetchTestReportsHandler();
+  }, [user]);
+
+  const ReportsTable = () => {
+    return (
+      <>
+        <h2 className='text-blue py-4'>My Reports</h2>
+        <table className="table prescription-table">
+          <thead>
+            <tr className="text-light">
+              <th className="pre-heading">Serial No</th>
+              <th className="pre-heading">Laboratory Name</th>
+              <th className="pre-heading">Test Type</th>
+              <th className="pre-heading">Test Date</th>
+              <th className="pre-heading">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {
+              reports?.map((report, index) => {
+                let testReportFileName = `${report?.patient?.patientId} ${moment(report?.createdAt).format('LL')}`;
+                return (
+                  < >
+                    <tr key={index} className='border-blur'>
+                      <td data-title="No" className='pt-3'>{index + 1}</td>
+                      <td data-title="Hospital Name" className="break-line1 pt-3">{`${report?.laboratory?.name}`}</td>
+                      <td data-title="Doctor Name" className='pt-3'>{`${report?.type}`}</td>
+                      <td data-title="Appointment Date" className='pt-3'>{moment(report?.createdAt).format('LLLL')}</td>
+                      <td className="prescription-action">
+                        <IconButton
+                          onClick={() => testReportsServices?.viewPdf(report?._id)}
+                        >
+                          <VisibilityIcon />
+                        </IconButton>
+                        <IconButton
+                          className="ml-3"
+                          onClick={() => testReportsServices?.downloadPdf(report?._id, testReportFileName)}
+                        >
+                          <DownloadIcon />
+                        </IconButton>
+                      </td>
+                    </tr>
+                    <TestReportDownloader reportData={report} />
+                  </>
+                )
+              })
+            }
+          </tbody>
+        </table>
+      </>
+    )
+  }
+
+  return (
+    <div className='prescription-list-container'>
+      {
+        isLoading ? (
+          <div className='d-flex justify-content-center pt-5'>
+            <Spinner />
+          </div>
+        ) : (
+          <div className="prescription-table-container px-md-4 m-0 p-0">
+            {
+              reports?.length > 0 ? (
+                <ReportsTable />
+              ) : (
+                <div className='p-5 text-center text-muted'>
+                  No Reports
+                </div>
+              )
+            }
+          </div>
+        )
+      }
+      <Backdrop
+        sx={{ zIndex: 1 }}
+        open={isLoadingBackdrop}
+      >
+        <Spinner />
+      </Backdrop>
+    </div>
+  )
+}

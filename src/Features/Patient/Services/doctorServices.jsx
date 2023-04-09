@@ -20,3 +20,11 @@ export const searchDoctor = async (searchingValue, header) => {
         return doctor.data || doctor.response.data;
     }
 }
+export const fetchDoctorById = async (id, header) => {
+
+    const doctor = await axiosService.get(DoctorUrls.fetchDoctorById(id), header);
+
+    if (doctor.data || doctor.response.data) {
+        return doctor.data || doctor.response.data;
+    }
+}

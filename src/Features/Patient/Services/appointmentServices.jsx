@@ -11,3 +11,11 @@ export const bookAppointment = async (params, header) => {
         return appoinment?.data || appoinment?.response?.data;
     }
 }
+export const fetchAppointmentsByUser = async (id, header) => {
+
+    const appointmentsResponse = await axiosService.get(AppointmentUrls.fetchAppointmentsByUser(id), header);
+
+    if (appointmentsResponse?.data || appointmentsResponse?.response?.data) {
+        return appointmentsResponse?.data || appointmentsResponse?.response.data;
+    }
+}

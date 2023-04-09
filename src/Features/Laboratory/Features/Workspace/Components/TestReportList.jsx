@@ -2,81 +2,82 @@ import React, { useState, useEffect } from 'react';
 import './TestReportList.css';
 import { useRecoilValue } from "recoil";
 import { userState } from '../../../../../Store/globalState.jsx';
-import { fetchPrescription } from '../../../../Doctor/Services/prescriptionServices.jsx';
+import { fetchTestReportsByLaboratory } from '../../../../Laboratory/Services/laboratoryServices.jsx';
 import IconButton from '@mui/material/IconButton';
 import { Spinner } from '../../../../../Components/Common/Spinners/Spinners.jsx';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import DownloadIcon from '@mui/icons-material/Download';
 import moment from 'moment';
-import PrescriptionDownloader from '../../../../../Components/Common/Prescription/PrescriptionDownloader';
+import TestReportDownloader from '../../../../../Components/Common/TestReport/TestReportDownloader.jsx';
 import Backdrop from "@mui/material/Backdrop";
 
 export default function TestReportList() {
 
-  const prescriptionServices = new PrescriptionDownloader();
-  const doctor = useRecoilValue(userState);
+  const testReportsServices = new TestReportDownloader();
+  const laboratory = useRecoilValue(userState);
   const token = localStorage.getItem("token") || null;
-  const [prescriptions, setPrescriptions] = useState([]);
+  const [reports, setReports] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [isLoadingBackdrop, setIsLoadingBackdrop] = useState(false);
 
-  const fetchPrescriptionHandler = async () => {
+
+  const fetchTestReportsHandler = async () => {
     setIsLoading(true);
-    if (!(doctor?._id)) {
+    if (!(laboratory?._id)) {
       return;
     }
 
     const headers = {
-      Authorization: token,
+      'Authorization': token,
     };
 
-    const prescriptionResponse = await fetchPrescription(doctor?._id, headers);
-    setPrescriptions(prescriptionResponse?.data);
+    const reportResponse = await fetchTestReportsByLaboratory(laboratory?._id, headers);
+    setReports(reportResponse?.data);
     setIsLoading(false);
   }
 
   useEffect(() => {
-    fetchPrescriptionHandler();
-  }, [doctor]);
+    fetchTestReportsHandler();
+  }, [laboratory]);
 
-  const PrescriptionTable = () => {
+  const ReportsTable = () => {
     return (
       <table className="table prescription-table">
         <thead>
           <tr className="text-light">
             <th className="pre-heading">Serial No</th>
             <th className="pre-heading">Patient Name</th>
-            <th className="pre-heading">Doctor Name</th>
-            <th className="pre-heading">Prescription Date</th>
+            <th className="pre-heading">Test Type</th>
+            <th className="pre-heading">Test Date</th>
             <th className="pre-heading">Actions</th>
           </tr>
         </thead>
         <tbody>
           {
-            prescriptions?.map((prescription, index) => {
-              let prescriptionFileName = `${prescription?.patient?.patientId} ${moment(prescription?.prescription?.createdAt).format('LL')}`;
+            reports?.map((report, index) => {
+              let testReportFileName = `${report?.patient?.patientId} ${moment(report?.createdAt).format('LL')}`;
               return (
                 < >
                   <tr key={index} className='border-blur'>
                     <td data-title="No" className='pt-3'>{index + 1}</td>
-                    <td data-title="Hospital Name" className="break-line1 pt-3">{`${prescription?.patient?.fName} ${prescription?.patient?.lName}`}</td>
-                    <td data-title="Doctor Name" className='pt-3'>{`Dr. ${doctor?.fName} ${doctor?.lName}`}</td>
-                    <td data-title="Appointment Date" className='pt-3'>{moment(prescription?.prescription?.createdAt).format('LLLL')}</td>
+                    <td data-title="Hospital Name" className="break-line1 pt-3">{`${report?.patient?.fName} ${report?.patient?.lName}`}</td>
+                    <td data-title="Doctor Name" className='pt-3'>{`${report?.type}`}</td>
+                    <td data-title="Appointment Date" className='pt-3'>{moment(report?.createdAt).format('LLLL')}</td>
                     <td className="prescription-action">
                       <IconButton
-                        onClick={() => prescriptionServices?.viewPdf(prescription?.prescription?._id)}
+                        onClick={() => testReportsServices?.viewPdf(report?._id)}
                       >
                         <VisibilityIcon />
                       </IconButton>
                       <IconButton
                         className="ml-3"
-                        onClick={() => prescriptionServices?.downloadPdf(prescription?.prescription?._id, prescriptionFileName)}
+                        onClick={() => testReportsServices?.downloadPdf(report?._id, testReportFileName)}
                       >
                         <DownloadIcon />
                       </IconButton>
                     </td>
                   </tr>
-                  <PrescriptionDownloader patient={prescription?.patient} doctor={prescription?.doctor} prescription={prescription?.prescription} />
+                  <TestReportDownloader reportData={report} />
                 </>
               )
             })
@@ -96,11 +97,11 @@ export default function TestReportList() {
         ) : (
           <div className="prescription-table-container px-md-4 m-0 p-0">
             {
-              prescriptions?.length > 0 ? (
-                <PrescriptionTable />
+              reports?.length > 0 ? (
+                <ReportsTable />
               ) : (
                 <div className='p-5 text-center text-muted'>
-                  No Prescriptions
+                  No Reports
                 </div>
               )
             }

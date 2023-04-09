@@ -1,22 +1,26 @@
 import React, { Component } from 'react';
-import "./PrescriptionDownloader.css";
+import "./TestReportDownloader.css";
 import PrescriptionLogo from "../../../Assets/Icons/Prescription-logo.png";
 import { jsPDF } from "jspdf";
 import html2canvas from "html2canvas";
-import PrescriptionFooter from "./Components/PrescriptionFooter.jsx";
+import TestReportFooter from "./Components/TestReportFooter.jsx";
 import moment from 'moment';
+import { BloodGlucoseData, CompeleteBloodCellData, UrinalysisData, ElectrolyteData, LipidProfileData } from '../../../Constant/TestReport/TestReportDetails.jsx';
 
-export default class PrescriptionDownloader extends Component {
-
+export default class TestReportDownloader extends Component {
     constructor(props) {
         super(props);
-
         this.state = {
-            patient: this.props?.patient || {},
-            doctor: this.props?.doctor || {},
-            prescription: this.props?.prescription || {}
+            patient: this.props?.reportData?.patient || {},
+            doctor: this.props?.reportData?.doctor || {},
+            laboratory: this.props?.reportData?.laboratory || {},
+            reportRecords: this.props?.reportData?.reportInformation || {},
+            reportDate: this.props?.reportData?.createdAt || {},
+            reportType: this.props?.reportData?.type || {},
+            normalrange: []
         };
     }
+
 
     viewPdf = (id) => {
         const input = document.getElementById(`divToPrint-${id}`);
@@ -150,24 +154,51 @@ export default class PrescriptionDownloader extends Component {
         );
     };
 
+
+    displayNormalRange = () => {
+        switch (this.state.reportType) {
+            case "Urinalysis":
+                this.setState({ normalrange: UrinalysisData })
+                break;
+            case "Electrolyte":
+                this.setState({ normalrange: UrinalysisData })
+                break;
+            case "Lipid Profile":
+                this.setState({ normalrange: LipidProfileData })
+                break;
+            case "Blood Glucose":
+                this.setState({ normalrange: BloodGlucoseData })
+                break;
+            case "Compelete Blood Count":
+                this.setState({ normalrange: CompeleteBloodCellData })
+                break;
+        }
+    }
+
+    componentDidMount = () => {
+        this.displayNormalRange()
+    }
     render() {
+        const reportRecordInformation = Object.keys(this.state.reportRecords)
+        const normalrange = [];
+
         return (
-            <div className="prescription-card-container" id={`divToPrint-${this.props?.prescription?._id}`}>
+            <div className="report-card-container" id={`divToPrint-${this.props?.reportData?._id}`}>
                 <div className="prescription-box">
                     <div className="prescription-header ">
                         <div className="px-lg-5 mx-auto d-flex justify-content-between text-white">
                             <div className="prescription-header-content p-lg-5 py-sm-5 pl-lg-0">
-                                <h1 className="font-weight-bold break-line-1">{this?.state?.doctor?.hospital?.name}</h1>
+                                <h1 className="font-weight-bold break-line-1">{this?.state?.laboratory?.name}</h1>
                                 <h4 className="m-0 font-weight-bold break-line-1">
-                                    {`${this?.state?.doctor?.hospital?.addressLine}, ${this?.state?.doctor?.hospital?.city?.name}, ${this?.state?.doctor?.hospital?.state?.name}.`}
+                                    {`${this?.state?.laboratory?.addressLine}, ${this?.state?.laboratory?.city?.name}, ${this?.state?.laboratory?.state?.name}.`}
                                 </h4>
                                 <h4 className="m-0 mt-2">
                                     <i class="far fa-envelope mr-3"></i>
-                                    {this?.state?.doctor?.hospital?.email}
+                                    {this?.state?.laboratory?.email}
                                 </h4>
                                 <h4 className="m-0 mt-1">
                                     <i class="far fa-address-book mr-3"></i>
-                                    +91 {this?.state?.doctor?.hospital?.mobileNo}
+                                    +91 {this?.state?.laboratory?.mobileNo}
                                 </h4>
                             </div>
                             <div className="prescription-header-logo p-lg-5 d-flex justify-content-end">
@@ -209,21 +240,39 @@ export default class PrescriptionDownloader extends Component {
                                 </table>
                             </div>
                             <div className="text-right">
-                                <h5 className="text-muted">{this?.state?.prescription?.createdAt ? moment(this?.state?.prescription?.createdAt).format('LLLL') : null}</h5>
+                                <h5 className="text-muted">{this.state.reportDate ? moment(this?.state?.reportDate).format('LLLL') : null}</h5>
                             </div>
                         </div>
                         <hr className='m-0' /><hr className='m-0' />
-                        <div className="prescription-medicine-content-container mt-5 mb-4 p-5">
-                            {
-                                this.state.prescription?.medicines?.map((medicine) => (
-                                    <div className='mb-4 row m-0'>
-                                        <h4 className="font-weight-bold col-6">{medicine?.name}</h4>
-                                        <h4 className="font-weight-bold text-right col-2">......[ {medicine?.qty} Tabs ]</h4>
-                                        <h4 className="font-weight-bold text-right col-2">[ {medicine?.dose} ]</h4>
-                                        <h4 className="font-weight-bold text-right col-2">[ {medicine?.time} ]</h4>
-                                    </div>
-                                ))
-                            }
+                        <div className="prescription-medicine-content-container mt-5 mb-4 p-5 d-flex justify-content-between">
+                            <table className="table-borderless">
+                                <h2 className='text-blue mb-4'>Test Report Information</h2>
+                                <tbody>
+                                    {
+                                        reportRecordInformation?.map((key, index) => {
+                                            const field = key.charAt(0).toLowerCase() + key.slice(1)
+                                            
+                                            return (<tr>
+                                                <th className="font-weight-bold text-blue report-field-name h2">{field}</th>
+                                                <td className='report-field-value text-dark'>{this.state.reportRecords[field]}</td>
+                                            </tr>
+                                            )
+
+                                        })
+                                    }
+                                </tbody>
+                            </table>
+                            <table className="table-borderless">
+                                <h2 className='text-blue mb-4'>Normal Range</h2>
+                                <tbody>
+                                    {this.state.normalrange?.map((data, index) => {
+                                        return (<tr>
+                                            <td className='text-center text-secondary report-field-value'>{data.value}</td>
+                                        </tr>
+                                        )
+                                    })}
+                                </tbody>
+                            </table>
                         </div>
                         <hr className='m-0' /><hr className='m-0' />
                         <div className="prescription-patient-details px-4 py-3">
@@ -231,7 +280,7 @@ export default class PrescriptionDownloader extends Component {
                                 <tbody className="m-0 p-0">
                                     <tr>
                                         <h2 className="d-inline font-weight-bold prescription-doctor-name m-0">{`Dr. ${this.state?.doctor?.fName} ${this.state?.doctor?.lName}`}</h2>
-                                        <h4 className='d-inline ml-3 font-weight-bold'>- {this.state?.doctor?.department?.name}</h4>
+
                                     </tr>
                                     <tr>
                                         <h5 className="mt-2 text-muted break-line-1">{this.state?.doctor?.hospital?.name}</h5>
@@ -245,25 +294,11 @@ export default class PrescriptionDownloader extends Component {
                                 </tbody>
                             </table>
                         </div>
-                        <hr className='m-0' /><hr className='m-0' />
-                        <div className='extra-info pt-5 pb-5 px-4'>
-                            <table className="table table-borderless m-0 p-0">
-                                <tbody className="m-0 p-0">
-                                    <tr>
-                                        <th className='w-25 text-blue'>Next Consultancy Date : </th>
-                                        <td className='text-dark'>{this.state.prescription?.nextVisitDate ? moment(this?.state?.prescription?.nextVisitDate).format('LL') : 'Not needed'}</td>
-                                    </tr>
-                                    <tr>
-                                        <th className='w-25 text-blue'>Additional Suggestion : </th>
-                                        <td className='text-dark'>{this.state.prescription?.suggestion}</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
+
                     </div>
                 </div>
                 <div className="prescriptionFooter">
-                    <PrescriptionFooter />
+                    <TestReportFooter />
                 </div>
             </div>
         )

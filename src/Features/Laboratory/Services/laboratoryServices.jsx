@@ -1,9 +1,9 @@
 import AxiosService from "../../../Services/AxiosServices.jsx";
-import { TestRequestUrls,TestReportUrls } from '../../../Services/Urls.jsx';
+import { TestRequestUrls, TestReportUrls } from '../../../Services/Urls.jsx';
 
 const axiosService = new AxiosService();
 
-export const fetchTestRequestsByStatus = async (status,header) => {
+export const fetchTestRequestsByStatus = async (status, header) => {
 
     const testRequestResponse = await axiosService.get(TestRequestUrls.fetchTestRequestsByStatus(status), header);
 
@@ -11,9 +11,9 @@ export const fetchTestRequestsByStatus = async (status,header) => {
         return testRequestResponse?.data || testRequestResponse?.response.data;
     }
 }
-export const updateTestRequestsById = async (id,status,header) => {
+export const updateTestRequestsById = async (id, status, header) => {
 
-    const testRequestResponse = await axiosService.put(TestRequestUrls.updateTestRequestsById(id),status, header);
+    const testRequestResponse = await axiosService.put(TestRequestUrls.updateTestRequestsById(id), status, header);
 
     if (testRequestResponse?.data || testRequestResponse?.response?.data) {
         return testRequestResponse?.data || testRequestResponse?.response.data;
@@ -31,9 +31,18 @@ export const searchPatients = async (patientId, header) => {
 
 export const addTestReport = async (reportCredentials, header) => {
 
-    const report = await axiosService.post(TestReportUrls.addTestReport(), reportCredentials,header);
+    const report = await axiosService.post(TestReportUrls.addTestReport(), reportCredentials, header);
 
     if (report.data || report.response.data) {
         return report.data || report.response.data;
+    }
+}
+
+export const fetchTestReportsByLaboratory = async (id, header) => {
+
+    const testReportResponse = await axiosService.get(TestReportUrls.fetchTestReportsByLaboratory(id), header);
+
+    if (testReportResponse?.data || testReportResponse?.response?.data) {
+        return testReportResponse?.data || testReportResponse?.response.data;
     }
 }

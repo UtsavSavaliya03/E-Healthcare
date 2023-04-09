@@ -1,0 +1,85 @@
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
+.fade-in {
+    animation: fadeIn 1s;
+}
+
+.view-doctore-profile {
+    background-color: white;
+    border-radius: 5px;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+}
+
+.view-doctore-profile .title {
+    font-weight: 700;
+}
+
+.doctor-card-copy-icon {
+    opacity: 0;
+    transition: opacity 0.5s;
+}
+
+.doctor-card-copy-icon button {
+    outline: none;
+}
+
+.view-doctore-profile:hover .doctor-card-copy-icon {
+    opacity: 1.0;
+    transition: opacity 0.5s;
+}
+
+.view-doctore-edit-container {
+    background-color: white;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    border-radius: 5px;
+}
+
+.view-doctore-edit-container .edit-icon {
+    opacity: 0;
+    transition: opacity 0.5s;
+}
+
+.view-doctore-edit-container:hover .edit-icon {
+    opacity: 1.0;
+    transition: opacity 0.5s;
+}
+
+
+.view-doctore-edit-container .edit-icon button {
+    outline: none;
+}
+
+.edit-icon .MuiButtonBase-root {
+    background-color: rgb(222, 222, 222) !important;
+}
+
+.view-doctore-edit-container .label {
+    font-weight: 600;
+    color: rgb(162, 161, 161);
+    letter-spacing: 1px;
+}
+
+.view-doctore-edit-container .value {
+    font-weight: 600;
+    font-size: 20px;
+}
+
+.break-line-1 {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+}
+
+.btn-show-all button:focus {
+    outline: none;
+}

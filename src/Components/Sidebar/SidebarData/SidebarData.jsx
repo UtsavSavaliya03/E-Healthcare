@@ -15,7 +15,8 @@ import {
   FaBookMedical,
   FaEnvelope,
   FaMicroscope,
-  FaUserInjured
+  FaUserInjured,
+  FaFileMedical
 } from "react-icons/fa";
 
 export const patientSidebarData = [
@@ -54,6 +55,11 @@ export const patientSidebarData = [
     path: "patient/my-prescriptions",
     name: "My Prescription",
     icon: <FaFilePrescription />,
+  },
+  {
+    path: "patient/my-reports",
+    name: "My Reports",
+    icon: <FaFileMedical />,
   },
 ]
 
