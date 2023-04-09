@@ -22,6 +22,12 @@ export const UserUrls = {
     updateUser: (userId) => {
         return baseUrl + `/users/${userId}`;
     },
+    fetchPrescription: (userId) => {
+        return baseUrl + `/prescription/${userId}`;
+    },
+    fetchTestReportsByUser: (userId) => {
+        return baseUrl + `/testReport/user/${userId}`;
+    },
 }
 
 export const PasswordUrls = {
@@ -117,6 +123,9 @@ export const TestReportUrls = {
     addTestReport: () => {
         return baseUrl + `/testReport`;
     },
+    fetchTestReportsByLaboratory: (id) => {
+        return baseUrl + `/testReport/laboratory/${id}`;
+    },
 }
 
 
@@ -196,5 +205,8 @@ export const AppointmentUrls = {
     },
     fetchAppointments: () => {
         return baseUrl + `/appointment`;
+    },
+    fetchAppointmentsByUser: (id) => {
+        return baseUrl + `/appointment/${id}`;
     }
 }

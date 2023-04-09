@@ -10,8 +10,8 @@
 
 .prescription-list-container {
     animation: fadeIn 1s;
+    min-height: calc(100vh - 125px);
     position: relative;
-    min-height: calc(100vh -125px);
 }
 
 .prescription-table {

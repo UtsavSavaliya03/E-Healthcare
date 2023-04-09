@@ -64,14 +64,14 @@ export default function AddCbcReport(props) {
         setIsLoading(true);
 
         const reportData = {
-            hemoglobin: cbcCredentials?.hemoglobin,
-            hematocrit: cbcCredentials?.hematocrit,
-            redBloodCellCount: cbcCredentials?.redBloodCellCount,
-            meanCorpuscularVolume: cbcCredentials?.meanCorpuscularVolume,
-            meanCorpuscularHemoglobin: cbcCredentials?.meanCorpuscularHemoglobin,
-            meanCorpuscularHemoglobinConcentration: cbcCredentials?.meanCorpuscularHemoglobinConcentration,
-            whiteBloodCellCount: cbcCredentials?.whiteBloodCellCount,
-            plateletCount: cbcCredentials?.plateletCount,
+            hemoglobin: cbcCredentials?.hemoglobin+" g/dL" ,
+            hematocrit: cbcCredentials?.hematocrit +" %",
+            redBloodCellCount: cbcCredentials?.redBloodCellCount +" /uL",
+            meanCorpuscularVolume: cbcCredentials?.meanCorpuscularVolume +" fL",
+            meanCorpuscularHemoglobin: cbcCredentials?.meanCorpuscularHemoglobin +" pg/cell",
+            meanCorpuscularHemoglobinConcentration: cbcCredentials?.meanCorpuscularHemoglobinConcentration +" g/dL",
+            whiteBloodCellCount: cbcCredentials?.whiteBloodCellCount +" /uL",
+            plateletCount: cbcCredentials?.plateletCount +" /uL",
         }
         const params = {
             reportInformation: reportData,

@@ -63,7 +63,7 @@ export default function AddLipidProfileReport(props) {
             highDensityLipoprotein: lipidProfileCredentials?.highDensityLipoprotein + " mg/dL",
             lowDensityLipoprotein: lipidProfileCredentials?.lowDensityLipoprotein + " mg/dL",
             veryLowDensityLipoprotein: lipidProfileCredentials?.veryLowDensityLipoprotein + " mg/dL",
-            hdlRatio: lipidProfileCredentials?.hdlRatio + " mg/dL",
+            hdlRatio: lipidProfileCredentials?.hdlRatio ,
 
 
         }

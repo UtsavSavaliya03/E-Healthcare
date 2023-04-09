@@ -45,8 +45,11 @@ import Dashboard from '../../../Features/Patient/Features/Dashboard/Dashboard.js
 import PatientDoctors from '../../../Features/Patient/Features/Doctors/Doctors.jsx';
 import PatientHospitals from '../../../Features/Patient/Features/Hospitals/Hospitals.jsx';
 import BookAppointment from '../../../Features/Patient/Features/Appointment/BookAppointment.jsx';
-import MyAppointmensts from '../../../Features/Patient/Features/Appointment/MyAppointmensts.jsx';
+import MyAppointments from '../../../Features/Patient/Features/Appointment/MyAppointments.jsx';
 import MyPrescription from '../../../Features/Patient/Features/Prescription/MyPrescription.jsx';
+import MyReports from '../../../Features/Patient/Features/MyReports/MyReports.jsx';
+import PatientViewHospital from '../../../Features/Patient/Features/Hospitals/ViewHospital.jsx'
+import PatientViewDoctor from '../../../Features/Patient/Features/Doctors/ViewDoctor.jsx'
 
 
 
@@ -226,11 +229,23 @@ export const routeData = [
             },
             {
                 path: "my-appointments",
-                element: MyAppointmensts,
+                element: MyAppointments,
             },
             {
                 path: "my-prescriptions",
                 element: MyPrescription,
+            },
+            {
+                path: "my-reports",
+                element: MyReports,
+            },
+            {
+                path: "view-hospital/:id",
+                element: PatientViewHospital
+            },
+            {
+                path: "view-doctor/:id",
+                element: PatientViewDoctor
             },
         ]
     },

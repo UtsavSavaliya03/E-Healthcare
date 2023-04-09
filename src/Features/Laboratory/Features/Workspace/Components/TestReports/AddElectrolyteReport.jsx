@@ -10,7 +10,7 @@ import { useNavigate } from "react-router-dom";
 import { Helmet } from "react-helmet";
 import { Spinner } from "../../../../../../Components/Common/Spinners/Spinners.jsx";
 import Backdrop from "@mui/material/Backdrop";
-import { updateTestRequestsById,addTestReport } from '../../../../Services/laboratoryServices.jsx';
+import { updateTestRequestsById, addTestReport } from '../../../../Services/laboratoryServices.jsx';
 
 
 
@@ -62,8 +62,8 @@ export default function AddElectrolyteReport(props) {
             potassium: electrolyteCredentials?.potassium + " mEq/L",
             chloride: electrolyteCredentials?.chloride + " mEq/L",
             bicarbonate: electrolyteCredentials?.bicarbonate + " mEq/L",
-            calcium: electrolyteCredentials?.calcium + " mg/dL",
-            magnesium: electrolyteCredentials?.magnesium + " mg/dL",
+            calcium: electrolyteCredentials?.calcium + " mEq/L",
+            magnesium: electrolyteCredentials?.magnesium + " mEq/L",
         }
         const param = {
             reportInformation: reportData,
@@ -77,7 +77,7 @@ export default function AddElectrolyteReport(props) {
         };
         const electrolyteReport = await addTestReport(param, headers);
 
-        await updateTestRequestsById(report?._id, {'status':2}, headers);
+        await updateTestRequestsById(report?._id, { 'status': 2 }, headers);
 
         if (electrolyteReport?.status) {
             notification.notify(electrolyteReport?.status, electrolyteReport?.message);
