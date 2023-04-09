@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "./Header.css";
 import Avatar from "react-avatar";
@@ -25,10 +25,19 @@ export default function Header() {
   const token = localStorage.getItem("token") || null;
   const isVisibleHeader = useHeader();
   const isLogin = useLogin();
+  const [userName, setUserName] = useState('');
 
   useEffect(() => {
     findUser();
   }, []);
+  
+  useEffect(() => {
+    if (user.role == 2) {
+      setUserName(user?.name)
+    } else {
+      setUserName(user?.fName + " " + user?.lName);
+    }
+  }, [user])
 
   const findUser = async () => {
     if (isLogin) {
@@ -83,7 +92,7 @@ export default function Header() {
                 <Avatar
                   size="40"
                   round
-                  name={`${user?.fName} ${user?.lName}`}
+                  name={userName}
                 />
                 <div className="dropdown">
                   <ul className="dropdown-content">
@@ -93,12 +102,12 @@ export default function Header() {
                           className="dropdown-avatar"
                           size="50"
                           round={true}
-                          name={user?.fName + " " + user?.lName}
+                          name={userName}
                         />
                       </div>
                       <div className="pl-3">
                         <h6 className="m-0 dropdown-title break-title-1">
-                          {user?.fName + " " + user?.lName}
+                          {userName}
                         </h6>
                         <p className="m-0 text-muted break-title-1">
                           {user?.email}

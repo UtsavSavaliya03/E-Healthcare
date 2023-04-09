@@ -14,22 +14,23 @@ import {
   FaHospitalAlt,
   FaBookMedical,
   FaEnvelope,
-  FaMicroscope
+  FaMicroscope,
+  FaUserInjured
 } from "react-icons/fa";
 
 export const patientSidebarData = [
   {
-    path: "/dashboard",
+    path: "patient/dashboard",
     name: "Dashboard",
     icon: <FaHome />,
   },
   {
-    path: "/hospitals",
+    path: "patient/hospitals",
     name: "Hospitals",
     icon: <FaHospitalAlt />,
   },
   {
-    path: "/doctors",
+    path: "patient/doctors",
     name: "Doctors",
     icon: <FaUserMd />,
   },
@@ -38,19 +39,19 @@ export const patientSidebarData = [
     icon: <FaCalendarDay />,
     subRoutes: [
       {
-        path: "/book-appointment",
+        path: "patient/book-appointment",
         name: "Book Appointment",
         icon: <FaBookMedical />,
       },
       {
-        path: "/my-appointments",
+        path: "patient/my-appointments",
         name: "My Appointments",
         icon: <FaList />,
       },
     ],
   },
   {
-    path: "/prescription",
+    path: "patient/my-prescriptions",
     name: "My Prescription",
     icon: <FaFilePrescription />,
   },
@@ -68,7 +69,7 @@ export const doctorSidebarData = [
     icon: <FaDesktop />,
   },
   {
-    path: "/hospitals",
+    path: "doctor/hospitals",
     name: "Hospitals",
     icon: <FaHospitalUser />,
   },
@@ -77,6 +78,19 @@ export const doctorSidebarData = [
     name: "My Appointment",
     icon: <FaCalendarDay />,
   },
+]
+export const laboratorySidebarData = [
+  {
+    path: "laboratory/dashboard",
+    name: "Dashboard",
+    icon: <FaHome />,
+  },
+  {
+    path: "laboratory/workspace",
+    name: "Workspace",
+    icon: <FaDesktop />,
+  },
+
 ]
 
 export const adminSidebarData = [
@@ -148,6 +162,11 @@ export const adminSidebarData = [
         icon: <FaPlus />,
       },
     ],
+  },
+  {
+    path: "main/patients",
+    name: "Patients",
+    icon: <FaUserInjured />,
   },
   {
     path: "main/appointments",

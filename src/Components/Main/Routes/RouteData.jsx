@@ -20,6 +20,7 @@ import AddDepartment from '../../../Features/Admin/Features/Department/AddDepart
 import DepartmentList from '../../../Features/Admin/Features/Department/DepartmentList.jsx';
 import viewDepartment from '../../../Features/Admin/Features/Department/ViewDepartment.jsx';
 import AdminAppointmentList from '../../../Features/Admin/Features/Appointment/Appointment.jsx';
+import AdminPatients from '../../../Features/Admin/Features/Patients/Patients.jsx';
 import Inquiry from '../../../Features/Admin/Features/Inquiry/Inquiry.jsx';
 import Backup from '../../../Features/Admin/Features/Backup/Backup.jsx';
 import Newsletter from '../../../Features/Admin/Features/Newsletter/Newsletter.jsx';
@@ -29,6 +30,7 @@ import Doctor from '../../../Features/Doctor/Doctor.jsx';
 import DoctorDashboard from '../../../Features/Doctor/Features/Dashboard/Dashboard.jsx';
 import Workspace from '../../../Features/Doctor/Features/Workspace/Workspace.jsx';
 import DoctorAppointmentList from '../../../Features/Doctor/Features/Appointment/Appointment.jsx';
+import DoctorHospitals from '../../../Features/Doctor/Features/Hospitals/Hospitals.jsx';
 
 /* --------- Laboratory Components --------- */
 import Laboratory from '../../../Features/Laboratory/Laboratory.jsx';
@@ -39,9 +41,13 @@ import ViewLaboratory from '../../../Features/Admin/Features/Laboratory/ViewLabo
 import LaboratoryWorkspace from '../../../Features/Laboratory/Features/Workspace/Workspace.jsx';
 
 /* --------- Patient Components --------- */
+import Patient from '../../../Features/Patient/Patient.jsx';
 import Dashboard from '../../../Features/Patient/Features/Dashboard/Dashboard.jsx';
+import PatientDoctors from '../../../Features/Patient/Features/Doctors/Doctors.jsx';
+import PatientHospitals from '../../../Features/Patient/Features/Hospitals/Hospitals.jsx';
 import BookAppointment from '../../../Features/Patient/Features/Appointment/BookAppointment.jsx';
 import MyAppointmensts from '../../../Features/Patient/Features/Appointment/MyAppointmensts.jsx';
+import MyPrescription from '../../../Features/Patient/Features/Prescription/MyPrescription.jsx';
 
 
 
@@ -140,6 +146,10 @@ export const routeData = [
                 element: AdminAppointmentList
             },
             {
+                path: "patients",
+                element: AdminPatients
+            },
+            {
                 path: "inquiries",
                 element: Inquiry
             },
@@ -169,6 +179,10 @@ export const routeData = [
                 element: Workspace,
             },
             {
+                path: "hospitals",
+                element: DoctorHospitals,
+            },
+            {
                 path: "appointments",
                 element: DoctorAppointmentList,
             },
@@ -193,19 +207,36 @@ export const routeData = [
     },
 
     /* --------- Patient routes --------- */
+
     {
-        path: "/book-appointment",
+        path: "/patient",
         route: AuthorizedRoute,
-        element: BookAppointment,
-    },
-    {
-        path: "/my-appointments",
-        route: AuthorizedRoute,
-        element: MyAppointmensts,
-    },
-    {
-        path: "/dashboard",
-        route: AuthorizedRoute,
-        element: Dashboard,
+        element: Patient,
+        children: [
+            {
+                path: "dashboard",
+                element: Dashboard,
+            },
+            {
+                path: "doctors",
+                element: PatientDoctors,
+            },
+            {
+                path: "hospitals",
+                element: PatientHospitals,
+            },
+            {
+                path: "book-appointment",
+                element: BookAppointment,
+            },
+            {
+                path: "my-appointments",
+                element: MyAppointmensts,
+            },
+            {
+                path: "my-prescriptions",
+                element: MyPrescription,
+            },
+        ]
     },
 ]

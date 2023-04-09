@@ -142,7 +142,7 @@ export default function BookAppointment() {
 
     if (appoinmentResponse?.status) {
       setIsLoadingBackdrop(false);
-      navigate('/my-appointments');
+      navigate('/patient/my-appointments');
     }
     notification.notify(appoinmentResponse?.status, appoinmentResponse?.message);
     setIsLoadingBackdrop(false);
@@ -318,7 +318,7 @@ export default function BookAppointment() {
             )}
           </TextField>
           <div className="mt-4 text-right">
-            <button className="btn-search text-blue" onClick={searchDoctorHandler}>Apply</button>
+            <button className="btn-search" onClick={searchDoctorHandler}>Apply</button>
           </div>
         </div>
       </div>

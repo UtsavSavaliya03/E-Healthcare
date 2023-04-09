@@ -28,6 +28,13 @@
     background-repeat: no-repeat;
 }
 
+.login-laboratory-bg {
+    background: url("../../Assets/Backgrounds/Login-laboratory.png");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
 .login-form-container {
     max-width: 450px;
     padding: 24px;
@@ -44,6 +51,20 @@
     top: 8%;
     justify-content: center;
     align-items: center;
+}
+
+.login-form-wrapper .login-type {
+    cursor: pointer;
+    color: rgb(161, 161, 161);
+}
+
+.login-form-wrapper .login-type:hover {
+    font-weight: 600;
+}
+
+.login-form-wrapper .login-type--selected {
+    font-weight: 600;
+    color: #3e74aa;
 }
 
 .login-title {
@@ -170,6 +191,7 @@
     }
 
     .login-patient-bg,
+    .login-laboratory-bg,
     .login-doctor-bg {
         background-image: none;
     }

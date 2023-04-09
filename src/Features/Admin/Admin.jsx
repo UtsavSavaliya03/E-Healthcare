@@ -13,9 +13,11 @@ export default function Admin() {
     if (user?._id) {
       if (user?.role !== 0) {
         if (user?.role === 1) {
-          navigate('doctor/dashboard');
+          navigate('/doctor/dashboard');
+        } if (user?.role === 2) {
+          navigate('/laboratory/dashboard');
         } else {
-          navigate('dashboard');
+          navigate('patient/dashboard');
         }
       }
     }

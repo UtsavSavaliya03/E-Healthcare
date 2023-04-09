@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import './Sidebar.css';
 import { useRecoilState, useRecoilValue } from 'recoil';
-import { patientSidebarData, doctorSidebarData, adminSidebarData } from './SidebarData/SidebarData.jsx';
+import { patientSidebarData, doctorSidebarData, adminSidebarData, laboratorySidebarData } from './SidebarData/SidebarData.jsx';
 import { sidebarStateAtom, userState } from '../../Store/globalState.jsx';
 import useHeader from '../Header/Hooks/useHeader.jsx';
 import { NavLink } from "react-router-dom";
@@ -20,8 +20,10 @@ const Sidebar = ({ children }) => {
   useEffect(() => {
     if (userRole === 0) {
       setSidebarData(adminSidebarData);
-    } else if(userRole === 1) {
+    } else if (userRole === 1) {
       setSidebarData(doctorSidebarData);
+    } else if (userRole === 2) {
+      setSidebarData(laboratorySidebarData);
     } else {
       setSidebarData(patientSidebarData);
     }
