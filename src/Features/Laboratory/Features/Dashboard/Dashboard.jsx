@@ -1,15 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { Box, Typography, useTheme, Divider } from "@mui/material";
 import { tokens } from "../../../../Services/theme.js";
-import { mockTransactions } from "../../../../Constant/Admin/mockData.js";
 import Header from "./Components//Header";
 import LineChart from "./Components/LineChart.jsx";
 import "./Dashboard.css";
 import LaboratoryDashboardVector from "../../../../Assets/Icons/Laboratory-dashboard-vector.png";
-import { styled } from "@mui/material/styles";
-import LinearProgress, {
-  linearProgressClasses,
-} from "@mui/material/LinearProgress";
+import { fetchLaboratoryReportData } from '../../Services/laboratoryServices.jsx';
+import { Spinner } from '../../../../Components/Common/Spinners/Spinners.jsx';
 import IconButton from "@mui/material/IconButton";
 import CheckIcon from "@mui/icons-material/Check";
 import ClearIcon from "@mui/icons-material/Clear";
@@ -29,18 +26,27 @@ const Dashboard = () => {
   const [testRequests, setTestRequests] = useState([])
   const [approvedRequests, setApprovedRequests] = useState([])
   const token = localStorage.getItem("token") || null;
+  const laboratory = useRecoilValue(userState);
+  const [isLoading, setIsLoading] = useState(false);
+  const [reportsData, setReportsData] = useState([]);
+  const [totalReports, setTotalReports] = useState(0);
 
-  const BorderLinearProgress = styled(LinearProgress)(({ theme }) => ({
-    height: 10,
-    borderRadius: 5,
-    [`&.${linearProgressClasses.colorPrimary}`]: {
-      backgroundColor: colors.grey[800],
-    },
-    [`& .${linearProgressClasses.bar}`]: {
-      borderRadius: 5,
-      backgroundColor: colors.blueAccent[500],
-    },
-  }));
+  const fetchLaboratoryReportDataHandler = async () => {
+    setIsLoading(true);
+    const headers = {
+      Authorization: token,
+    };
+    const reportsDataResponse = await fetchLaboratoryReportData(laboratory?._id, headers);
+    if (reportsDataResponse?.data?.length > 0) {
+      setReportsData([{ id: "Reports", color: tokens().blueAccent[500], data: reportsDataResponse?.data }]);
+      setTotalReports(reportsDataResponse?.totalRecords);
+    }
+    setIsLoading(false);
+  }
+
+  useEffect(() => {
+    fetchLaboratoryReportDataHandler();
+  }, [])
 
   const fetchTestRequestHandler = async (status) => {
     const headers = {
@@ -50,7 +56,7 @@ const Dashboard = () => {
     setTestRequests(testRequests?.data)
 
   }
-  console.log(testRequests)
+
   const fetchApprovedTestRequestHandler = async (status) => {
     const headers = {
       'Authorization': token
@@ -93,7 +99,7 @@ const Dashboard = () => {
       return request._id !== id
     })
     setTestRequests(updatedTestRequests);
-}
+  }
   useEffect(() => {
     /* --- Status - 0 for pending --- */
     fetchTestRequestHandler(0)
@@ -114,37 +120,36 @@ const Dashboard = () => {
       </Box>
 
       <Box className="doctor-dashboard-container row m-0">
-        <div className="col-md-9 col-lg-9 col-sm-9 row m-0 p-0">
-          <div className="col-lg-12 col-md-12 col-sm-12">
-            <Box
-              className="py-4 doctor-dashboard-box"
-              backgroundColor={colors.blueAccent[500]}
-              borderRadius="5px"
-              display="flex"
-              alignItems="flex-start"
-              justifyContent="space-between"
-            >
-              <Box className="mx-4 my-1 text-light">
-                <Typography variant="h4" fontWeight="600" color="white">
-                  Welcome {user?.fName}!
-                </Typography>
-                <Typography variant="h6" className="mt-2">
-                  Here are your important tasks and reports.
-                </Typography>
-                <Typography variant="h6">
-                  Please check your test requests.
-                </Typography>
-              </Box>
-              <Box>
-                <img
-                  src={LaboratoryDashboardVector}
-                  alt="LaboratoryDashboardVector"
-                  className="laboratory-dashboard-vector"
-                />
-              </Box>
+        <div className="col-12">
+          <Box
+            className="py-4 doctor-dashboard-box"
+            backgroundColor={colors.blueAccent[500]}
+            borderRadius="5px"
+            display="flex"
+            alignItems="flex-start"
+            justifyContent="space-between"
+          >
+            <Box className="mx-4 my-1 text-light">
+              <Typography variant="h4" fontWeight="600" color="white">
+                Welcome, {user?.name}!
+              </Typography>
+              <Typography variant="h6" className="mt-2">
+                Here are your important tasks and reports.
+              </Typography>
+              <Typography variant="h6">
+                Please check your test requests.
+              </Typography>
             </Box>
-          </div>
-
+            <Box>
+              <img
+                src={LaboratoryDashboardVector}
+                alt="LaboratoryDashboardVector"
+                className="laboratory-dashboard-vector"
+              />
+            </Box>
+          </Box>
+        </div>
+        <div className="col-md-9 col-lg-9 col-sm-9 row m-0 p-0">
           <div className="col-lg-12 col-md-12 col-sm-12">
             <Box
               className="py-2 my-lg-4 laboratory-dashboard-box"
@@ -170,19 +175,37 @@ const Dashboard = () => {
                     fontWeight="bold"
                     color={colors.blueAccent[500]}
                   >
-                    33,423
+                    {totalReports}
                   </Typography>
                 </Box>
               </Box>
               <Box height="250px" m="-20px 20px 0 0">
-                <LineChart isDashboard={true} />
+                {
+                  isLoading ? (
+                    <div className="w-100 d-flex justify-content-center pt-5">
+                      <Spinner />
+                    </div>
+                  ) : (
+                    <>
+                      {
+                        reportsData?.length > 0 ? (
+                          <LineChart reportsData={reportsData} />
+                        ) : (
+                          <div className="w-100 text-center text-muted pt-5">
+                            <h5>No data available for specific laboratory.</h5>
+                          </div>
+                        )
+                      }
+                    </>
+                  )
+                }
               </Box>
             </Box>
           </div>
         </div>
-        <div className="col-lg-3 col-md-3 col-sm-3 m-0">
+        <div className="col-lg-3 col-md-3 col-sm-3 m-0 my-lg-4">
           <Box
-            className="py-2 doctor-dashboard-box d-flex justify-content-center flex-column"
+            className="pb-2 pt-2 doctor-dashboard-box d-flex justify-content-center flex-column"
             backgroundColor={colors.primary[400]}
             borderRadius="5px"
           >
@@ -191,20 +214,20 @@ const Dashboard = () => {
               round
               src={LaboratoryLogo}
               sx={{ width: 120, height: 120 }}
-              className="my-4 align-self-center"
+              className="mb-4 mt-2 align-self-center"
             />
             <Typography
-              variant="h4"
+              variant="h5"
               fontWeight="bold"
               color={colors.blueAccent[500]}
-              className="align-self-center break-line-1"
+              className="align-self-center break-line-1 px-3"
             >
-              {user?.fName} {user?.lName}
+              {user?.name}
             </Typography>
             <Typography
               variant="h6"
               color={colors.grey[500]}
-              className="px-3 align-self-center break-line-1 mt-1"
+              className="px-3 align-self-center break-line-1 mt-2"
             >
               {user?.email}
             </Typography>
@@ -223,63 +246,39 @@ const Dashboard = () => {
               {user?.department?.name}
             </Typography>
             <Divider variant="middle" />
-            <Box className="p-lg-4 p-sm-3 doctor-dashboard-progress-container text-left">
-              <Typography
-                variant="h5"
-                fontWeight="bold"
-                className="doctor-profile-appointment-title break-line-1"
-                color={colors.blueAccent[500]}
-              >
-                Tests Per Day
-              </Typography>
-              <Typography
-                variant="h6"
-                className="mt-4"
-                fontWeight="bold"
-                color={colors.grey[500]}
-              >
-                Test limit
-              </Typography>
-              <BorderLinearProgress
-                className="mt-1 mb-lg-2"
-                variant="determinate"
-                value={50}
-              />
-            </Box>
-            <Divider variant="middle" className="mb-2" />
-            <Box className="p-lg-3 row m-0 g-0">
-              <Box className="col-lg-6 col-sm-12 mb-lg-3 mt-sm-1 doctor-dashboard-statistics-container">
+            <Box className="px-lg-3 py-lg-2 row m-0 g-0">
+              <Box className="col-12 mt-sm-1 doctor-dashboard-statistics-container">
                 <Typography
-                  variant="h5"
+                  variant="h6"
                   fontWeight="bold"
                   color={colors.blueAccent[500]}
                 >
-                  5,93,423
+                  {user?.city?.name}
                 </Typography>
                 <Typography
-                  variant="h6"
+                  variant="h7"
                   fontWeight="600"
                   color={colors.grey[500]}
                   className='break-line-1'
                 >
-                  Tests Requests
+                  City
                 </Typography>
               </Box>
-              <Box className="col-lg-6 col-sm-12 mb-lg-3 mt-sm-1 doctor-dashboard-statistics-container">
+              <Box className="col-12 mt-lg-3 mt-sm-1 doctor-dashboard-statistics-container">
                 <Typography
-                  variant="h5"
+                  variant="h6"
                   fontWeight="bold"
                   color={colors.blueAccent[500]}
                 >
-                  4,83,423
+                  {user?.state?.name}
                 </Typography>
                 <Typography
-                  variant="h6"
+                  variant="h7"
                   fontWeight="600"
                   color={colors.grey[500]}
                   className='break-line-1'
                 >
-                  Test Reports
+                  State
                 </Typography>
               </Box>
             </Box>
@@ -310,19 +309,25 @@ const Dashboard = () => {
                   Test Requests
                 </Typography>
               </Box>
-              {testRequests.length === 0 ? <Box color={colors.grey[100]} display="flex"
-                justifyContent="center"
-                alignItems="center" sx={{ textAlign: "center", minHeight: "85px" }}><Typography
-                  className="text-secondary"
-                  variant="h5"
-                  fontWeight="600"
-
+              {testRequests?.length === 0 ?
+                <Box
+                  color={colors.grey[100]} display="flex"
+                  justifyContent="center"
+                  alignItems="center"
+                  sx={{ textAlign: "center", minHeight: "85px" }}
+                  className='py-5'
                 >
-                  No Test Request Pending
-                </Typography></Box>
+                  <Typography
+                    className="text-secondary py-5"
+                    variant="h5"
+                    fontWeight="600"
+                  >
+                    Not any pending test request
+                  </Typography>
+                </Box>
                 : testRequests.map((request, index) => (
                   <Box
-                    key={`${request._id}`}
+                    key={index}
                     display="flex"
                     justifyContent="space-between"
                     alignItems="center"
@@ -346,7 +351,7 @@ const Dashboard = () => {
                       </Typography>
                     </Box>
                     <Box color={colors.grey[100]}>{request?.type}</Box>
-                    <Box color={colors.grey[100]}>{moment(request?.createdAt).format('LL')}</Box>
+                    <Box color={colors.grey[100]}>{moment(request?.createdAt).format('LLL')}</Box>
                     <Box color={colors.blueAccent[500]}>
                       <IconButton
                         aria-label="Accept appointment"
@@ -373,7 +378,6 @@ const Dashboard = () => {
               borderRadius="5px"
               backgroundColor={colors.primary[400]}
               overflow="auto"
-              className=""
             >
               <Box
                 display="flex"
@@ -392,18 +396,24 @@ const Dashboard = () => {
                   Approved Test Requests
                 </Typography>
               </Box>
-              {approvedRequests.length === 0 ? <Box color={colors.grey[100]} display="flex"
-                justifyContent="center"
-                alignItems="center" sx={{ textAlign: "center", minHeight: "85px" }}><Typography
-                  className="text-secondary"
-                  variant="h5"
-                  fontWeight="600"
-
+              {approvedRequests?.length === 0 ?
+                <Box color={colors.grey[100]}
+                  display="flex"
+                  justifyContent="center"
+                  alignItems="center"
+                  sx={{ textAlign: "center", minHeight: "85px" }}
+                  className='py-5'
                 >
-                  No Approved Test Request 
-                </Typography></Box> : approvedRequests?.map((request, index) => (
+                  <Typography
+                    className="text-secondary py-5"
+                    variant="h5"
+                    fontWeight="600"
+                  >
+                    Not any approved test request
+                  </Typography>
+                </Box> : approvedRequests?.map((request, index) => (
                   <Box
-                    key={`${request._id}`}
+                    key={index}
                     display="flex"
                     justifyContent="space-between"
                     alignItems="center"
@@ -422,10 +432,11 @@ const Dashboard = () => {
                         {request?.patient?.patientId}
                       </Typography>
                       <Typography color={colors.grey[100]}>
-                        {`${request?.patient?.fName} ${request?.patient?.lName}`}                    </Typography>
+                        {`${request?.patient?.fName} ${request?.patient?.lName}`}
+                      </Typography>
                     </Box>
                     <Box color={colors.grey[100]}>{request?.type}</Box>
-                    <Box color={colors.grey[100]}>{moment(request?.createdAt).format('LL')}</Box>
+                    <Box color={colors.grey[100]}>{moment(request?.updatedAt).format('LLL')}</Box>
                   </Box>
                 ))}
             </Box>

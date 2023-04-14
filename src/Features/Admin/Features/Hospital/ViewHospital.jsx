@@ -370,7 +370,7 @@ export default function ViewHospital() {
                     Details
                   </h3>
                   <p className="font-weight-bold h5">Contact No :</p>
-                  <p className="h5">{hospitals?.mobileNo}</p>
+                  <p className="h5">+91 {hospitals?.mobileNo}</p>
                   <p className="font-weight-bold h5 mt-md-4">Email :</p>
                   <p className="h5">{hospitals?.email}</p>
                 </div>

@@ -30,6 +30,7 @@ import Doctor from '../../../Features/Doctor/Doctor.jsx';
 import DoctorDashboard from '../../../Features/Doctor/Features/Dashboard/Dashboard.jsx';
 import Workspace from '../../../Features/Doctor/Features/Workspace/Workspace.jsx';
 import DoctorAppointmentList from '../../../Features/Doctor/Features/Appointment/Appointment.jsx';
+import DoctorProfile from '../../../Features/Doctor/Features/Profile/Profile.jsx';
 
 /* --------- Laboratory Components --------- */
 import Laboratory from '../../../Features/Laboratory/Laboratory.jsx';
@@ -38,6 +39,7 @@ import AddLaboratory from '../../../Features/Admin/Features/Laboratory/AddLabora
 import LaboratoryList from '../../../Features/Admin/Features/Laboratory/LaboratoryList.jsx';
 import ViewLaboratory from '../../../Features/Admin/Features/Laboratory/ViewLaboratory.jsx';
 import LaboratoryWorkspace from '../../../Features/Laboratory/Features/Workspace/Workspace.jsx';
+import LaboratoryProfile from '../../../Features/Laboratory/Features/Profile/Profile.jsx';
 
 /* --------- Patient Components --------- */
 import Patient from '../../../Features/Patient/Patient.jsx';
@@ -48,8 +50,9 @@ import BookAppointment from '../../../Features/Patient/Features/Appointment/Book
 import MyAppointments from '../../../Features/Patient/Features/Appointment/MyAppointments.jsx';
 import MyPrescription from '../../../Features/Patient/Features/Prescription/MyPrescription.jsx';
 import MyReports from '../../../Features/Patient/Features/MyReports/MyReports.jsx';
-import PatientViewHospital from '../../../Features/Patient/Features/Hospitals/ViewHospital.jsx'
-import PatientViewDoctor from '../../../Features/Patient/Features/Doctors/ViewDoctor.jsx'
+import PatientViewHospital from '../../../Features/Patient/Features/Hospitals/ViewHospital.jsx';
+import PatientViewDoctor from '../../../Features/Patient/Features/Doctors/ViewDoctor.jsx';
+import PatientProfile from '../../../Features/Patient/Features/Profile/Profile.jsx';
 
 
 
@@ -163,6 +166,10 @@ export const routeData = [
                 path: "backup",
                 element: Backup
             },
+            {
+                path: "my-account",
+                element: PatientProfile
+            },
         ]
     },
 
@@ -184,6 +191,10 @@ export const routeData = [
                 path: "appointments",
                 element: DoctorAppointmentList,
             },
+            {
+                path: "my-account",
+                element: DoctorProfile
+            },
         ]
     },
 
@@ -200,6 +211,10 @@ export const routeData = [
             {
                 path: "workspace",
                 element: LaboratoryWorkspace,
+            },
+            {
+                path: "my-account",
+                element: LaboratoryProfile
             },
         ]
     },
@@ -246,6 +261,10 @@ export const routeData = [
             {
                 path: "view-doctor/:id",
                 element: PatientViewDoctor
+            },
+            {
+                path: "my-account",
+                element: PatientProfile
             },
         ]
     },

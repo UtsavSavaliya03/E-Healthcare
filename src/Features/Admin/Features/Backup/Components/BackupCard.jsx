@@ -143,7 +143,7 @@ export default function BackupCard(props) {
     }
 
     return (
-        <div className='backup-card m-0 mt-4 w-100'>
+        <div className='backup-card m-0 mt-5 w-100'>
             <Backdrop
                 sx={{ zIndex: 1 }}
                 open={isLoading}

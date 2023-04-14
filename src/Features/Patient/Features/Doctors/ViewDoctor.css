@@ -83,3 +83,19 @@
 .btn-show-all button:focus {
     outline: none;
 }
+
+.view-doctore-profile .btn-book-appointment {
+    border: none;
+    padding: 5px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    color: rgb(236, 236, 236);
+    background-color: #0087fe;
+    font-weight: 600;
+    letter-spacing: 1px;
+}
+
+.view-doctore-profile .btn-book-appointment:hover {
+    background-color: #0275d8;
+    color: white;
+}

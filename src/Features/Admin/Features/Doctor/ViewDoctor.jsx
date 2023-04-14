@@ -273,9 +273,8 @@ export default function ViewDoctor() {
               <div className="doctor-profile-img-container">
                 <img className="doctor-profile-img" src={profileImg} />
                 <div
-                  className={`${
-                    enableEdit ? "doctor-profile-icons" : "d-none"
-                  }`}
+                  className={`${enableEdit ? "doctor-profile-icons" : "d-none"
+                    }`}
                 >
                   <i
                     className="fas fa-camera camera-icon mx-1"
@@ -298,9 +297,8 @@ export default function ViewDoctor() {
               </div>
             </div>
             <div
-              className={`col-sm-12 col-lg-10 pr-lg-5 px-5 mt-md-3 mt-lg-0 ${
-                isSidebarOpen ? "pl-lg-4" : "pl-lg-2"
-              }`}
+              className={`col-sm-12 col-lg-10 pr-lg-5 px-5 mt-md-3 mt-lg-0 ${isSidebarOpen ? "pl-lg-4" : "pl-lg-2"
+                }`}
             >
               <div className="mb-3">
                 <h4 className="title m-0">{`${doctor?.fName} ${doctor?.lName}`}</h4>
@@ -533,11 +531,10 @@ export default function ViewDoctor() {
                   <FormControl>
                     <FormLabel
                       id="demo-radio-buttons-group-label"
-                      className={`m-0 ${
-                        formik.touched.gender && Boolean(formik.errors.gender)
-                          ? "text-danger"
-                          : ""
-                      }`}
+                      className={`m-0 ${formik.touched.gender && Boolean(formik.errors.gender)
+                        ? "text-danger"
+                        : ""
+                        }`}
                     >
                       Gender
                     </FormLabel>
@@ -654,7 +651,7 @@ export default function ViewDoctor() {
                       onChange={formik.handleChange}
                     >
                       {formik.values.country &&
-                      State.getStatesOfCountry(formik.values.country)?.length >
+                        State.getStatesOfCountry(formik.values.country)?.length >
                         0 ? (
                         State.getStatesOfCountry(formik.values.country)?.map(
                           (stete, index) => (
@@ -685,10 +682,10 @@ export default function ViewDoctor() {
                       onChange={formik.handleChange}
                     >
                       {formik.values.state &&
-                      City.getCitiesOfState(
-                        formik.values.country,
-                        formik.values.state
-                      )?.length > 0 ? (
+                        City.getCitiesOfState(
+                          formik.values.country,
+                          formik.values.state
+                        )?.length > 0 ? (
                         City.getCitiesOfState(
                           formik.values.country,
                           formik.values.state
@@ -765,7 +762,7 @@ export default function ViewDoctor() {
                       label="City Of Hospital"
                       select
                       value={formik.values.cityOfHospital}
-                      error={ formik.touched.cityOfHospital && Boolean(formik.errors.cityOfHospital)}
+                      error={formik.touched.cityOfHospital && Boolean(formik.errors.cityOfHospital)}
                       onChange={formik.handleChange}
                     >
                       {City.getCitiesOfState("IN", formik.values.stateOfHospital) ? (
@@ -802,7 +799,7 @@ export default function ViewDoctor() {
                           return hospital?.state?.isoCode ===
                             formik.values.stateOfHospital &&
                             hospital?.city?.name ===
-                              formik.values.cityOfHospital ? (
+                            formik.values.cityOfHospital ? (
                             <MenuItem key={index} value={hospital?._id}>
                               {hospital?.name}
                             </MenuItem>
@@ -903,10 +900,13 @@ export default function ViewDoctor() {
         </div>
 
         <div className="row px-4 py-lg-3">
-          <div className="col-sm-6 my-3 my-md-0">
+          <div className="col-12 my-3 my-md-0">
             <p className="label m-0">Address</p>
             <p className="value break-line-1 m-0">{doctor?.addressLine}</p>
           </div>
+        </div>
+
+        <div className="row px-4 py-md-3">
           <div className="col-sm-3 my-3 my-md-0">
             <p className="label m-0">Country</p>
             <p className="value m-0">{doctor?.country?.name}</p>
@@ -915,9 +915,6 @@ export default function ViewDoctor() {
             <p className="label m-0">State</p>
             <p className="value m-0">{doctor?.state?.name || "---"}</p>
           </div>
-        </div>
-
-        <div className="row px-4 py-md-3">
           <div className="col-sm-3 my-3 my-md-0">
             <p className="label m-0">City</p>
             <p className="value m-0">{doctor?.city?.name || "---"}</p>

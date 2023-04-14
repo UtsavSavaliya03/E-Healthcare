@@ -28,7 +28,7 @@ export default function TestReportList() {
     }
 
     const headers = {
-      'Authorization': token,
+      Authorization: token,
     };
 
     const reportResponse = await fetchTestReportsByLaboratory(laboratory?._id, headers);

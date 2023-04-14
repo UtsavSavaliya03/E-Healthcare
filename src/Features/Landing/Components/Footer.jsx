@@ -26,10 +26,10 @@ function Footer() {
                 <div className="footer-link">
                   <h3>Service Area</h3>
                   <div className="usefullink-container">
-                    <a href="/">Lorem ipsum</a>
-                    <a href="/">tempus posuere </a>
-                    <a href="/">velit id accumsan</a>
-                    <a href="/">ut porttitor</a>
+                    <a>Hospitals</a>
+                    <a>Laboratories</a>
+                    <a>Doctors</a>
+                    <a>Patients</a>
                   </div>
                 </div>
               </div>

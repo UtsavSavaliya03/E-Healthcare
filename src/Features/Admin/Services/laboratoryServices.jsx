@@ -14,33 +14,42 @@ export const addLaboratory = async (laboratoryCredentials, header) => {
 }
 export const fetchLaboratories = async (header) => {
 
-    const laboratory = await axiosService.get(LaboratoryUrls.fetchLaboratories(),header);
+    const laboratory = await axiosService.get(LaboratoryUrls.fetchLaboratories(), header);
 
     if (laboratory.data || laboratory.response.data) {
         return laboratory.data || laboratory.response.data;
     }
 }
-export const fetchLaboratoryById = async (id,header) => {
+export const fetchLaboratoryById = async (id, header) => {
 
-    const laboratory = await axiosService.get(LaboratoryUrls.fetchLaboratoryById(id),header);
+    const laboratory = await axiosService.get(LaboratoryUrls.fetchLaboratoryById(id), header);
 
     if (laboratory.data || laboratory.response.data) {
         return laboratory.data || laboratory.response.data;
     }
 }
-export const deleteLaboratoryById = async (id,header) => {
-    
-    const laboratory = await axiosService.delete(LaboratoryUrls.deleteLaboratoryById(id),header);
-    
+export const deleteLaboratoryById = async (id, header) => {
+
+    const laboratory = await axiosService.delete(LaboratoryUrls.deleteLaboratoryById(id), header);
+
     if (laboratory.data || laboratory.response.data) {
         return laboratory.data || laboratory.response.data;
     }
 }
 
 export const searchLaboratories = async (laboratoryCredentials, header) => {
-    
+
     const laboratory = await axiosService.post(LaboratoryUrls.searchLaboratories(), laboratoryCredentials, header);
-    
+
+    if (laboratory.data || laboratory.response.data) {
+        return laboratory.data || laboratory.response.data;
+    }
+}
+
+export const updateLaboratories = async (id, laboratoryCredentials, header) => {
+
+    const laboratory = await axiosService.post(LaboratoryUrls.updateLaboratory(id), laboratoryCredentials, header);
+
     if (laboratory.data || laboratory.response.data) {
         return laboratory.data || laboratory.response.data;
     }

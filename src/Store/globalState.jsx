@@ -20,6 +20,11 @@ export const editDoctorStateAtom = atom({
     default: false,
 });
 
+export const selectedDoctorStateAtom = atom({
+    key: 'selectedDoctorStateAtom',
+    default: null,
+});
+
 export const editHospitalStateAtom = atom({
     key: 'editHospitalStateAtom',
     default: false,
