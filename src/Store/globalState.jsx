@@ -29,3 +29,8 @@ export const editHospitalStateAtom = atom({
     key: 'editHospitalStateAtom',
     default: false,
 });
+
+export const changePasswordModal = atom({
+    key: 'changePasswordModal',
+    default: false,
+});

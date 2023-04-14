@@ -173,8 +173,9 @@ export default function AddDoctors() {
     formData.append("pincode", doctorCredentials?.pincode);
 
     const headers = {
-      Authorization: token,
+      'Authorization': token,
     };
+    
     const doctor = await addDoctor(formData, headers);
     notification.notify(doctor?.status, doctor?.message);
     setIsLoading(false);

@@ -14,9 +14,12 @@ import AddUrinalysisReport from './TestReports/AddUrinalysisReport.jsx';
 import AddBloodGlucoseReport from './TestReports/AddBloodGlucoseReport.jsx';
 import AddLipidProfileReport from './TestReports/AddLipidProfileReport.jsx';
 import AddCbcReport from './TestReports/AddCbcReport.jsx';
+import { useRecoilValue } from 'recoil';
+import { userState } from '../../../../../Store/globalState';
 
 export default function PatientsList(props) {
 
+  const user = useRecoilValue(userState);
   const token = localStorage.getItem('token') || null;
   const [searchValue, setSearchValue] = useState('');
   const [selectedReport, setSelectedReport] = useState(null);
@@ -53,7 +56,13 @@ export default function PatientsList(props) {
     const headers = {
       'Authorization': token
     }
-    const patientResponse = await fetchTestRequestsByStatus(status, headers);
+
+    const params = {
+      laboratory: user?._id,
+      status:status
+    }
+
+    const patientResponse = await fetchTestRequestsByStatus(params, headers);
     setTestRequest(patientResponse?.data);
     setIsLoading(false);
   }
@@ -82,9 +91,7 @@ export default function PatientsList(props) {
 
       case 'Blood Glucose':
         return <AddBloodGlucoseReport report={selectedReport} handleClosePatient={handleClosePatient} />
-
     }
-
   }
 
   const renderPatients = () => {

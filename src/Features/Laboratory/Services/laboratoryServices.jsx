@@ -3,9 +3,9 @@ import { TestRequestUrls, TestReportUrls, ServicesUrls } from '../../../Services
 
 const axiosService = new AxiosService();
 
-export const fetchTestRequestsByStatus = async (status, header) => {
+export const fetchTestRequestsByStatus = async (params, header) => {
 
-    const testRequestResponse = await axiosService.get(TestRequestUrls.fetchTestRequestsByStatus(status), header);
+    const testRequestResponse = await axiosService.post(TestRequestUrls.fetchTestRequestsByStatus(),params,  header);
 
     if (testRequestResponse?.data || testRequestResponse?.response?.data) {
         return testRequestResponse?.data || testRequestResponse?.response.data;

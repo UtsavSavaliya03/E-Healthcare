@@ -26,7 +26,6 @@ const Dashboard = () => {
   const [testRequests, setTestRequests] = useState([])
   const [approvedRequests, setApprovedRequests] = useState([])
   const token = localStorage.getItem("token") || null;
-  const laboratory = useRecoilValue(userState);
   const [isLoading, setIsLoading] = useState(false);
   const [reportsData, setReportsData] = useState([]);
   const [totalReports, setTotalReports] = useState(0);
@@ -34,9 +33,9 @@ const Dashboard = () => {
   const fetchLaboratoryReportDataHandler = async () => {
     setIsLoading(true);
     const headers = {
-      Authorization: token,
+      'Authorization': token,
     };
-    const reportsDataResponse = await fetchLaboratoryReportData(laboratory?._id, headers);
+    const reportsDataResponse = await fetchLaboratoryReportData(user?._id, headers);
     if (reportsDataResponse?.data?.length > 0) {
       setReportsData([{ id: "Reports", color: tokens().blueAccent[500], data: reportsDataResponse?.data }]);
       setTotalReports(reportsDataResponse?.totalRecords);
@@ -52,19 +51,30 @@ const Dashboard = () => {
     const headers = {
       'Authorization': token
     }
-    const testRequests = await fetchTestRequestsByStatus(status, headers)
-    setTestRequests(testRequests?.data)
 
+    const params = {
+      laboratory: user?._id,
+      status: status
+    }
+
+    const testRequests = await fetchTestRequestsByStatus(params, headers)
+    setTestRequests(testRequests?.data)
   }
 
   const fetchApprovedTestRequestHandler = async (status) => {
     const headers = {
       'Authorization': token
     }
-    const testRequests = await fetchTestRequestsByStatus(status, headers)
-    setApprovedRequests(testRequests?.data)
 
+    const params = {
+      laboratory: user?._id,
+      status: status
+    }
+
+    const testRequests = await fetchTestRequestsByStatus(params, headers)
+    setApprovedRequests(testRequests?.data)
   }
+
   const acceptTestRequest = async (id, status) => {
     const param = {
       'status': status
@@ -318,14 +328,14 @@ const Dashboard = () => {
                   className='py-5'
                 >
                   <Typography
-                    className="text-secondary py-5"
+                    className="text-secondary py-4"
                     variant="h5"
                     fontWeight="600"
                   >
-                    Not any pending test request
+                    No pending test request
                   </Typography>
                 </Box>
-                : testRequests.map((request, index) => (
+                : testRequests?.map((request, index) => (
                   <Box
                     key={index}
                     display="flex"
@@ -405,11 +415,11 @@ const Dashboard = () => {
                   className='py-5'
                 >
                   <Typography
-                    className="text-secondary py-5"
+                    className="text-secondary py-4"
                     variant="h5"
                     fontWeight="600"
                   >
-                    Not any approved test request
+                    No approved test request
                   </Typography>
                 </Box> : approvedRequests?.map((request, index) => (
                   <Box
