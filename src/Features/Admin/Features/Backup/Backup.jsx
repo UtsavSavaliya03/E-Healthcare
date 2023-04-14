@@ -15,6 +15,7 @@ export default function Backup() {
           <div className='horizontal-bar'></div>
         </div >
         <BackupCard  title={'hospitals'} />
+        <BackupCard  title={'laboratories'} />
         <BackupCard title={'doctors'} />
         <BackupCard title={'patients'} />
       </div>

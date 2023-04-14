@@ -10,11 +10,12 @@ import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import moment from "moment";
 import {
   sidebarStateAtom,
+  selectedDoctorStateAtom
 } from "../../../../Store/globalState.jsx";
-import { useRecoilValue } from "recoil";
+import { useRecoilValue, useRecoilState } from "recoil";
 import { Spinner } from "../../../../Components/Common/Spinners/Spinners.jsx";
-import Backdrop from "@mui/material/Backdrop";
 import { Helmet } from "react-helmet";
+import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 
 export default function ViewDoctor() {
   const navigate = useNavigate();
@@ -26,6 +27,12 @@ export default function ViewDoctor() {
   const [doctor, setDoctor] = useState({});
   const [isLoading, setIsLoading] = useState(true);
   const [profileImg, setProfileImg] = useState(profilePicture);
+  const [selectedDoctor, setSelectedDoctor] = useRecoilState(selectedDoctorStateAtom);
+
+  const bookAppointmentHandler = () => {
+    setSelectedDoctor(doctor);
+    navigate('/patient/book-appointment');
+  }
 
   const fetchDoctorHandler = async () => {
     setIsLoading(true);
@@ -189,23 +196,32 @@ export default function ViewDoctor() {
                     <img className="doctor-profile-img" src={profileImg} />
                   </div>
                 </div>
-                <div
-                  className={`col-sm-12 col-lg-10 pr-lg-5 px-5 mt-md-3 mt-lg-0 ${isSidebarOpen ? "pl-lg-4" : "pl-lg-2"}`}
-                >
-                  <div className="mb-3">
-                    <h4 className="title m-0">{`${doctor?.fName} ${doctor?.lName}`}</h4>
-                    <div className="d-flex justify-content-start align-items-center">
-                      <p className="value m-0 break-line-1">{doctor?.email}</p>
-                      <div className="doctor-card-copy-icon ml-1">
-                        <IconButton
-                          size="small"
-                          onClick={() => {
-                            navigator.clipboard.writeText(doctor?.email);
-                          }}
-                        >
-                          <ContentCopyIcon fontSize="small" />
-                        </IconButton>
+                <div className={`col-sm-12 col-lg-10 pr-lg-5 px-5 mt-md-3 mt-lg-0 ${isSidebarOpen ? "pl-lg-4" : "pl-lg-2"}`}>
+                  <div className="pb-3 d-flex justify-content-between">
+                    <div>
+                      <h4 className="title m-0">{`${doctor?.fName} ${doctor?.lName}`}</h4>
+                      <div className="d-flex justify-content-start align-items-center">
+                        <p className="value m-0 break-line-1">{doctor?.email}</p>
+                        <div className="doctor-card-copy-icon ml-1">
+                          <IconButton
+                            size="small"
+                            onClick={() => {
+                              navigator.clipboard.writeText(doctor?.email);
+                            }}
+                          >
+                            <ContentCopyIcon fontSize="small" />
+                          </IconButton>
+                        </div>
                       </div>
+                    </div>
+                    <div className="ml-3">
+                      <button
+                        className="btn-book-appointment align-items-center d-flex"
+                        onClick={bookAppointmentHandler}
+                      >
+                        <span>Book an appointment</span> 
+                        <ArrowForwardIcon className="ml-2"/>
+                      </button>
                     </div>
                   </div>
                   <p className="text-muted m-0">{doctor?.shortBio}</p>

@@ -74,7 +74,8 @@
     width: 100%;
 }
 
-.header-container .dropdown-item a:hover {
+.header-container .dropdown-item a:hover,
+.header-container .dropdown li:active {
     color: rgb(57, 57, 57) !important;
     background-color: gainsboro;
 }

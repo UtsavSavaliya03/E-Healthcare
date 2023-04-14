@@ -6,6 +6,7 @@
 .newsletter-form-container {
   display: flex;
   flex-direction: column;
+  align-items: normal !important;
   padding: 0 15px;
   margin: 0 auto;
 }
@@ -85,7 +86,7 @@
   color: #252525;
   font-size: 1.6rem;
   line-height: 2.4rem;
-  vertical-align: middle;
+  /* vertical-align: middle; */
 }
 
 .newsletter-form-input input::-webkit-input-placeholder {
@@ -96,7 +97,7 @@
   color: #7881a1;
   font-size: 2.4rem;
   line-height: 2.4rem;
-  vertical-align: middle;
+  /* vertical-align: middle; */
   transition: color 0.25s;
 }
 

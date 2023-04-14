@@ -4,8 +4,8 @@ import { TextField, MenuItem } from "@mui/material";
 import InputAdornment from "@mui/material/InputAdornment";
 import SearchIcon from "@mui/icons-material/Search";
 import { fetchActiveDepartments } from "../../../Admin/Services/departmentServices.jsx";
-import { useRecoilValue } from "recoil";
-import { userState } from '../../../../Store/globalState.jsx';
+import { useRecoilState, useRecoilValue } from "recoil";
+import { userState, selectedDoctorStateAtom } from '../../../../Store/globalState.jsx';
 import DoctorCard from "./Components/DoctorCard";
 import 'react-calendar/dist/Calendar.css';
 import Calendar from 'react-calendar';
@@ -41,7 +41,7 @@ export default function BookAppointment() {
   const token = localStorage.getItem("token") || null;
   const [doctors, setDoctors] = useState([]);
   const [searchedDoctors, setSearchedDoctors] = useState([]);
-  const [selectedDoctor, setSelectedDoctor] = useState();
+  const [selectedDoctor, setSelectedDoctor] = useRecoilState(selectedDoctorStateAtom);
   const [isSearched, setIsSearched] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [isLoadingBackdrop, setIsLoadingBackdrop] = useState(false);
@@ -56,6 +56,7 @@ export default function BookAppointment() {
 
   const setDoctorHandler = (doctor) => {
     setSelectedDoctor(doctor);
+    console.log(doctor);
   }
 
   const onChangeHandler = (event) => {
@@ -86,6 +87,10 @@ export default function BookAppointment() {
   useEffect(() => {
     fetchDoctorHandle();
     fetchDepartmentsHandler();
+
+    return (() => {
+      setSelectedDoctor(null);
+    })
   }, []);
 
   const timeHandler = (hour) => {

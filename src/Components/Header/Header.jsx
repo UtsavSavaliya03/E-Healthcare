@@ -13,7 +13,7 @@ import useLogin from "./Hooks/useLogin.jsx";
 import { findMe } from "./Services/userServices.jsx";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
-import { FaSignOutAlt, FaUserAlt } from "react-icons/fa";
+import { FaSignOutAlt, FaUserAlt, FaComments } from "react-icons/fa";
 import logo from "../../Assets/Logos/Logo.png";
 
 export default function Header() {
@@ -30,7 +30,7 @@ export default function Header() {
   useEffect(() => {
     findUser();
   }, []);
-  
+
   useEffect(() => {
     if (user.role == 2) {
       setUserName(user?.name)
@@ -68,6 +68,18 @@ export default function Header() {
   const sidebarHandler = () => {
     setIsOpenSidebar(!isOpenSidebar);
   };
+
+  const myAccountHandler = () => {
+    if (user?.role !== 0) {
+      navigate('/main/my-account');
+    } else if (user?.role === 1) {
+      navigate('/doctor/my-account');
+    } else if (user?.role === 2) {
+      navigate('/laboratory/my-account');
+    } else {
+      navigate('patient/my-account');
+    }
+  }
 
   return (
     <>
@@ -118,8 +130,8 @@ export default function Header() {
                     <hr className="my-2" />
                     <li className="dropdown-item">
                       <Link
-                        to="/"
                         className="py-2 px-4 d-flex align-items-center"
+                        onClick={myAccountHandler}
                       >
                         <FaUserAlt size={20} className="mr-2" />
                         My Account
@@ -127,11 +139,10 @@ export default function Header() {
                     </li>
                     <li className="dropdown-item">
                       <Link
-                        to="/"
                         className="py-2 px-4 d-flex align-items-center"
                       >
-                        <FaUserAlt size={20} className="mr-2" />
-                        My Account
+                        <FaComments size={20} className="mr-2" />
+                        Feedback
                       </Link>
                     </li>
                     <hr className="my-2" />

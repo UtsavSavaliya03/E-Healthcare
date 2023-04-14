@@ -102,8 +102,9 @@ export const LaboratoryUrls = {
     fetchLaboratoryByPincode: (pincode) => {
         return baseUrl + `/laboratory/pincode/${pincode}`;
     },
-
-
+    updateLaboratory: (id) => {
+        return baseUrl + `/laboratory/update/${id}`;
+    },
 }
 export const TestRequestUrls = {
     addTestRequest: () => {
@@ -119,6 +120,7 @@ export const TestRequestUrls = {
         return baseUrl + `/testRequest/search/${patientId}`;
     },
 }
+
 export const TestReportUrls = {
     addTestReport: () => {
         return baseUrl + `/testReport`;
@@ -208,5 +210,11 @@ export const AppointmentUrls = {
     },
     fetchAppointmentsByUser: (id) => {
         return baseUrl + `/appointment/${id}`;
+    }
+}
+
+export const ServicesUrls = {
+    fetchLaboratoryReportData: (laboratoryId) => {
+        return baseUrl + `/services/laboratory/report/${laboratoryId}`;
     }
 }
