@@ -87,8 +87,8 @@ export default function GeneratePrescription(props) {
     };
 
     const PrescriptionSchema = Yup.object().shape({
-        testType: Yup.string().trim().required(" "),
-        laboratory: Yup.string().trim().required(" "),
+        testType: Yup.string().trim(),
+        laboratory: Yup.string().trim(),
         suggestion: Yup.string().trim(),
         nextVisitDate: Yup.date().min(
             moment(new Date()).format("YYYY-MM-DD"),
@@ -97,14 +97,6 @@ export default function GeneratePrescription(props) {
     });
 
     const submitHandler = async (values) => {
-        const params = {
-            patient: patient?._id,
-            doctor: doctor?._id,
-            medicines: medicineData,
-            suggestion: values?.suggestion,
-            nextVisitDate: values?.nextVisitDate == "" ? null : values?.nextVisitDate,
-        };
-
         if (values?.testType !== 'None' || values?.laboratory !== '') {
             const testRequestData = {
                 patient: patient?._id,
@@ -115,12 +107,21 @@ export default function GeneratePrescription(props) {
             const headers = {
                 'Authorization': token,
             };
-            const testRequest = await addTestRequest(testRequestData, headers);
+            await addTestRequest(testRequestData, headers);
         }
+
+        const params = {
+            patient: patient?._id,
+            doctor: doctor?._id,
+            medicines: medicineData,
+            suggestion: values?.suggestion,
+            nextVisitDate: values?.nextVisitDate == "" ? null : values?.nextVisitDate,
+        };
 
         const headers = {
             'Authorization': token,
         };
+
         const prescription = await addPrescription(params, headers);
         notification.notify(prescription?.status, prescription?.message);
         if (prescription?.status) {
@@ -257,7 +258,7 @@ export default function GeneratePrescription(props) {
                         <button
                             className="btn-create-department"
                             type="submit"
-                            // disabled={medicineData?.length < 1 ? true : false}
+                            disabled={medicineData?.length < 1 ? true : false}
                         >
                             Create
                         </button>

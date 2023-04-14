@@ -3,14 +3,13 @@ import { useTheme } from "@mui/material";
 import { tokens } from "../../../../../Services/theme.js";
 import { mockLineData as data } from "../../../../../Constant/Admin/mockData.js";
 
-const LineChart = ({ isCustomLineColors = false, isDashboard = false }) => {
+const LineChart = ({ isCustomLineColors = false, isDashboard = false,lineData={} }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
   return (
     <ResponsiveLine
-      // enableArea={true}
-      data={data}
+      data={lineData}
       theme={{
         axis: {
           domain: {
@@ -44,12 +43,12 @@ const LineChart = ({ isCustomLineColors = false, isDashboard = false }) => {
           },
         },
       }}
-      colors={isDashboard ? { datum: "color" } : { scheme: "nivo" }} // added
+      colors={{ datum: "color" }} // added
       margin={{ top: 50, right: 110, bottom: 50, left: 60 }}
       xScale={{ type: "point" }}
       yScale={{
         type: "linear",
-        min: "auto",
+        min: "0",
         max: "auto",
         stacked: false,
         reverse: false,
@@ -63,7 +62,7 @@ const LineChart = ({ isCustomLineColors = false, isDashboard = false }) => {
         tickSize: 0,
         tickPadding: 5,
         tickRotation: 0,
-        legend: isDashboard ? undefined : "transportation", // added
+        legend: isDashboard ? undefined : "Months", // added
         legendOffset: 36,
         legendPosition: "middle",
       }}
@@ -73,7 +72,7 @@ const LineChart = ({ isCustomLineColors = false, isDashboard = false }) => {
         tickSize: 3,
         tickPadding: 5,
         tickRotation: 0,
-        legend: isDashboard ? undefined : "count", // added
+        legend: isDashboard ? undefined : "Doctors And Patients", // added
         legendOffset: -40,
         legendPosition: "middle",
       }}

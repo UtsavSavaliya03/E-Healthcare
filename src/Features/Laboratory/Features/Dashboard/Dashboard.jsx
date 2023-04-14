@@ -35,10 +35,11 @@ const Dashboard = () => {
     const headers = {
       'Authorization': token,
     };
-    const reportsDataResponse = await fetchLaboratoryReportData(user?._id, headers);
-    if (reportsDataResponse?.data?.length > 0) {
-      setReportsData([{ id: "Reports", color: tokens().blueAccent[500], data: reportsDataResponse?.data }]);
-      setTotalReports(reportsDataResponse?.totalRecords);
+    const reportsDataResponse = await fetchLaboratoryReportData(laboratory?._id, headers);
+    ;
+    if (reportsDataResponse?.data?.reportsData?.length > 0) {
+      setReportsData([{ id: "Reports", color: tokens().blueAccent[500], data: reportsDataResponse?.data?.reportsData }]);
+      setTotalReports(reportsDataResponse?.data?.totalRecords);
     }
     setIsLoading(false);
   }

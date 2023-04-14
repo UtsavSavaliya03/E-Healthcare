@@ -30,6 +30,7 @@
   max-height: 120px !important;
 }
 
+
 @media only screen and (max-width: 1000px) {
   .doctor-dashboard-box {
     margin-bottom: 25px;

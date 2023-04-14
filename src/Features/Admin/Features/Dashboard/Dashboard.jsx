@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Box, Typography, useTheme } from "@mui/material";
 import { tokens } from "../../../../Services/theme.js";
 import { mockTransactions } from "../../../../Constant/Admin/mockData.js";
@@ -10,10 +10,48 @@ import StatBox from "./Components/StatBox.jsx";
 import ProgressCircle from "./Components/ProgressCircle.jsx";
 import "./Dashboard.css";
 import { Helmet } from "react-helmet";
+import { fetchAdminDashboardData } from '../../Services/dashboardServices.jsx'
+import Avatar from 'react-avatar';
+import moment from 'moment';
+import { Spinner } from '../../../../Components/Common/Spinners/Spinners.jsx';
+import PieChart from "./Components/PieChart.jsx";
+
 
 export default function Dashboard() {
   const theme = useTheme();
   const colors = tokens(theme.palette);
+  const token = localStorage.getItem("token") || null;
+  const [totalHospitals, setTotalHospitals] = useState([])
+  const [totalDoctors, setTotalDoctors] = useState([])
+  const [totalLaboratories, setTotalLaboratories] = useState([])
+  const [totalPatients, setTotalPatients] = useState([])
+  const [activePatients, setActivePatients] = useState([])
+  const [lineData, setLineData] = useState([])
+  const [barData, setBarData] = useState([])
+  const [isLoading, setIsLoading] = useState(false);
+  const fetchAdminDashboardDataHandler = async () => {
+    setIsLoading(true)
+    const headers = {
+      "Authorization": token
+    }
+    const adminData = await fetchAdminDashboardData(headers)
+    if (adminData?.status) {
+      setTotalDoctors(adminData?.data?.totalDoctors)
+      setTotalHospitals(adminData?.data?.totalHospitals)
+      setTotalLaboratories(adminData?.data?.totalLaboratories)
+      setTotalPatients(adminData?.data?.totalPatients)
+      setActivePatients(adminData?.data?.activePatients)
+      setLineData([{ id: "Patients", color: tokens().blueAccent[500], data: adminData?.data?.patientsData }, { id: "Doctors", color: tokens().greenAccent[500], data: adminData?.data?.doctorsData }])
+      setBarData([{ id: "Hospitals", hospitalsColor: tokens().blueAccent[500], data:adminData?.data?.hospitalsData}, { id: "Laboratories", laboratoriesColor: tokens().greenAccent[500], data: adminData?.data?.laboratoriesData}])
+      
+      setIsLoading(false)
+    }
+  }
+
+  useEffect(() => {
+    fetchAdminDashboardDataHandler()
+  }, [])
+
   return (
     <>
       <Helmet>
@@ -39,7 +77,7 @@ export default function Dashboard() {
               justifyContent="center"
             >
               <StatBox
-                title="431,225"
+                title={totalPatients}
                 subtitle="Total Patients"
                 progress="0.50"
                 increase="+21%"
@@ -61,11 +99,11 @@ export default function Dashboard() {
               justifyContent="center"
             >
               <StatBox
-                title="12,361"
+                title={totalLaboratories}
                 subtitle="Total Laboratories"
                 progress="0.75"
                 increase="+14%"
-                
+
                 icon={
                   <FaMicroscope
                     style={{ color: colors.blueAccent[500], fontSize: "26px" }}
@@ -84,7 +122,7 @@ export default function Dashboard() {
               justifyContent="center"
             >
               <StatBox
-                title="32,441"
+                title={totalHospitals}
                 subtitle="Total Hospitals"
                 progress="0.30"
                 increase="+5%"
@@ -106,7 +144,7 @@ export default function Dashboard() {
               justifyContent="center"
             >
               <StatBox
-                title="25,134"
+                title={totalDoctors}
                 subtitle="Total Doctors"
                 progress="0.80"
                 increase="+43%"
@@ -119,16 +157,16 @@ export default function Dashboard() {
             </Box>
           </div>
 
-          <div className="col-lg-8 col-md-8 col-sm-12">
+          <div className="col-lg-8 col-md-8 col-sm-12" >
             <Box
               className="py-2 my-lg-4 admin-dashboard-box"
               backgroundColor={colors.primary[400]}
               borderRadius="5px"
+              height={"393px"}
             >
               <Box
                 p="30px"
                 display="flex"
-                justifyContent="space-between"
                 alignItems="center"
               >
                 <Box>
@@ -136,79 +174,107 @@ export default function Dashboard() {
                     variant="h5"
                     fontWeight="600"
                     color={colors.grey[100]}
+                    marginRight="50px"
                   >
-                    Total Users
+                    Total Patients
                   </Typography>
                   <Typography
-                    variant="h3"
+                    variant="h4"
                     fontWeight="bold"
                     color={colors.blueAccent[500]}
                   >
-                    5,93,423
+                    {totalPatients}
+                  </Typography>
+                </Box>
+                <Box>
+                  <Typography
+                    variant="h5"
+                    fontWeight="600"
+                    color={colors.grey[100]}
+                  >
+                    Total Doctors
+                  </Typography>
+                  <Typography
+                    variant="h4"
+                    fontWeight="bold"
+                    color={colors.blueAccent[500]}
+                  >
+                    {totalDoctors}
                   </Typography>
                 </Box>
               </Box>
               <Box height="250px" m="-20px 20px 0 0">
-                <LineChart isDashboard={true} />
+                {
+                  isLoading ? (
+                    <div className="w-100 d-flex justify-content-center pt-5 mt-3">
+                      <Spinner />
+                    </div>
+                  ) : (<LineChart lineData={lineData} />
+                  )}
               </Box>
             </Box>
           </div>
           <div className="col-lg-4 col-md-4 col-sm-12">
             <Box
-              maxHeight="395px"
               borderRadius="5px"
               className="my-lg-4 admin-dashboard-box"
               backgroundColor={colors.primary[400]}
-              overflow="auto"
             >
               <Box
                 display="flex"
                 justifyContent="space-between"
                 alignItems="center"
                 borderBottom="4px solid white"
+                backgroundColor={colors.blueAccent[500]}
                 colors={colors.grey[100]}
                 p="15px"
+                borderRadius={"5px"}
               >
                 <Typography
                   color={colors.grey[100]}
                   variant="h5"
+                  className="text-white"
                   fontWeight="600"
+
                 >
-                  Recent Orders
+                  Active Patients
                 </Typography>
               </Box>
-              {mockTransactions.map((transaction, i) => (
-                <Box
-                  key={`${transaction.txId}-${i}`}
-                  display="flex"
-                  justifyContent="space-between"
-                  alignItems="center"
-                  borderBottom="4px solid white"
-                  p="15px"
-                >
-                  <Box>
-                    <Typography
-                      color={colors.blueAccent[500]}
-                      variant="h5"
-                      fontWeight="600"
-                    >
-                      {transaction.txId}
-                    </Typography>
-                    <Typography color={colors.grey[100]}>
-                      {transaction.user}
-                    </Typography>
-                  </Box>
-                  <Box color={colors.grey[100]}>{transaction.date}</Box>
-                  <Box
-                    backgroundColor={colors.blueAccent[500]}
-                    color="white"
-                    p="5px 10px"
-                    borderRadius="4px"
-                  >
-                    ${transaction.cost}
-                  </Box>
-                </Box>
-              ))}
+              <Box height={"327px"} overflow="auto">
+                {
+                  isLoading ? (
+                    <div className="w-100 d-flex justify-content-center pt-5 mt-5">
+                      <Spinner />
+                    </div>
+                  ) :
+                    activePatients.map((patient, index) => (
+                      <Box
+                        key={index}
+                        display="flex"
+                        justifyContent="space-between"
+                        alignItems="center"
+                        borderBottom="4px solid white"
+                        p="15px"
+                      >
+                        <Box>
+                          <Avatar className='doctor-profile-avatar' size='50' round name={`${patient?.fName} ${patient?.lName}`} src={patient?.profileImg} />
+                        </Box>
+                        <Box>
+                          <Typography
+                            color={colors.blueAccent[500]}
+                            variant="h5"
+                            fontWeight="600"
+                          >
+                            {patient?.patientId}
+                          </Typography>
+                          <Typography color={colors.grey[100]}>
+                            {`${patient?.fName} ${patient?.lName}`}
+                          </Typography>
+                        </Box>
+                        <Box color={colors.grey[100]}>Since {moment(patient?.createdAt?.date).format("MMM, YYYY")}</Box>
+                      </Box>
+                    ))}
+              </Box>
             </Box>
           </div>
 
@@ -224,25 +290,22 @@ export default function Dashboard() {
                 fontWeight="600"
                 color={colors.grey[100]}
               >
-                Campaign
+                Total Users
               </Typography>
               <Box
                 display="flex"
                 flexDirection="column"
                 alignItems="center"
                 mt="25px"
+                height={'300px'}
               >
-                <ProgressCircle size="120" />
-                <Typography
-                  variant="h5"
-                  color={colors.blueAccent[500]}
-                  sx={{ mt: "15px" }}
-                >
-                  $48,352 revenue generated
-                </Typography>
-                <Typography color={colors.grey[500]}>
-                  Includes extra misc expenditures and costs
-                </Typography>
+                {
+                  isLoading ? (
+                    <div className="w-100 d-flex justify-content-center pt-5 mt-3">
+                      <Spinner />
+                    </div>
+                  ) : (<PieChart usersData={[totalHospitals, totalLaboratories, totalDoctors, totalPatients]} />
+                  )}
               </Box>
             </Box>
           </div>
@@ -251,6 +314,7 @@ export default function Dashboard() {
               backgroundColor={colors.primary[400]}
               borderRadius="5px"
               className="admin-dashboard-box"
+              height={"415px"}
             >
               <Typography
                 variant="h5"
@@ -258,10 +322,16 @@ export default function Dashboard() {
                 color={colors.grey[100]}
                 sx={{ padding: "30px 30px 0 30px" }}
               >
-                Sales Quantity
+                Total Hospitals And Laboratories
               </Typography>
-              <Box height="265px" mt="-20px">
-                <BarChart isDashboard={true} />
+              <Box height="365px">
+                {
+                  isLoading ? (
+                    <div className="w-100 d-flex justify-content-center pt-5 mt-3">
+                      <Spinner />
+                    </div>
+                  ) : (<BarChart barData={barData} />
+                  )}
               </Box>
             </Box>
           </div>
