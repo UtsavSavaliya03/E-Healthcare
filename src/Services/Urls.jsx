@@ -28,6 +28,9 @@ export const UserUrls = {
     fetchTestReportsByUser: (userId) => {
         return baseUrl + `/testReport/user/${userId}`;
     },
+    changePassword: () => {
+        return baseUrl + `/users/changePassword`;
+    },
 }
 
 export const PasswordUrls = {
@@ -110,8 +113,8 @@ export const TestRequestUrls = {
     addTestRequest: () => {
         return baseUrl + `/testRequest`;
     },
-    fetchTestRequestsByStatus: (status) => {
-        return baseUrl + `/testRequest/status/${status}`;
+    fetchTestRequestsByStatus: () => {
+        return baseUrl + `/testRequest/status`;
     },
     updateTestRequestsById: (id) => {
         return baseUrl + `/testRequest/${id}`;

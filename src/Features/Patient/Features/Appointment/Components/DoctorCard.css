@@ -55,7 +55,6 @@
   border-radius: 50%;
   transform: scale(1);
   transition: all 0.9s ease 0s;
-  box-shadow: 0 0 0 10px #1369ce;
 }
 
 .appointment-doctor-card-container:hover .doctor-card-picture .user-avatar {

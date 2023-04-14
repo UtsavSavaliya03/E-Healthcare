@@ -7,14 +7,16 @@ import {
   mainLoadingState,
   userState,
   sidebarStateAtom,
+  changePasswordModal,
 } from "../../Store/globalState";
 import useHeader from "./Hooks/useHeader.jsx";
 import useLogin from "./Hooks/useLogin.jsx";
 import { findMe } from "./Services/userServices.jsx";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
-import { FaSignOutAlt, FaUserAlt, FaComments } from "react-icons/fa";
+import { FaSignOutAlt, FaUserAlt, FaUserLock } from "react-icons/fa";
 import logo from "../../Assets/Logos/Logo.png";
+import PasswordModal from "./Components/PasswordModal";
 
 export default function Header() {
   const navigate = useNavigate();
@@ -26,6 +28,7 @@ export default function Header() {
   const isVisibleHeader = useHeader();
   const isLogin = useLogin();
   const [userName, setUserName] = useState('');
+  const [openPasswordChange, setOpenPasswordChange] = useRecoilState(changePasswordModal);
 
   useEffect(() => {
     findUser();
@@ -70,7 +73,7 @@ export default function Header() {
   };
 
   const myAccountHandler = () => {
-    if (user?.role !== 0) {
+    if (user?.role === 0) {
       navigate('/main/my-account');
     } else if (user?.role === 1) {
       navigate('/doctor/my-account');
@@ -79,6 +82,10 @@ export default function Header() {
     } else {
       navigate('patient/my-account');
     }
+  }
+
+  const chnagePasswordHandler = () => {
+    setOpenPasswordChange(true);
   }
 
   return (
@@ -128,23 +135,20 @@ export default function Header() {
                       <div className="clear"></div>
                     </div>
                     <hr className="my-2" />
-                    <li className="dropdown-item">
-                      <Link
-                        className="py-2 px-4 d-flex align-items-center"
-                        onClick={myAccountHandler}
-                      >
-                        <FaUserAlt size={20} className="mr-2" />
-                        My Account
-                      </Link>
-                    </li>
-                    <li className="dropdown-item">
-                      <Link
-                        className="py-2 px-4 d-flex align-items-center"
-                      >
-                        <FaComments size={20} className="mr-2" />
-                        Feedback
-                      </Link>
-                    </li>
+                    <button
+                      className="btn-logout py-2 px-4 align-items-center d-flex"
+                      onClick={myAccountHandler}
+                    >
+                      <FaUserAlt size={20} className="mr-2" />
+                      My Account
+                    </button>
+                    <button
+                      className="btn-logout py-2 px-4 align-items-center d-flex"
+                      onClick={chnagePasswordHandler}
+                    >
+                      <FaUserLock size={20} className="mr-2" />
+                      Change Password
+                    </button>
                     <hr className="my-2" />
                     <button
                       className="btn-logout py-2 px-4 align-items-center d-flex"
@@ -158,6 +162,7 @@ export default function Header() {
               </div>
             )}
           </div>
+          <PasswordModal open={openPasswordChange} />
         </div>
       )}
     </>
