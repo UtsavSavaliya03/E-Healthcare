@@ -213,11 +213,24 @@ export const AppointmentUrls = {
     },
     fetchAppointmentsByUser: (id) => {
         return baseUrl + `/appointment/${id}`;
+    },
+    fetchAppointmentsByStatus: () => {
+        return baseUrl + `/appointment/status`;
+    },
+    updateAppointmentById: (id) => {
+        return baseUrl + `/appointment/${id}`;
+    },
+    fetchDoctorPatientsData: (id) => {
+        return baseUrl + `/services/doctor/patient/${id}`;
+
     }
 }
 
 export const ServicesUrls = {
     fetchLaboratoryReportData: (laboratoryId) => {
         return baseUrl + `/services/laboratory/report/${laboratoryId}`;
-    }
+    },
+    fetchAdminDashboardData: () => {
+        return baseUrl + `/services/admin/dashboard`;
+    },
 }

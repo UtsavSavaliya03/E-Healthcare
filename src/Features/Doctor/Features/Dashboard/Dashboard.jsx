@@ -1,6 +1,6 @@
-import { Box, Typography, useTheme, Avatar, Divider } from "@mui/material";
+import React, { useState, useEffect } from 'react'
+import { Box, Typography, useTheme, Divider } from "@mui/material";
 import { tokens } from "../../../../Services/theme.js";
-import { mockTransactions } from "../../../../Constant/Admin/mockData.js";
 import Header from "./Components//Header";
 import LineChart from "./Components/LineChart.jsx";
 import "./Dashboard.css";
@@ -15,11 +15,23 @@ import ClearIcon from "@mui/icons-material/Clear";
 import { useRecoilValue } from 'recoil';
 import { userState } from '../../../../Store/globalState.jsx';
 import { Helmet } from "react-helmet";
+import Avatar from 'react-avatar';
+import moment from 'moment';
+import { fetchAppointmentsByStatus, updateAppointmentById, fetchDoctorPatientsData } from '../../Services/appointmentServices.jsx';
+import { Spinner } from '../../../../Components/Common/Spinners/Spinners.jsx';
 
 const Dashboard = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette);
   const user = useRecoilValue(userState);
+  const [appointments, setAppointmentss] = useState([])
+  const [approvedAppointments, setApprovedAppointments] = useState([])
+  const token = localStorage.getItem("token") || null;
+  const [patientsData, setPatientsData] = useState([]);
+  const [totalConsultedPatients, setTotalConsultedPatients] = useState([]);
+  const [totalAppointments, setTotalAppointments] = useState(0);
+  const [isLoading, setIsLoading] = useState(false);
+
 
   const BorderLinearProgress = styled(LinearProgress)(({ theme }) => ({
     height: 10,
@@ -32,6 +44,89 @@ const Dashboard = () => {
       backgroundColor: colors.blueAccent[500],
     },
   }));
+
+  const fetchAppointmentsHandler = async (status) => {
+    const headers = {
+      'Authorization': token
+    }
+    const params = {
+      status: status,
+      doctor: user?._id
+    }
+    const appointmentData = await fetchAppointmentsByStatus(params, headers)
+    setAppointmentss(appointmentData?.data)
+
+  }
+
+  const fetchApprovedAppointmentsHandler = async (status) => {
+    const headers = {
+      'Authorization': token
+    }
+    const params = {
+      status: status,
+      doctor: user?._id
+    }
+    const appointmentData = await fetchAppointmentsByStatus(params, headers)
+    setApprovedAppointments(appointmentData?.data)
+
+  }
+  const acceptAppointment = async (id, status) => {
+    const param = {
+      'status': status
+    }
+    const headers = {
+      'Authorization': token
+    }
+
+    await updateAppointmentById(id, param, headers)
+    let currentObject;
+    const updatedTestAppointments = appointments.filter((appointment) => {
+      if (appointment._id == id) {
+        currentObject = appointment;
+      }
+      return appointment._id !== id
+    })
+    setAppointmentss(updatedTestAppointments);
+    setApprovedAppointments(current => [...current, currentObject])
+
+  }
+  const rejectAppointment = async (id, status) => {
+    const param = {
+      'status': status
+    }
+    const headers = {
+      'Authorization': token
+    }
+
+    await updateAppointmentById(id, param, headers)
+
+    const updatedTestAppointments = appointments.filter((appointment) => {
+      return appointment._id !== id
+    })
+    setAppointmentss(updatedTestAppointments);
+  }
+
+  const fetchDoctorPatientsDataHandler = async () => {
+    setIsLoading(true);
+    const headers = {
+      'Authorization': token,
+    };
+    const patientsDataResponse = await fetchDoctorPatientsData(user?._id, headers);
+    if (patientsDataResponse?.status) {
+      // setPatientsData([{ id: "Patients", color: tokens().blueAccent[500], data: patientsDataResponse?.data?.totalConsultedPatientData }, { id: "Appointments", color: tokens().greenAccent[500], data: patientsDataResponse?.data?.totalAppointmentsData }]);
+      setPatientsData([ { id: "Appointments", color: tokens().greenAccent[500], data: patientsDataResponse?.data?.totalAppointmentsData }]);
+      setTotalAppointments(patientsDataResponse?.data?.totalAppointments);
+      setTotalConsultedPatients(patientsDataResponse?.data?.totalConsultedPatient);
+    }
+    setIsLoading(false);
+  }
+  useEffect(() => {
+    /* --- Status - 0 for pending --- */
+    fetchAppointmentsHandler(0)
+    /* --- Status - 1 for approved --- */
+    fetchApprovedAppointmentsHandler(1)
+    fetchDoctorPatientsDataHandler()
+  }, [])
 
   return (
     <Box p="20px" sx={{ backgroundColor: "white", width: "100%" }} className="doctor-dashboard-container">
@@ -94,40 +189,60 @@ const Dashboard = () => {
                     fontWeight="600"
                     color={colors.grey[100]}
                   >
-                    Total Users
+                    Total Appointments
                   </Typography>
                   <Typography
                     variant="h3"
                     fontWeight="bold"
                     color={colors.blueAccent[500]}
                   >
-                    5,93,423
+                    {totalAppointments}
                   </Typography>
                 </Box>
               </Box>
               <Box height="250px" m="-20px 20px 0 0">
-                <LineChart isDashboard={true} />
+                {
+                  isLoading ? (
+                    <div className="w-100 d-flex justify-content-center pt-5">
+                      <Spinner />
+                    </div>
+                  ) : (
+                    <>
+                      {
+                        patientsData?.length > 0 ? (
+                          <LineChart reportsData={patientsData} />
+                        ) : (
+                          <div className="w-100 text-center text-muted pt-5">
+                            <h5>No data available for specific doctor.</h5>
+                          </div>
+                        )
+                      }
+                    </>
+                  )
+                }
               </Box>
             </Box>
           </div>
         </div>
-        <div className="col-lg-3 col-md-3 col-sm-3 m-0">
+        <div className="col-lg-3 col-md-3 col-sm-3 m-0 ">
           <Box
-            className="py-2 py-lg-3 doctor-dashboard-box d-flex justify-content-center flex-column"
+            className="py-2 py-lg-3 doctor-dashboard-box doctor-dashboard-sidebox d-flex justify-content-center flex-column"
             backgroundColor={colors.primary[400]}
             borderRadius="5px"
           >
             <Avatar
               alt="Remy Sharp"
+              round
+              name={`${user?.fName} ${user?.lName}`}
               src={user?.profileImg}
               sx={{ width: 120, height: 120 }}
-              className="my-4 align-self-center"
+              className="align-self-center my-4"
             />
             <Typography
               variant="h4"
               fontWeight="bold"
               color={colors.blueAccent[500]}
-              className="align-self-center break-line-1"
+              className="align-self-center break-line-1 pt-4 pb-2"
             >
               Dr. {user?.fName} {user?.lName}
             </Typography>
@@ -153,63 +268,42 @@ const Dashboard = () => {
               {user?.department?.name}
             </Typography>
             <Divider variant="middle" />
-            <Box className="p-lg-4 p-sm-3 doctor-dashboard-progress-container text-left">
-              <Typography
-                variant="h5"
-                fontWeight="bold"
-                className="doctor-profile-appointment-title break-line-1"
-                color={colors.blueAccent[500]}
-              >
-                10 Appointments Per Day
-              </Typography>
-              <Typography
-                variant="h6"
-                className="mt-4"
-                fontWeight="bold"
-                color={colors.grey[500]}
-              >
-                Appointment limit
-              </Typography>
-              <BorderLinearProgress
-                className="mt-1 mb-lg-2"
-                variant="determinate"
-                value={50}
-              />
-            </Box>
+
             <Divider variant="middle" className="mb-2" />
-            <Box className="p-lg-3 row m-0 g-0">
-              <Box className="col-lg-6 col-sm-12 mb-lg-3 mt-sm-1 doctor-dashboard-statistics-container">
-                <Typography
-                  variant="h5"
-                  fontWeight="bold"
-                  color={colors.blueAccent[500]}
-                >
-                  5,93,423
-                </Typography>
+            <Box className="p-lg-3 row m-0 g-0"
+            >
+              <Box className="col-md-12 mb-lg-3 mt-sm-1 doctor-dashboard-statistics-container" >
                 <Typography
                   variant="h6"
                   fontWeight="600"
                   color={colors.grey[500]}
                   className='break-line-1'
                 >
-                  Appointments
+                  Total Appointments
+                </Typography>
+                <Typography
+                  variant="h5"
+                  fontWeight="bold"
+                  color={colors.blueAccent[500]}
+                >
+                  {totalAppointments}
                 </Typography>
               </Box>
-              <Box className="col-lg-6 col-sm-12 mb-lg-3 mt-sm-1 doctor-dashboard-statistics-container">
-                <Typography
-                  variant="h5"
-                  fontWeight="bold"
-                  color={colors.blueAccent[500]}
-                >
-                  4,83,423
-                </Typography>
+              <Box className="col-md-12 mb-lg-3 mt-sm-1 doctor-dashboard-statistics-container">
                 <Typography
                   variant="h6"
                   fontWeight="600"
                   color={colors.grey[500]}
                   className='break-line-1'
                 >
-                  Patients
+                  Total Consulted Patients
+                </Typography>
+                <Typography
+                  variant="h5"
+                  fontWeight="bold"
+                  color={colors.blueAccent[500]}
+                >
+                  {totalConsultedPatients}
                 </Typography>
               </Box>
             </Box>
@@ -240,51 +334,66 @@ const Dashboard = () => {
                   Appointment Requests
                 </Typography>
               </Box>
-              {mockTransactions.map((transaction, i) => (
+              {appointments?.length === 0 ?
                 <Box
-                  key={`${transaction.txId}-${i}`}
-                  display="flex"
-                  justifyContent="space-between"
+                  color={colors.grey[100]} display="flex"
+                  justifyContent="center"
                   alignItems="center"
-                  borderBottom="4px solid white"
-                  p="15px"
+                  sx={{ textAlign: "center", minHeight: "85px" }}
+                  className='py-5'
                 >
-                  <Box>
-                    <Avatar
-                      alt={transaction?.user}
-                      src={transaction?.avatar}
-                      sx={{ width: 50, height: 50 }}
-                    />
-                  </Box>
-                  <Box>
-                    <Typography
-                      color={colors.blueAccent[500]}
-                      variant="h5"
-                      fontWeight="600"
-                    >
-                      {transaction.txId}
-                    </Typography>
-                    <Typography color={colors.grey[100]}>
-                      {transaction.user}
-                    </Typography>
-                  </Box>
-                  <Box color={colors.grey[100]}>{transaction.date}</Box>
-                  <Box color={colors.blueAccent[500]}>
-                    <IconButton
-                      aria-label="Accept appointment"
-                      sx={{ color: colors.blueAccent[500] }}
-                    >
-                      <CheckIcon sx={{ fontSize: "28px" }} />
-                    </IconButton>
-                    <IconButton
-                      aria-label="Reject appointment"
-                      sx={{ color: "red" }}
-                    >
-                      <ClearIcon sx={{ fontSize: "28px" }} />
-                    </IconButton>
-                  </Box>
+                  <Typography
+                    className="text-secondary py-5"
+                    variant="h5"
+                    fontWeight="600"
+                  >
+                    No pending Appointments
+                  </Typography>
                 </Box>
-              ))}
+                :
+                appointments?.map((appointment, index) => (
+                  <Box
+                    key={index}
+                    display="flex"
+                    justifyContent="space-between"
+                    alignItems="center"
+                    borderBottom="4px solid white"
+                    p="15px"
+                  >
+                    <Box>
+                      <Avatar className='doctor-profile-avatar' size='50' round name={`${appointment?.patient?.fName} ${appointment?.patient?.lName}`} src={appointment?.patient?.profileImg} />
+                    </Box>
+                    <Box>
+                      <Typography
+                        color={colors.blueAccent[500]}
+                        variant="h5"
+                        fontWeight="600"
+                      >
+                        {appointment?.patient?.patientId}
+                      </Typography>
+                      <Typography color={colors.grey[100]}>
+                        {`${appointment?.patient?.fName} ${appointment?.patient?.lName}`}                    </Typography>
+                    </Box>
+                    <Box color={colors.grey[100]}>{moment(appointment.appointmentDate).format("LL")}</Box>
+                    <Box color={colors.grey[100]}>{appointment.appointmentTime}</Box>
+                    <Box color={colors.blueAccent[500]}>
+                      <IconButton
+                        aria-label="Accept appointment"
+                        sx={{ color: colors.blueAccent[500] }}
+                        onClick={() => acceptAppointment(appointment?._id, 1)}
+                      >
+                        <CheckIcon sx={{ fontSize: "28px" }} />
+                      </IconButton>
+                      <IconButton
+                        aria-label="Reject appointment"
+                        sx={{ color: "red" }}
+                        onClick={() => rejectAppointment(appointment?._id, 3)}
+                      >
+                        <ClearIcon sx={{ fontSize: "28px" }} />
+                      </IconButton>
+                    </Box>
+                  </Box>
+                ))}
             </Box>
           </div>
           <div className="col-lg-6 col-md-6 col-sm-12 mb-3">
@@ -293,7 +402,6 @@ const Dashboard = () => {
               borderRadius="5px"
               backgroundColor={colors.primary[400]}
               overflow="auto"
-              className=""
             >
               <Box
                 display="flex"
@@ -309,40 +417,51 @@ const Dashboard = () => {
                   variant="h5"
                   fontWeight="600"
                 >
-                  Appointments
+                  Approved Appointments
                 </Typography>
               </Box>
-              {mockTransactions.map((transaction, i) => (
-                <Box
-                  key={`${transaction.txId}-${i}`}
+              {approvedAppointments?.length === 0 ?
+                <Box color={colors.grey[100]}
                   display="flex"
-                  justifyContent="space-between"
+                  justifyContent="center"
                   alignItems="center"
-                  borderBottom="4px solid white"
-                  p="15px"
+                  sx={{ textAlign: "center", minHeight: "85px" }}
+                  className='py-5'
                 >
-                  <Box>
-                    <Avatar
-                      alt={transaction?.user}
-                      src={transaction?.avatar}
-                      sx={{ width: 50, height: 50 }}
-                    />
+                  <Typography
+                    className="text-secondary py-5"
+                    variant="h5"
+                    fontWeight="600"
+                  >
+                    No approved Appointments
+                  </Typography>
+                </Box> :
+                approvedAppointments.map((approvedAppointment, index) => (
+                  <Box
+                    key={index}
+                    display="flex"
+                    justifyContent="space-between"
+                    alignItems="center"
+                    borderBottom="4px solid white"
+                    p="15px"
+                  >
+                    <Box>
+                      <Avatar className='doctor-profile-avatar' size='50' round name={`${approvedAppointment?.patient?.fName} ${approvedAppointment?.patient?.lName}`} src={approvedAppointment?.patient?.profileImg} />
+                    </Box>
+                    <Box>
+                      <Typography
+                        color={colors.blueAccent[500]}
+                        variant="h5"
+                        fontWeight="600"
+                      >
+                        {approvedAppointment?.patient?.patientId}                      </Typography>
+                      <Typography color={colors.grey[100]}>
+                        {`${approvedAppointment?.patient?.fName} ${approvedAppointment?.patient?.lName}`}                       </Typography>
+                    </Box>
+                    <Box color={colors.grey[100]}>{moment(approvedAppointment.appointmentDate).format("LL")}</Box>
+                    <Box color={colors.grey[100]}>{approvedAppointment.appointmentTime}</Box>
                   </Box>
-                  <Box>
-                    <Typography
-                      color={colors.blueAccent[500]}
-                      variant="h5"
-                      fontWeight="600"
-                    >
-                      {transaction.txId}
-                    </Typography>
-                    <Typography color={colors.grey[100]}>
-                      {transaction.user}
-                    </Typography>
-                  </Box>
-                  <Box color={colors.grey[100]}>{transaction.date}</Box>
-                </Box>
-              ))}
+                ))}
             </Box>
           </div>
         </div>
