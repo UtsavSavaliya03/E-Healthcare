@@ -9,9 +9,6 @@ export const SignupUrls = {
 export const LoginUrls = {
     login: (type) => {
         return baseUrl + `/users/login/${type}`;
-    },
-    doctorLogin: () => {
-        return baseUrl + '/users/doctorLogin';
     }
 }
 
@@ -28,8 +25,8 @@ export const UserUrls = {
     fetchTestReportsByUser: (userId) => {
         return baseUrl + `/testReport/user/${userId}`;
     },
-    changePassword: () => {
-        return baseUrl + `/users/changePassword`;
+    changePassword: (type) => {
+        return baseUrl + `/users/changePassword/${type}`;
     },
 }
 

@@ -26,9 +26,13 @@ export default function Workspace() {
         <TabContext value={tabValue}>
           <TabList onChange={handleTabChange} className='p-4'>
             <Tab label="patients" value="patients" />
+            <Tab label="today's appointments" value="appointment" />
             <Tab label="prescriptions" value="prescriptions" />
           </TabList>
           <TabPanel value="patients" className='px-0'>
+            <PatientsList handleTabChange={handleTabChange} />
+          </TabPanel>
+          <TabPanel value="appointment" className='px-0'>
             <PatientsList handleTabChange={handleTabChange} />
           </TabPanel>
           <TabPanel value="prescriptions" className='px-0'>
