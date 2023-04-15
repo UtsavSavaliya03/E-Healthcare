@@ -4,17 +4,11 @@ import HospitalIcon from "../../../../Assets/Icons/Hospital-icon.png";
 import { useLocation, useNavigate } from "react-router-dom";
 import { fetchHospitalById } from "../../Services/hospitalServices.jsx";
 import { useState } from "react";
-import Divider from "@mui/material/Divider";
 import Avatar from "react-avatar";
 import { Spinner } from "../../../../Components/Common/Spinners/Spinners.jsx";
-import { IconButton } from '@mui/material';
-import DeleteIcon from '@mui/icons-material/Delete';
-import EditIcon from '@mui/icons-material/Edit';
 import Alert from '../../../../Components/Common/Alert/SweetAlert.jsx';
 import Backdrop from "@mui/material/Backdrop";
 import Notificaion from '../../../../Components/Common/Notification/Notification.jsx';
-
-
 
 
 export default function ViewHospital() {
@@ -50,7 +44,7 @@ export default function ViewHospital() {
 
   const avatarCard = (doctor, index) => {
     return (
-      <div className="col-lg-4 col-md-3 col-12 my-3 doctor-detail-box d-flex" key={index}>
+      <div className="col-lg-4 col-md-3 col-12 my-3 doctor-detail-box cursor-hover d-flex " key={index} onClick={() => (navigate(`/patient/view-doctor/${btoa(doctor?._id)}`))}>
         <div className="dpt-doctor-img-container">
           <Avatar
             src={doctor?.profileImg}

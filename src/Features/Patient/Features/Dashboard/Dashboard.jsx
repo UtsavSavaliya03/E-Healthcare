@@ -10,7 +10,6 @@ import { userState } from '../../../../Store/globalState';
 export default function Dashboard() {
 
   const user = useRecoilValue(userState);
-  console.log(user)
   const [openProfileModal, setOpenProfileModal] = useState(false);
 
   const modalHandler = (val) => {

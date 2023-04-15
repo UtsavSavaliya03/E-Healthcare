@@ -21,7 +21,7 @@ export default function PatientsList(props) {
   const [searchedPatients, setSearchedPatients] = useState([]);
   const [isLoadingBackdrop, setIsLoadingBackdrop] = useState(false);
   const [isSearched, setIsSearched] = useState(false);
-  
+
   const handleClosePatient = (e, prescriptions) => {
     props.handleTabChange(e, prescriptions);
   }
@@ -127,7 +127,6 @@ export default function PatientsList(props) {
                 }}>
                   <ArrowBackIcon />
                 </IconButton>
-                Show All
               </div>
             }
           </div>
@@ -188,7 +187,6 @@ export default function PatientsList(props) {
               }}>
                 <ArrowBackIcon />
               </IconButton>
-              Back
             </div>
             <GeneratePrescription patient={selectedPatient} handleClosePatient={handleClosePatient} />
           </>

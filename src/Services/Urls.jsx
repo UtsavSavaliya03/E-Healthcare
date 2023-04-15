@@ -183,6 +183,10 @@ export const PatientsUrls = {
     searchPatients: (patientId) => {
         return baseUrl + `/patient/search/${patientId}`;
     },
+    updateUserStatus: () => {
+        return baseUrl + `/users/userStatus`;
+    },
+
 
 }
 
@@ -219,8 +223,10 @@ export const AppointmentUrls = {
     },
     fetchDoctorPatientsData: (id) => {
         return baseUrl + `/services/doctor/patient/${id}`;
-
-    }
+    },
+    fetchAppointmentsByDate: () => {
+        return baseUrl + `/appointment/date`;
+    },
 }
 
 export const ServicesUrls = {

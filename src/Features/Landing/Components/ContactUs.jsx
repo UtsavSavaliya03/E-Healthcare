@@ -18,7 +18,6 @@ function ContactUs() {
       message: inquiryCredentials?.message,
     }
     const inquiryResponse = await inquiry(params);
-    console.log(inquiryResponse)
     if (inquiryResponse?.status) {
       alert.alert('success', 'Done!', 'Your message sent successfully.');
     }
@@ -60,7 +59,7 @@ function ContactUs() {
           <div className="contact-icons-descriptions text-light d-flex flex-column">
             <div className="contact-number d-flex my-4">
               <i class="fas fa-phone-alt fa-2x contact-icons"></i>
-              <p className="contact-description h4 ml-4">+91 99093 78772</p>
+              <p className="contact-description h4 ml-4">+91 99093 33163</p>
             </div>
             <div className="contact-email d-flex my-4">
               <i class="fas fa-envelope fa-2x contact-icons"></i>
@@ -69,15 +68,15 @@ function ContactUs() {
               </p>
             </div>
             <div className="mobile-number d-flex my-4">
-              <i class="fas fa-phone-alt fa-2x contact-icons"></i>
-              <p className="contact-description h4 ml-4">+91 99093 78772</p>
+              <i class="fas fa-fax fa-2x contact-icons"></i>
+              <p className="contact-description h4 ml-4">0261 2541814</p>
             </div>
           </div>
           <div className="contact-social-links mt-5 pt-5 d-flex justify-content-between align-items-end">
-            <i class="fab fa-facebook-f fa-2x contact-icons"></i>
-            <i class="fab fa-instagram fa-2x contact-icons"></i>
-            <i class="fab fa-linkedin-in fa-2x contact-icons"></i>
-            <i class="fab fa-twitter fa-2x contact-icons"></i>
+            <a href="https://www.facebook.com/profile.php?id=100091245141575" target="_blank"><i class="fab fa-facebook-f fa-2x contact-icons"></i></a>
+            <a href="https://www.instagram.com/healthhorizon.life/" target="_blank"><i class="fab fa-instagram fa-2x contact-icons"></i></a>
+            <a href="http://www.linkedin.com/in/Health-Horizon" target="_blank"><i class="fab fa-linkedin-in fa-2x contact-icons"></i></a>
+            <a href="https://twitter.com/HealthHori18626" target="_blank"><i class="fab fa-twitter fa-2x contact-icons"></i></a>
           </div>
         </div>
       </div>

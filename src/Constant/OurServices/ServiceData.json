@@ -25,8 +25,8 @@
         "icon": "fa fa-user-md"
     },
     { 
-        "title": "The Online Store for Medications",
-        "description": "A digital platform that provides customers with a wide range of medications and healthcare products for purchase online, with convenient delivery options and access to expert advice and support.",
-        "icon": "fa fa-capsules"
+        "title": "The Specialized Laboratories",
+        "description": "Typically features specialized equipment and personnel for diagnostic testing, research, and analysis of bodily fluids, tissues, and other biological specimens to aid in disease diagnosis and treatment planning.",
+        "icon": "fas fa-microscope landing-page-microscope"
     }
 ]

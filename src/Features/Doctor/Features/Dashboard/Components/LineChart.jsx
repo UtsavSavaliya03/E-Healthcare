@@ -7,7 +7,6 @@ const LineChart = ({ isCustomLineColors = false, isDashboard = false, reportsDat
 
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
-  console.log(reportsData);
 
   return (
     <ResponsiveLine

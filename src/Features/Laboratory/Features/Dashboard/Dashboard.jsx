@@ -301,7 +301,6 @@ const Dashboard = () => {
               maxHeight="390px"
               borderRadius="5px"
               backgroundColor={colors.primary[400]}
-              overflow="auto"
             >
               <Box
                 display="flex"
@@ -336,7 +335,7 @@ const Dashboard = () => {
                     No pending test request
                   </Typography>
                 </Box>
-                : testRequests?.map((request, index) => (
+                : <Box overflow={"auto"} maxHeight="255px"> {testRequests?.map((request, index) => (
                   <Box
                     key={index}
                     display="flex"
@@ -381,6 +380,8 @@ const Dashboard = () => {
                     </Box>
                   </Box>
                 ))}
+                </Box>
+              }
             </Box>
           </div>
           <div className="col-lg-6 col-md-6 col-sm-12 mb-3">
@@ -388,7 +389,6 @@ const Dashboard = () => {
               maxHeight="390px"
               borderRadius="5px"
               backgroundColor={colors.primary[400]}
-              overflow="auto"
             >
               <Box
                 display="flex"
@@ -422,7 +422,7 @@ const Dashboard = () => {
                   >
                     No approved test request
                   </Typography>
-                </Box> : approvedRequests?.map((request, index) => (
+                </Box> : <Box overflow={"auto"} maxHeight="255px"> {approvedRequests?.map((request, index) => (
                   <Box
                     key={index}
                     display="flex"
@@ -450,6 +450,8 @@ const Dashboard = () => {
                     <Box color={colors.grey[100]}>{moment(request?.updatedAt).format('LLL')}</Box>
                   </Box>
                 ))}
+                </Box>
+              }
             </Box>
           </div>
         </div>

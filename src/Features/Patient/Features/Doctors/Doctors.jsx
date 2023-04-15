@@ -168,7 +168,6 @@ export default function Doctors() {
                                             }}>
                                                 <ArrowBackIcon />
                                             </IconButton>
-                                            Show All
                                         </div>
                                         <div className='row p-0'>
                                             {

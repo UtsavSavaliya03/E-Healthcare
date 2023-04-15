@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './PatientProfileCard.css';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import { styled } from '@mui/material/styles';
@@ -6,12 +6,28 @@ import Switch from '@mui/material/Switch';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import Avatar from 'react-avatar';
-
+import moment from 'moment';
+import { updateUserStatus } from '../../../Services/patientServices'
 
 export default function PatientProfileCard(props) {
 
     const { patient } = props;
+    const [userStatus, setUserStatus] = useState(patient?.active);
+    const token = localStorage.getItem("token") || null
 
+    const updateUserStatusHandler = async (id, status) => {
+        const headers = {
+            "Authorization": token
+        }
+        const params = {
+            id: id,
+            status: !status
+        }
+        const updatedStatus = await updateUserStatus(params, headers)
+        if (updatedStatus?.status) {
+            setUserStatus(!status);
+        }
+    }
     const IOSSwitch = styled((props) => (
         <Switch focusVisibleClassName=".Mui-focusVisible" disableRipple {...props} />
     ))(({ theme }) => ({
@@ -64,31 +80,36 @@ export default function PatientProfileCard(props) {
     }));
 
     return (
-        <div className="row m-0">
-            <div className='col-lg-3 col-md-6'>
-                <div className='admin-patient-card-container py-4 p-0 my-3'>
-                    <div className='px-4'>
-                        <div className={`status-tag ${patient?.status ? 'unblock' : 'block'}`}>{patient?.status ? 'Active' : 'Blocked'}</div>
+        <div className='col-lg-4 col-md-6 '>
+            <div className='admin-patient-card-container py-4 p-0 my-3'>
+                <div className='px-4 d-flex justify-content-between align-items-center'>
+                    <div className={`status-tag ${userStatus ? 'unblock' : 'block'}`}>{userStatus ? 'Active' : 'Blocked'}</div>
+                    <div>
+                        <h6 className='font-weight-bold text-secondary pt-1'>Since {moment(patient?.createdAt).format("MMM, YYYY")}</h6>
                     </div>
-                    <Avatar
-                        className='mt-3 mb-2 mx-auto'
-                        name="Remy Sharp"
-                        size='130'
-                        round
-                        src="https://randomuser.me/api/portraits/women/79.jpg"
-                    />
-                    <h3 className='pt-3 text-blue'>Ricky Park</h3>
-                    <h5>rickypark@gmail.com</h5>
-                    <h6 className='px-4 pt-2 text-secondary'>A - 1202, Twin Tower, AK Road, Surat, Gujarat</h6>
-                    <hr />
-                    <Stack direction="row" spacing={1} alignItems="center" justifyContent="center">
-                        <Typography variant='h6'>Status</Typography>
-                        <FormControlLabel
-                            control={<IOSSwitch sx={{ m: 1 }} />}
-                        />
-                    </Stack>
                 </div>
+                <Avatar
+                    className='mt-2 mb-2 mx-auto'
+                    name={`${patient?.fName} ${patient?.lName}`}
+                    size='120'
+                    round
+                    src={patient?.profileImg}
+                />
+                <h3 className='pt-4 text-blue'>{`${patient?.fName} ${patient?.lName}`}</h3>
+                <h5 className='text-secondary font-weight-bold'>ID : {patient?.patientId}</h5>
+                <h5 className='break-line-1'>{patient?.email}</h5>
+                <h6 className='px-4 pt-2 text-secondary break-line-1'>{`${patient?.addressLine} ${patient?.city?.name}
+                    ${patient?.state?.name}`}</h6>
+
+                <hr />
+                <Stack direction="row" spacing={1} alignItems="center" justifyContent="center">
+                    <Typography variant='h6' >Status</Typography>
+                    <FormControlLabel onChange={() => updateUserStatusHandler(patient?._id, userStatus)}
+                        control={<IOSSwitch sx={{ m: 1 }} defaultChecked={userStatus == true ? true : false} />}
+                    />
+                </Stack>
             </div>
         </div>
+
     )
 }

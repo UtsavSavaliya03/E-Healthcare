@@ -59,7 +59,7 @@ export default function PatientsList(props) {
 
     const params = {
       laboratory: user?._id,
-      status:status
+      status: status
     }
 
     const patientResponse = await fetchTestRequestsByStatus(params, headers);
@@ -160,7 +160,6 @@ export default function PatientsList(props) {
                 }}>
                   <ArrowBackIcon />
                 </IconButton>
-                Show All
               </div>
             }
           </div>

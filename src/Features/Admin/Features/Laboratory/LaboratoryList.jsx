@@ -6,7 +6,7 @@ import InputAdornment from '@mui/material/InputAdornment';
 import SearchIcon from '@mui/icons-material/Search';
 import LaboratoryCard from './Components/LaboratoryCard.jsx';
 import { Spinner } from '../../../../Components/Common/Spinners/Spinners.jsx';
-import { fetchLaboratories,searchLaboratories } from '../../Services/laboratoryServices.jsx';
+import { fetchLaboratories, searchLaboratories } from '../../Services/laboratoryServices.jsx';
 import Backdrop from "@mui/material/Backdrop";
 import IconButton from '@mui/material/IconButton';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
@@ -173,7 +173,6 @@ export default function LaboratoryList() {
                     }}>
                       <ArrowBackIcon />
                     </IconButton>
-                    Show All
                   </div>
                   <div className='row px-0 m-0 w-100'>
                     {
