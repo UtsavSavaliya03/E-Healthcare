@@ -64,7 +64,7 @@ export default function Inquiry() {
       </Backdrop>
       <div>
         <div className='inquiry-title ml-1 pb-4 pt-2 d-flex align-items-center'>
-          <h4 className='m-0'>Inquiries</h4>
+          <h4 className='m-0 text-blue'>Inquiries</h4>
           <div className='ml-3'>
             <ToggleButtonGroup
               color="primary"

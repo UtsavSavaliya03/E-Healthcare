@@ -39,7 +39,7 @@ body {
   transform: skewY(-5deg) scale(1.5);
 }
 
-.title .fa {
+.title .fa, .landing-page-microscope {
   color: #fff;
   font-size: 60px;
   width: 100px;

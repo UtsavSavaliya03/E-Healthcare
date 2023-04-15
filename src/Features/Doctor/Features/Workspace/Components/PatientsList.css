@@ -20,6 +20,7 @@
     text-transform: uppercase;
 }
 
+.appointment-list-container .MuiButtonBase-root,
 .patients-list-container .MuiButtonBase-root {
     padding: 7px;
     border-radius: 50%;

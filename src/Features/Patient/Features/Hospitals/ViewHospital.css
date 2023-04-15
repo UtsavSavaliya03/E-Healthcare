@@ -57,3 +57,6 @@
   opacity: 1;
   transition: opacity 0.8s;
 } 
+.cursor-hover{
+  cursor: pointer;
+}

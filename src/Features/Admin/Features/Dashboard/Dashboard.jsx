@@ -278,7 +278,7 @@ export default function Dashboard() {
             </Box>
           </div>
 
-          <div className="col-lg-4 col-md-4 col-sm-12">
+          <div className="col-md-5 col-sm-12">
             <Box
               backgroundColor={colors.primary[400]}
               borderRadius="5px"
@@ -309,7 +309,7 @@ export default function Dashboard() {
               </Box>
             </Box>
           </div>
-          <div className="col-lg-8 col-md-8 col-sm-12 mb-lg-4">
+          <div className="col-md-7 col-sm-12 mb-lg-4">
             <Box
               backgroundColor={colors.primary[400]}
               borderRadius="5px"

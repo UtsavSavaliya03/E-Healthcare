@@ -1,7 +1,7 @@
 import React from 'react';
 import * as Yup from "yup";
 import { useFormik } from "formik";
-import { doseData, intakeTimeData } from '../../../../../Constant/Prescription/PrescriptionDetails.jsx';
+import { doseData, intakeTimeData, medicinesData } from '../../../../../Constant/Prescription/PrescriptionDetails.jsx';
 import {
     TextField,
     MenuItem
@@ -59,9 +59,16 @@ export default function MedicineModal(props) {
                             className={`w-100 medicine-name ${formik.errors.name ? 'medicine-input' : ''}`}
                             name="name"
                             label="Medicine Name"
+                            select
                             value={formik.values.name}
                             onChange={formik.handleChange}
-                        />
+                        >
+                            {
+                                medicinesData?.map((medicine, index) => (
+                                    <MenuItem key={index} value={medicine?.value}>{medicine?.label}</MenuItem>
+                                ))
+                            }
+                        </TextField>
                         <div className="add-hospital-error-message text-right mr-1">
                             {formik.touched.name ? formik.errors.name : null}
                         </div>

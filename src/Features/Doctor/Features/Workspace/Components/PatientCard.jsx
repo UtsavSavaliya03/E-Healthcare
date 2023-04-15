@@ -5,9 +5,14 @@ import Avatar from 'react-avatar';
 export default function PatientCard(props) {
 
     const { patient } = props;
+    const { time } = props;
+    const { appointmentId } = props;
 
     const onClickHandler = () => {
         props.selectPatient(patient);
+        if (props.selectAppointment) {
+            props.selectAppointment(appointmentId);
+        }
     }
 
     return (
@@ -23,16 +28,22 @@ export default function PatientCard(props) {
                 <hr />
                 <div className='body'>
                     <div className='d-flex pb-2'>
-                        <p className='m-0 d-inline'>Patient Id: </p>
+                        <p className='m-0 d-inline font-weight-bold'>Patient Id: </p>
                         <p className='m-0 d-inline ml-2 text-blue'>{patient?.patientId}</p>
                     </div>
+                    {time &&
+                        <div className='d-flex mb-2'>
+                            <p className='m-0 font-weight-bold'>Time:</p>
+                            <p className='m-0 ml-4 pl-3 text-secondary font-weight-bold'>{time}</p>
+                        </div>
+                    }
                     <div className='d-flex pb-2'>
-                        <p className='m-0'>Age: </p>
+                        <p className='m-0 font-weight-bold'>Age: </p>
                         <p className='m-0 d-inline ml-5'>{patient?.age}</p>
                     </div>
                     <div className='d-flex'>
                         <p className='m-0'>Address:</p>
-                        <p className='m-0 ml-3 patient-address'>{patient?.addressLine}</p>
+                        <p className='m-0 ml-3 break-line-2'>{patient?.addressLine}</p>
                     </div>
                 </div>
             </div>

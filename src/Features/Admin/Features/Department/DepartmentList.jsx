@@ -114,7 +114,6 @@ export default function DepartmentList() {
                     }}>
                       <ArrowBackIcon />
                     </IconButton>
-                    Show All
                   </div>
                   <div className='row px-0 m-0 w-100'>
                     {

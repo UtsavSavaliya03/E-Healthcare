@@ -19,7 +19,7 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import Backdrop from "@mui/material/Backdrop";
 import { AppointmentTimeData } from '../../../../Constant/OurFacilities/Appointment/AppointmentTime.jsx';
 import moment from "moment/moment";
-import { bookAppointment } from '../../Services/appointmentServices.jsx';
+import { bookAppointment, fetchAppointmentsByDate } from '../../Services/appointmentServices.jsx';
 import { useNavigate } from "react-router-dom";
 import Notificaion from '../../../../Components/Common/Notification/Notification.jsx';
 
@@ -48,6 +48,7 @@ export default function BookAppointment() {
   const [appoinmentDate, setAppointmentDate] = useState(new Date());
   const [appoinmentTime, setAppointmentTime] = useState('');
   const [appoinmentDescription, setAppoinmentDescription] = useState('');
+  const [nonEmptySlot, setNonEmptySlot] = useState([]);
 
   useEffect(() => {
     let cities = City.getCitiesOfState('IN', searchValue?.state);
@@ -56,7 +57,6 @@ export default function BookAppointment() {
 
   const setDoctorHandler = (doctor) => {
     setSelectedDoctor(doctor);
-    console.log(doctor);
   }
 
   const onChangeHandler = (event) => {
@@ -93,7 +93,31 @@ export default function BookAppointment() {
     })
   }, []);
 
-  const timeHandler = (hour) => {
+  const fetchAppointmentsByDateHandler = async (appoinmentDate) => {
+    const token = localStorage.getItem("token") || null
+
+    const headers = {
+      "Authorization": token
+    }
+
+    const params = {
+      date: moment(appoinmentDate).format('YYYY/MM/DD'),
+      id: selectedDoctor?._id
+    }
+
+
+    if (selectedDoctor) {
+      const appointmentsResponse = await fetchAppointmentsByDate(params, headers)
+      if (appointmentsResponse?.status) {
+        setNonEmptySlot(appointmentsResponse?.data);
+      }
+    }
+  }
+  useEffect(() => {
+    fetchAppointmentsByDateHandler(appoinmentDate)
+  }, [appoinmentDate, selectedDoctor])
+
+  const timeHandler = (hour, hourLabel) => {
     let today = new Date();
     if (moment(appoinmentDate).format('L') == moment(new Date()).format('L')) {
       let currentHour = today.setHours(today.getHours());
@@ -105,7 +129,6 @@ export default function BookAppointment() {
         return false;
       }
     }
-    return false;
   }
 
   const searchDoctorHandler = async () => {
@@ -138,7 +161,7 @@ export default function BookAppointment() {
     const params = {
       patient: user._id,
       doctor: selectedDoctor._id,
-      appointmentDate: appoinmentDate,
+      appointmentDate: moment(appoinmentDate).format('YYYY/MM/DD'),
       appointmentTime: appoinmentTime,
       description: appoinmentDescription
     }
@@ -173,7 +196,6 @@ export default function BookAppointment() {
                       }}>
                         <ArrowBackIcon />
                       </IconButton>
-                      Show All
                     </div>
                     <div className='row p-0'>
                       {
@@ -241,6 +263,7 @@ export default function BookAppointment() {
       <div className="col-lg-3 col-md-3 col-sm-12 py-5 book-appointment-search-form-container d-flex justify-content-center">
         <div>
           <TextField
+            autoComplete="off"
             className="w-100"
             id="input-with-icon-adornment"
             placeholder="Search. . ."
@@ -366,7 +389,7 @@ export default function BookAppointment() {
                         <Calendar
                           onChange={selectDateHandler}
                           value={appoinmentDate}
-                          tileDisabled={({ date }) => date < previousDisableDates || date > futureDisableDates}
+                          tileDisabled={({ date }) => date < previousDisableDates || date > futureDisableDates || date.getDay('Sunday') === 0}
                         />
                       </div>
                       <div className="col-lg-8 col-md-12 row m-0 d-flex justify-content-center align-items-center book-appointment-time-button-container mt-4 mt-lg-0">
@@ -378,7 +401,7 @@ export default function BookAppointment() {
                             >
                               <div>
                                 <label
-                                  className={`${(appoinmentTime == time?.label) ? 'radioPad__wrapper radioPad__wrapper--selected' : 'radioPad__wrapper'} ${timeHandler(time?.value) ? 'radioPad__wrapper--disable' : ''}`}
+                                  className={`${(appoinmentTime == time?.label) ? 'radioPad__wrapper radioPad__wrapper--selected' : 'radioPad__wrapper'} ${timeHandler(time?.value, time?.label) ? 'radioPad__wrapper--disable' : ''}`}
                                 >
                                   <input
                                     className="radioPad__radio"
@@ -386,7 +409,7 @@ export default function BookAppointment() {
                                     name="time"
                                     id={time?.label}
                                     value={appoinmentTime}
-                                    disabled={timeHandler(time?.value)}
+                                    disabled={timeHandler(time?.value, time?.label)}
                                     onChange={() => setAppointmentTime(time?.label)}
                                   />
                                   {time?.label}

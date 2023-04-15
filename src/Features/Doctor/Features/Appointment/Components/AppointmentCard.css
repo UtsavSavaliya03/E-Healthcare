@@ -1,0 +1,42 @@
+.admin-appointment-card-container {
+    border-radius: 10px;
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+    margin: 15px 0px;
+  }
+  
+  .admin-appointment-card-preview {
+    padding: 25px;
+  }
+  
+  .admin-appointment-card-preview .status-tag {
+    border-radius: 3px;
+    font-size: 14px;
+    font-weight: bold;
+    letter-spacing: 1px;
+    color: white;
+    position: absolute;
+    padding: 2px;
+  }
+  
+  .admin-appointment-card-preview .pending {
+    background-color: #a0a0a0;
+  }
+  
+  .admin-appointment-card-preview .approved {
+    background-color: #e7a24e;
+  }
+  
+  .admin-appointment-card-preview .completed {
+    background-color: #7fcb55;
+  }
+  
+  .admin-appointment-card-preview .cancelled {
+    background-color: #f44b2d;
+  }
+  
+  .admin-appointment-card-info {
+    background-color: #0b8fdc;
+    padding: 25px;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+  }

@@ -114,7 +114,7 @@ const Dashboard = () => {
     const patientsDataResponse = await fetchDoctorPatientsData(user?._id, headers);
     if (patientsDataResponse?.status) {
       // setPatientsData([{ id: "Patients", color: tokens().blueAccent[500], data: patientsDataResponse?.data?.totalConsultedPatientData }, { id: "Appointments", color: tokens().greenAccent[500], data: patientsDataResponse?.data?.totalAppointmentsData }]);
-      setPatientsData([ { id: "Appointments", color: tokens().greenAccent[500], data: patientsDataResponse?.data?.totalAppointmentsData }]);
+      setPatientsData([{ id: "Appointments", color: tokens().greenAccent[500], data: patientsDataResponse?.data?.totalAppointmentsData }]);
       setTotalAppointments(patientsDataResponse?.data?.totalAppointments);
       setTotalConsultedPatients(patientsDataResponse?.data?.totalConsultedPatient);
     }
@@ -351,49 +351,52 @@ const Dashboard = () => {
                   </Typography>
                 </Box>
                 :
-                appointments?.map((appointment, index) => (
-                  <Box
-                    key={index}
-                    display="flex"
-                    justifyContent="space-between"
-                    alignItems="center"
-                    borderBottom="4px solid white"
-                    p="15px"
-                  >
-                    <Box>
-                      <Avatar className='doctor-profile-avatar' size='50' round name={`${appointment?.patient?.fName} ${appointment?.patient?.lName}`} src={appointment?.patient?.profileImg} />
+                <Box overflow={"auto"} maxHeight="255px">
+                  {appointments?.map((appointment, index) => (
+                    <Box
+                      key={index}
+                      display="flex"
+                      justifyContent="space-between"
+                      alignItems="center"
+                      borderBottom="4px solid white"
+                      p="15px"
+                    >
+                      <Box>
+                        <Avatar className='doctor-profile-avatar' size='50' round name={`${appointment?.patient?.fName} ${appointment?.patient?.lName}`} src={appointment?.patient?.profileImg} />
+                      </Box>
+                      <Box>
+                        <Typography
+                          color={colors.blueAccent[500]}
+                          variant="h5"
+                          fontWeight="600"
+                        >
+                          {appointment?.patient?.patientId}
+                        </Typography>
+                        <Typography color={colors.grey[100]}>
+                          {`${appointment?.patient?.fName} ${appointment?.patient?.lName}`}                    </Typography>
+                      </Box>
+                      <Box color={colors.grey[100]}>{moment(appointment.appointmentDate).format("LL")}</Box>
+                      <Box color={colors.grey[100]}>{appointment.appointmentTime}</Box>
+                      <Box color={colors.blueAccent[500]}>
+                        <IconButton
+                          aria-label="Accept appointment"
+                          sx={{ color: colors.blueAccent[500] }}
+                          onClick={() => acceptAppointment(appointment?._id, 1)}
+                        >
+                          <CheckIcon sx={{ fontSize: "28px" }} />
+                        </IconButton>
+                        <IconButton
+                          aria-label="Reject appointment"
+                          sx={{ color: "red" }}
+                          onClick={() => rejectAppointment(appointment?._id, 3)}
+                        >
+                          <ClearIcon sx={{ fontSize: "28px" }} />
+                        </IconButton>
+                      </Box>
                     </Box>
-                    <Box>
-                      <Typography
-                        color={colors.blueAccent[500]}
-                        variant="h5"
-                        fontWeight="600"
-                      >
-                        {appointment?.patient?.patientId}
-                      </Typography>
-                      <Typography color={colors.grey[100]}>
-                        {`${appointment?.patient?.fName} ${appointment?.patient?.lName}`}                    </Typography>
-                    </Box>
-                    <Box color={colors.grey[100]}>{moment(appointment.appointmentDate).format("LL")}</Box>
-                    <Box color={colors.grey[100]}>{appointment.appointmentTime}</Box>
-                    <Box color={colors.blueAccent[500]}>
-                      <IconButton
-                        aria-label="Accept appointment"
-                        sx={{ color: colors.blueAccent[500] }}
-                        onClick={() => acceptAppointment(appointment?._id, 1)}
-                      >
-                        <CheckIcon sx={{ fontSize: "28px" }} />
-                      </IconButton>
-                      <IconButton
-                        aria-label="Reject appointment"
-                        sx={{ color: "red" }}
-                        onClick={() => rejectAppointment(appointment?._id, 3)}
-                      >
-                        <ClearIcon sx={{ fontSize: "28px" }} />
-                      </IconButton>
-                    </Box>
-                  </Box>
-                ))}
+                  ))}
+                </Box>
+              }
             </Box>
           </div>
           <div className="col-lg-6 col-md-6 col-sm-12 mb-3">
@@ -401,7 +404,6 @@ const Dashboard = () => {
               maxHeight="390px"
               borderRadius="5px"
               backgroundColor={colors.primary[400]}
-              overflow="auto"
             >
               <Box
                 display="flex"
@@ -435,8 +437,7 @@ const Dashboard = () => {
                   >
                     No approved Appointments
                   </Typography>
-                </Box> :
-                approvedAppointments.map((approvedAppointment, index) => (
+                </Box> : <Box overflow={"auto"} maxHeight="255px"> {approvedAppointments.map((approvedAppointment, index) => (
                   <Box
                     key={index}
                     display="flex"
@@ -444,6 +445,7 @@ const Dashboard = () => {
                     alignItems="center"
                     borderBottom="4px solid white"
                     p="15px"
+
                   >
                     <Box>
                       <Avatar className='doctor-profile-avatar' size='50' round name={`${approvedAppointment?.patient?.fName} ${approvedAppointment?.patient?.lName}`} src={approvedAppointment?.patient?.profileImg} />
@@ -462,6 +464,8 @@ const Dashboard = () => {
                     <Box color={colors.grey[100]}>{approvedAppointment.appointmentTime}</Box>
                   </Box>
                 ))}
+                </Box>
+              }
             </Box>
           </div>
         </div>

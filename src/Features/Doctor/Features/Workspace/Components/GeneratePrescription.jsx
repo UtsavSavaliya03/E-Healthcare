@@ -4,6 +4,7 @@ import { useFormik } from "formik";
 import {
     doseData,
     intakeTimeData,
+    medicinesData
 } from "../../../../../Constant/Prescription/PrescriptionDetails.jsx";
 import { TextField, MenuItem } from "@mui/material";
 import * as Yup from "yup";
@@ -15,7 +16,8 @@ import MedicineModal from "./MedicineModal";
 import CloseIcon from "@mui/icons-material/Close";
 import moment from "moment";
 import ModeEditOutlineIcon from "@mui/icons-material/ModeEditOutline";
-import { addPrescription, fetchLaboratoryByPincode ,addTestRequest} from "../../../Services/prescriptionServices";
+import { addPrescription, fetchLaboratoryByPincode, addTestRequest } from "../../../Services/prescriptionServices.jsx";
+import { updateAppointmentById } from "../../../Services/appointmentServices.jsx";
 import { useRecoilValue } from "recoil";
 import { userState } from "../../../../../Store/globalState.jsx";
 import { testTypeData } from "../../../../../Constant/TestReport/TestReportDetails.jsx"
@@ -102,7 +104,7 @@ export default function GeneratePrescription(props) {
                 patient: patient?._id,
                 doctor: doctor?._id,
                 laboratory: values?.laboratory,
-                type:values?.testType
+                type: values?.testType
             }
             const headers = {
                 'Authorization': token,
@@ -125,6 +127,18 @@ export default function GeneratePrescription(props) {
         const prescription = await addPrescription(params, headers);
         notification.notify(prescription?.status, prescription?.message);
         if (prescription?.status) {
+
+            if (props.appointmentId) {
+                const param = {
+                    status: 2
+                }
+                const headers = {
+                    'Authorization': token
+                }
+
+                await updateAppointmentById(props.appointmentId, param, headers);
+            }
+
             props.handleClosePatient(true, "prescriptions");
         }
     };
@@ -340,12 +354,17 @@ export default function GeneratePrescription(props) {
                                                                     className="w-100"
                                                                     name="name"
                                                                     variant="outlined"
+                                                                    select
                                                                     value={editMedicine?.name}
                                                                     onChange={(e) => onchangeHandler(e)}
                                                                     InputProps={{
                                                                         inputProps: { min: 0 },
                                                                     }}
-                                                                />
+                                                                > {
+                                                                        medicinesData?.map((medicine, index) => (
+                                                                            <MenuItem key={index} value={medicine?.value}>{medicine?.label}</MenuItem>
+                                                                        ))
+                                                                    }</TextField>
                                                             </td>
                                                             <td className="pb-2">
                                                                 <TextField

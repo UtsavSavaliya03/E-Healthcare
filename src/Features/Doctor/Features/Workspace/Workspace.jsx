@@ -7,6 +7,7 @@ import TabList from '@material-ui/lab/TabList';
 import TabPanel from '@material-ui/lab/TabPanel';
 import PatientsList from './Components/PatientsList.jsx';
 import PrescriptionList from './Components/PrescriptionsList.jsx';
+import AppointmentList from './Components/AppointmentList';
 
 export default function Workspace() {
 
@@ -33,7 +34,7 @@ export default function Workspace() {
             <PatientsList handleTabChange={handleTabChange} />
           </TabPanel>
           <TabPanel value="appointment" className='px-0'>
-            <PatientsList handleTabChange={handleTabChange} />
+            <AppointmentList handleTabChange={handleTabChange} />
           </TabPanel>
           <TabPanel value="prescriptions" className='px-0'>
             <PrescriptionList />

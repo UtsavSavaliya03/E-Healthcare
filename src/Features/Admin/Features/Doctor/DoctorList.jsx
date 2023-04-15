@@ -58,7 +58,7 @@ export default function DoctorList() {
         }
 
         const params = {
-            fName : (searchValue?.searchText).charAt(0).toUpperCase() + (searchValue?.searchText).slice(1),
+            fName: (searchValue?.searchText).charAt(0).toUpperCase() + (searchValue?.searchText).slice(1),
             department: searchValue?.department == 1 ? '' : searchValue?.department
         }
 
@@ -168,7 +168,6 @@ export default function DoctorList() {
                                             }}>
                                                 <ArrowBackIcon />
                                             </IconButton>
-                                            Show All
                                         </div>
                                         <div className='row p-0'>
                                             {

@@ -216,7 +216,7 @@ export default function ViewDoctor() {
                     </div>
                     <div className="ml-3">
                       <button
-                        className="btn-book-appointment align-items-center d-flex"
+                        className="btn-book-appointment align-items-center d-flex text-white"
                         onClick={bookAppointmentHandler}
                       >
                         <span>Book an appointment</span> 

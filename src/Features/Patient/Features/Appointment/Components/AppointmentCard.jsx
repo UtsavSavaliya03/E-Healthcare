@@ -42,9 +42,9 @@ export default function AppointmentCard(props) {
             {
                 appointments?.map((appointment, index) => (
                     <div className='col-lg-4 col-md-6' key={index}>
-                        <div className="admin-appointment-container">
-                            <div className="admin-appointment-card-container">
-                                <div className="admin-appointment-card-preview">
+                        <div className="admin-appointment-container my-3">
+                            <div className="admin-appointment-card-container row m-0">
+                                <div className="admin-appointment-card-preview col-5">
                                     <>{displayAppointmentStatus(appointment?.appointmentData?.status)}</>
                                     <Avatar
                                         className='d-block mb-1 mt-5 mx-auto'
@@ -53,15 +53,16 @@ export default function AppointmentCard(props) {
                                         name={`${appointment?.doctor?.fName} ${appointment?.doctor?.lName}`}
                                         src={appointment?.doctor?.profileImg}
                                     />
-                                    <p className="h4 m-0 pt-3 text-center font-weight-bold">{`Dr. ${appointment?.doctor?.fName} ${appointment?.doctor?.lName}`}</p>
+                                    <p className="h4 m-0 pt-3 text-center font-weight-bold">Dr. {appointment?.doctor?.fName}</p>
+                                    <p className="h4 m-0 text-center font-weight-bold">{appointment?.doctor?.lName}</p>
                                     <p className="h5 m-0 pt-2 text-center text-secondary">{appointment?.doctor?.department?.name}</p>
                                     <p className="h6 m-0 pt-2 text-center text-secondary">+91 {appointment?.doctor?.mobileNo}</p>
                                 </div>
-                                <div className="admin-appointment-card-info text-center d-flex flex-column align-items-center justify-content-center text-light">
+                                <div className="admin-appointment-card-info text-center d-flex flex-column align-items-center justify-content-center text-light col-7">
                                     <p className="h4 m-0 font-weight-bold">{appointment?.doctor?.hospital?.name}</p>
                                     <p className="h5 m-0 pt-1">+91 {appointment?.doctor?.hospital?.mobileNo}</p>
                                     <p className="h6 pt-4 m-0">Appointment Date :</p>
-                                    <p className="h5 m-0 font-weight-bold pt-2">{moment(appointment?.appointmentData?.appointmentDate).format('LL')}</p>
+                                    <p className="h5 m-0 font-weight-bold pt-2">{moment(new Date(appointment?.appointmentData?.appointmentDate)).format('LL')}</p>
                                     <p className="h6 pt-3 m-0">Appointment Time :</p>
                                     <p className="h5 m-0 font-weight-bold pt-2">{appointment?.appointmentData?.appointmentTime}</p>
                                 </div>

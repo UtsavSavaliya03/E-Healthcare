@@ -50,7 +50,7 @@ function Footer() {
                   <div className="usefullink-container">
                     <p>
                       <i className="fa fa-phone-alt" />
-                      +012 345 67890
+                      +91 99093 33163
                     </p>
                     <p>
                       <i className="fa fa-envelope" />
