@@ -60,13 +60,13 @@ export default function ProfileModal(props) {
             age: profileCredentials?.age,
             gender: profileCredentials?.gender,
             addressLine: profileCredentials?.addressLine,
-            state: profileCredentials?.state,
-            city: profileCredentials?.city,
+            state: JSON.stringify(profileCredentials?.state),
+            city: JSON.stringify(profileCredentials?.city),
             pincode: profileCredentials?.pincode,
         }
 
         const headers = {
-            Authorization: token,
+            'Authorization': token,
         };
 
         const userProfile = await updatePatient(user._id, params, headers);
@@ -128,9 +128,7 @@ export default function ProfileModal(props) {
                                     onChange={formik.handleChange}
                                 />
                                 <div className="add-doctor-error-message text-right mr-1">
-                                    {formik.touched.age
-                                        ? formik.errors.age
-                                        : null}
+                                    {formik.touched.age ? formik.errors.age : null}
                                 </div>
                             </div>
                             <div className="col-12 col-md-6 my-3 my-md-0">
@@ -140,10 +138,7 @@ export default function ProfileModal(props) {
                                     label="Gender"
                                     select
                                     value={formik.values.gender}
-                                    error={
-                                        formik.touched.gender &&
-                                        Boolean(formik.errors.gender)
-                                    }
+                                    error={formik.touched.gender && Boolean(formik.errors.gender)}
                                     onChange={formik.handleChange}
                                 >
                                     {genderData?.map((gender, index) => (

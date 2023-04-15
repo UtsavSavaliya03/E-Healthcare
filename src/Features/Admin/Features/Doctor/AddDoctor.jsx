@@ -70,7 +70,7 @@ export default function AddDoctors() {
 
   const fetchHospitalsHandler = async () => {
     const headers = {
-      Authorization: token,
+      'Authorization': token,
     };
 
     const hospitals = await fetchHospitals(headers);
@@ -79,7 +79,7 @@ export default function AddDoctors() {
 
   const fetchDepartmentsHandler = async () => {
     const headers = {
-      Authorization: token,
+      'Authorization': token,
     };
 
     const departments = await fetchActiveDepartments(headers);
@@ -290,9 +290,7 @@ export default function AddDoctors() {
                   name="mobileNo"
                   label="Mobile Number"
                   value={formik.values.mobileNo}
-                  error={
-                    formik.touched.mobileNo && Boolean(formik.errors.mobileNo)
-                  }
+                  error={formik.touched.mobileNo && Boolean(formik.errors.mobileNo)}
                   onChange={formik.handleChange}
                 />
                 <div className="add-doctor-error-message text-right mr-1">

@@ -67,7 +67,7 @@ export default function AddLaboratory() {
       pincode: laboratoryCredentials?.pincode,
     }
     const headers = {
-      Authorization: token,
+      'Authorization': token,
     };
     const laboratory = await addLaboratory(params, headers);
     

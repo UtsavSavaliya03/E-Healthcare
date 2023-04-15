@@ -49,7 +49,7 @@ export default function AddDepartment() {
     formData.append("status", departmentCredentials?.status === 'false' ? false : true);
 
     const headers = {
-      Authorization: token
+      'Authorization': token
     }
     const department = await addDepartment(formData, headers);
     notification.notify(department?.status, department?.message);
@@ -79,8 +79,8 @@ export default function AddDepartment() {
       return false;
     } else {
       for (let i = 0; i < files.length; i++) {
-        if (files[i].size > 1000000) { // 1 MB
-          notification.notify(false, "File must be less then 1 Mb...!")
+        if (files[i].size > 2000000) { // 1 MB
+          notification.notify(false, "File must be less then 2 Mb...!")
           return false;
         }
       }

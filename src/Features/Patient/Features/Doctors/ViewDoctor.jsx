@@ -38,7 +38,7 @@ export default function ViewDoctor() {
     setIsLoading(true);
 
     const headers = {
-      Authorization: token,
+      'Authorization': token,
     };
 
     const doctor = await fetchDoctorById(doctorId, headers);

@@ -27,7 +27,7 @@ export default function PrescriptionsList() {
     }
 
     const headers = {
-      Authorization: token,
+      'Authorization': token,
     };
 
     const prescriptionResponse = await fetchPrescription(doctor?._id, headers);

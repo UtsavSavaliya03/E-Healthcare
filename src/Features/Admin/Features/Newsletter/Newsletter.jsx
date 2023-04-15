@@ -22,7 +22,7 @@ export default function Newsletter() {
 
   const newsletterReplyHandler = async (mailContent) => {
     const headers = {
-      Authorization: token,
+      'Authorization': token,
     };
     const newsletters = await sendMail(mailContent, headers);
     if (newsletters.status) {

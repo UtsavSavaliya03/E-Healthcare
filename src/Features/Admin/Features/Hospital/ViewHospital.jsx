@@ -93,7 +93,7 @@ export default function ViewHospital() {
     }
 
     const headers = {
-      Authorization: token
+      'Authorization': token
     }
 
     const hospital = await updateHospital(hospitalId, params, headers);
@@ -109,7 +109,7 @@ export default function ViewHospital() {
     setIsLoading(true);
 
     const headers = {
-      Authorization: token,
+      'Authorization': token,
     };
 
     const hospitals = await fetchHospitalById(hospitalId, headers);

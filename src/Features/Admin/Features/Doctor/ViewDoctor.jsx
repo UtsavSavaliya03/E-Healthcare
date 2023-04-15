@@ -58,7 +58,7 @@ export default function ViewDoctor() {
     setIsLoading(true);
 
     const headers = {
-      Authorization: token,
+      'Authorization': token,
     };
 
     const doctor = await fetchDoctorById(doctorId, headers);
@@ -108,7 +108,7 @@ export default function ViewDoctor() {
 
   const fetchHospitalsHandler = async () => {
     const headers = {
-      Authorization: token,
+      'Authorization': token,
     };
 
     const hospitals = await fetchHospitals(headers);
@@ -117,7 +117,7 @@ export default function ViewDoctor() {
 
   const fetchDepartmentsHandler = async () => {
     const headers = {
-      Authorization: token,
+      'Authorization': token,
     };
 
     const departments = await fetchActiveDepartments(headers);
