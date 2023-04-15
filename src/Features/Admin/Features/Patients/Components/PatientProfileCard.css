@@ -1,0 +1,23 @@
+.admin-patient-card-container {
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+  padding-top: 30px;
+  max-width: 100%;
+  text-align: center;
+}
+.admin-patient-card-container .status-tag {
+  border-radius: 3px;
+  font-size: 14px;
+  font-weight: bold;
+  letter-spacing: 1px;
+  color: white;
+  position: absolute;
+  padding: 2px 5px;
+}
+.admin-patient-card-container .unblock {
+  background-color: #7fcb55;
+}
+.admin-patient-card-container .block {
+  background-color: #f44b2d;
+}

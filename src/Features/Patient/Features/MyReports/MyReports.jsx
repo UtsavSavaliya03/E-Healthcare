@@ -9,7 +9,6 @@ import VisibilityIcon from '@mui/icons-material/Visibility';
 import DownloadIcon from '@mui/icons-material/Download';
 import moment from 'moment';
 import TestReportDownloader from '../../../../Components/Common/TestReport/TestReportDownloader.jsx';
-import Backdrop from "@mui/material/Backdrop";
 
 export default function MyReports() {
 
@@ -18,12 +17,12 @@ export default function MyReports() {
   const token = localStorage.getItem("token") || null;
   const [reports, setReports] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-  const [isLoadingBackdrop, setIsLoadingBackdrop] = useState(false);
 
 
   const fetchTestReportsHandler = async () => {
     setIsLoading(true);
     if (!(user?._id)) {
+      setIsLoading(false);
       return;
     }
 
@@ -32,19 +31,17 @@ export default function MyReports() {
     };
 
     const reportResponse = await fetchTestReportsByUser(user?._id, headers);
-    console.log(reportResponse?.data);
     setReports(reportResponse?.data);
     setIsLoading(false);
   }
 
   useEffect(() => {
     fetchTestReportsHandler();
-  }, [user]);
+  }, []);
 
   const ReportsTable = () => {
     return (
       <>
-        <h2 className='text-blue py-4'>My Reports</h2>
         <table className="table prescription-table">
           <thead>
             <tr className="text-light">
@@ -93,9 +90,10 @@ export default function MyReports() {
 
   return (
     <div className='prescription-list-container'>
+      <h2 className='text-blue py-4 px-md-4'>My Reports</h2>
       {
         isLoading ? (
-          <div className='d-flex justify-content-center pt-5'>
+          <div className='d-flex justify-content-center pt-5 mt-5'>
             <Spinner />
           </div>
         ) : (
@@ -104,20 +102,14 @@ export default function MyReports() {
               reports?.length > 0 ? (
                 <ReportsTable />
               ) : (
-                <div className='p-5 text-center text-muted'>
+                <h4 className='p-5 text-center text-muted'>
                   No Reports
-                </div>
+                </h4>
               )
             }
           </div>
         )
       }
-      <Backdrop
-        sx={{ zIndex: 1 }}
-        open={isLoadingBackdrop}
-      >
-        <Spinner />
-      </Backdrop>
     </div>
   )
 }

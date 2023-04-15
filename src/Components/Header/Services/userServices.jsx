@@ -8,9 +8,9 @@ export const findMe = async (userId, headers) => {
     return data;
 }
 
-export const changePassword = async (userParams, headers) => {
+export const changePassword = async (type, userParams, headers) => {
 
-    const user = await axiosServices.post(UserUrls.changePassword(), userParams, headers);
+    const user = await axiosServices.post(UserUrls.changePassword(type), userParams, headers);
 
     if (user?.data || user?.response.data) {
         return user?.data || user?.response.data;

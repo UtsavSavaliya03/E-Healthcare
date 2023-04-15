@@ -9,7 +9,6 @@ import VisibilityIcon from '@mui/icons-material/Visibility';
 import DownloadIcon from '@mui/icons-material/Download';
 import moment from 'moment';
 import PrescriptionDownloader from '../../../../Components/Common/Prescription/PrescriptionDownloader.jsx';
-import Backdrop from "@mui/material/Backdrop";
 
 export default function MyPrescription() {
 
@@ -18,31 +17,30 @@ export default function MyPrescription() {
   const token = localStorage.getItem("token") || null;
   const [prescriptions, setPrescriptions] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-  const [isLoadingBackdrop, setIsLoadingBackdrop] = useState(false);
 
   const fetchPrescriptionHandler = async () => {
     setIsLoading(true);
     if (!(user?._id)) {
+      setIsLoading(false);
       return;
     }
 
     const headers = {
       'Authorization': token,
     };
-    const prescriptionResponse = await fetchPrescription(user?._id, headers);
 
-    console.log(prescriptionResponse?.data);
+    const prescriptionResponse = await fetchPrescription(user?._id, headers);
     setPrescriptions(prescriptionResponse?.data);
+
     setIsLoading(false);
   }
 
   useEffect(() => {
     fetchPrescriptionHandler();
-  }, [user]);
+  }, []);
 
   const PrescriptionTable = () => {
     return (<>
-      <h2 className='text-blue py-4'>My Prescriptions</h2>
       <table className="table prescription-table">
         <thead>
           <tr className="text-light">
@@ -91,9 +89,10 @@ export default function MyPrescription() {
 
   return (
     <div className='prescription-list-container'>
+      <h2 className='text-blue py-4 px-md-4'>My Prescriptions</h2>
       {
         isLoading ? (
-          <div className='d-flex justify-content-center pt-5'>
+          <div className='d-flex justify-content-center pt-5 mt-5'>
             <Spinner />
           </div>
         ) : (
@@ -102,20 +101,14 @@ export default function MyPrescription() {
               prescriptions?.length > 0 ? (
                 <PrescriptionTable />
               ) : (
-                <div className='p-5 text-center text-muted'>
+                <h4 className='p-5 text-center text-muted'>
                   No Prescriptions
-                </div>
+                </h4>
               )
             }
           </div>
         )
       }
-      <Backdrop
-        sx={{ zIndex: 1 }}
-        open={isLoadingBackdrop}
-      >
-        <Spinner />
-      </Backdrop>
     </div>
   )
 }

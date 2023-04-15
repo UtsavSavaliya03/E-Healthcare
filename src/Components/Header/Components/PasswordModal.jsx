@@ -52,19 +52,36 @@ export default function PasswordModal() {
     });
 
     const submitHandler = async (values, { resetForm }) => {
-        setIsLoading(true)
+        setIsLoading(true);
 
+        let type;
         const headers = {
             'Authorization': token,
         };
 
-        const params = {
-            userId: user?._id
+        if (user?.role === 0 || user?.role === 3) {
+            type = 'patient';
+        } else if (user?.role === 1) {
+            type = 'doctor';
+        } else {
+            type = 'laboratory';
         }
 
-        const user = await changePassword(params, headers);
+        const params = {
+            userId: user?._id,
+            currentPassword: values?.currentPassword,
+            password: values?.userPwd,
+            confirmPassword: values?.userConfirmPwd
+        }
 
-        console.log(values);
+        const userResponse = await changePassword(type, params, headers);
+
+        notification.notify(userResponse?.status, userResponse?.message);
+        if (userResponse?.status) {
+            setOpen(false);
+            resetForm();
+        }
+        setIsLoading(false);
     }
 
     const formik = useFormik({
@@ -78,6 +95,7 @@ export default function PasswordModal() {
     return (
         <>
             <Dialog
+                style={{ zIndex: 0 }}
                 PaperProps={{
                     sx: {
                         minWidth: 500,

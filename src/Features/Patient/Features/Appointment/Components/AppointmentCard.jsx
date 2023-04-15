@@ -1,83 +1,75 @@
 import React from 'react';
 import './AppointmentCard.css';
-import moment from 'moment/moment';
 import Avatar from 'react-avatar';
+import moment from 'moment';
+
 
 export default function AppointmentCard(props) {
+
     const { appointments } = props;
 
     const displayAppointmentStatus = (status) => {
         if (status == 0) {
             return (
-                <p className='m-0 pending-status-tag px-2'>
+                <div className='m-0 px-2 status-tag pending'>
                     Pending
-                </p>
+                </div>
             )
         } else if (status == 1) {
             return (
-                <p className='m-0 approved-status-tag px-2'>
+                <p className='m-0 px-2 status-tag approved'>
                     Approved
                 </p>
             )
         } else if (status == 2) {
             return (
-                <p className='m-0 completed-status-tag px-2'>
+                <p className='m-0 px-2 status-tag completed'>
                     Completed
                 </p >
             )
         } else {
             return (
-                <p className='m-0 cancelled-status-tag px-2'>
+                <p className='m-0 px-2 status-tag cancelled'>
                     Cancelled
                 </p >
             )
         }
     }
 
-    return (
-        <>
-            {
-                appointments.map((appointment, index) => {
-                    return (
-                        <div className='col-lg-6 px-3 my-3' key={index}>
-                            <div className="apt-main-container d-flex">
-                                <div className="apt-img-section align-items-start" >
-                                    <Avatar className='apt-img' size='70' round name={`${appointment?.doctor?.fName} ${appointment?.doctor?.lName}`} src={appointment?.doctor?.profileImg} />
-                                </div>
-                                <div className="apt-info ml-5">
-                                    <h4 className='text-blue font-weight-bold'> {`${appointment?.doctor?.fName} ${appointment?.doctor?.lName}`}</h4>
-                                    <div className='apt-name-bar'></div>
-                                    <p className='my-2'>
-                                        <span className='apt-info-head'>Department:</span>
-                                        <span> {appointment?.doctor?.department?.name}</span>
-                                    </p>
-                                    <p className='my-2'>
-                                        <span className='apt-info-head'>Hospital:</span>
-                                        <span> {appointment?.doctor?.hospital?.name}</span>
-                                    </p>
-                                    <p className='my-2'>
-                                        <span className='apt-info-head'>Contact No:</span>
-                                        <span>+91 {appointment?.doctor?.mobileNo}</span>
-                                    </p>
-                                    <p className='my-2'>
-                                        <span className='apt-info-head'>Appointment Date:</span>
-                                        <span> {moment(appointment?.appointmentData?.appointmentDate).format('LL')}</span>
-                                    </p>
 
-                                    <p className='my-2'>
-                                        <span className='apt-info-head'>Appointment Time:</span>
-                                        <span> {appointment?.appointmentData?.appointmentTime}
-                                        </span>
-                                    </p>
+    return (
+        <div className='row m-0'>
+            {
+                appointments?.map((appointment, index) => (
+                    <div className='col-lg-4 col-md-6' key={index}>
+                        <div className="admin-appointment-container">
+                            <div className="admin-appointment-card-container">
+                                <div className="admin-appointment-card-preview">
+                                    <>{displayAppointmentStatus(appointment?.appointmentData?.status)}</>
+                                    <Avatar
+                                        className='d-block mb-1 mt-5 mx-auto'
+                                        round
+                                        size='100'
+                                        name={`${appointment?.doctor?.fName} ${appointment?.doctor?.lName}`}
+                                        src={appointment?.doctor?.profileImg}
+                                    />
+                                    <p className="h4 m-0 pt-3 text-center font-weight-bold">{`Dr. ${appointment?.doctor?.fName} ${appointment?.doctor?.lName}`}</p>
+                                    <p className="h5 m-0 pt-2 text-center text-secondary">{appointment?.doctor?.department?.name}</p>
+                                    <p className="h6 m-0 pt-2 text-center text-secondary">+91 {appointment?.doctor?.mobileNo}</p>
                                 </div>
-                                <div className='status-container text-right'>
-                                    {displayAppointmentStatus(appointment?.appointmentData?.status)}
+                                <div className="admin-appointment-card-info text-center d-flex flex-column align-items-center justify-content-center text-light">
+                                    <p className="h4 m-0 font-weight-bold">{appointment?.doctor?.hospital?.name}</p>
+                                    <p className="h5 m-0 pt-1">+91 {appointment?.doctor?.hospital?.mobileNo}</p>
+                                    <p className="h6 pt-4 m-0">Appointment Date :</p>
+                                    <p className="h5 m-0 font-weight-bold pt-2">{moment(appointment?.appointmentData?.appointmentDate).format('LL')}</p>
+                                    <p className="h6 pt-3 m-0">Appointment Time :</p>
+                                    <p className="h5 m-0 font-weight-bold pt-2">{appointment?.appointmentData?.appointmentTime}</p>
                                 </div>
                             </div>
                         </div>
-                    )
-                })
+                    </div>
+                ))
             }
-        </>
+        </div>
     )
 }

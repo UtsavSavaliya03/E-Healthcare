@@ -35,7 +35,7 @@ const Dashboard = () => {
     const headers = {
       'Authorization': token,
     };
-    const reportsDataResponse = await fetchLaboratoryReportData(laboratory?._id, headers);
+    const reportsDataResponse = await fetchLaboratoryReportData(user?._id, headers);
     ;
     if (reportsDataResponse?.data?.reportsData?.length > 0) {
       setReportsData([{ id: "Reports", color: tokens().blueAccent[500], data: reportsDataResponse?.data?.reportsData }]);
