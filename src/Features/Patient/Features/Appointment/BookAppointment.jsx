@@ -66,7 +66,7 @@ export default function BookAppointment() {
   const fetchDoctorHandle = async () => {
     setIsLoading(true);
     const headers = {
-      Authorization: token
+      'Authorization': token
     }
     const doctor = await fetchDoctors(headers);
     setDoctors(doctor?.data);
@@ -76,7 +76,7 @@ export default function BookAppointment() {
   const fetchDepartmentsHandler = async () => {
     setIsLoading(true);
     const headers = {
-      Authorization: token,
+      'Authorization': token,
     };
 
     const departments = await fetchActiveDepartments(headers);
@@ -112,7 +112,7 @@ export default function BookAppointment() {
     setSelectedDoctor();
     setIsLoading(true);
     const headers = {
-      Authorization: token
+      'Authorization': token
     }
 
     const params = {
@@ -133,7 +133,7 @@ export default function BookAppointment() {
   const bookAppointmentHandler = async () => {
     setIsLoadingBackdrop(true);
     const headers = {
-      Authorization: token
+      'Authorization': token
     }
     const params = {
       patient: user._id,

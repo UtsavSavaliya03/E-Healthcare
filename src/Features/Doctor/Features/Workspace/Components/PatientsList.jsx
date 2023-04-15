@@ -46,7 +46,7 @@ export default function PatientsList(props) {
   const fetchPatientsHandler = async () => {
     setIsLoading(true);
     const headers = {
-      Authorization: token
+      'Authorization': token
     }
     const patientResponse = await fetchPatients(headers);
     setPatients(patientResponse?.data);

@@ -13,7 +13,7 @@ export default function Dashboard() {
 
   const fetchDepartmentsHandler = async () => {
     const headers = {
-      Authorization: token,
+      'Authorization': token,
     };
 
     const departmentsResponse = await fetchDepartments(headers);

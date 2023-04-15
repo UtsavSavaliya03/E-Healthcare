@@ -45,7 +45,7 @@ export default function Header() {
   const findUser = async () => {
     if (isLogin) {
       const headers = {
-        Authorization: token,
+        'Authorization': token,
       };
       setIsLoading(true);
       const userResponse = await findMe(userId, headers);
@@ -112,6 +112,7 @@ export default function Header() {
                   size="40"
                   round
                   name={userName}
+                  src={user?.profileImg}
                 />
                 <div className="dropdown">
                   <ul className="dropdown-content">
@@ -122,6 +123,7 @@ export default function Header() {
                           size="50"
                           round={true}
                           name={userName}
+                          src={user?.profileImg}
                         />
                       </div>
                       <div className="pl-3">

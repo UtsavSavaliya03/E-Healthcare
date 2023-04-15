@@ -90,7 +90,7 @@ export default function ViewLaboratory() {
     }
 
     const headers = {
-      Authorization: token
+      'Authorization': token
     }
     
     const laboratory = await updateLaboratories(laboratoryId, params, headers);
