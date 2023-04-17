@@ -64,19 +64,21 @@ export default function AppointmentList(props) {
                         <>
                             {
                                 appoinments?.map((appoinment, index) => (
-                                    <PatientCard 
-                                    key={index}
-                                    patient={appoinment?.patient}
-                                    appointmentId={appoinment?._id}
-                                    time={appoinment?.appointmentTime}
-                                    selectPatient={setSelectedPatientHandler} 
-                                    selectAppointment={selectAppointmentHandler}
+                                    <PatientCard
+                                        key={index}
+                                        patient={appoinment?.patient}
+                                        appointmentId={appoinment?._id}
+                                        time={appoinment?.appointmentTime}
+                                        selectPatient={setSelectedPatientHandler}
+                                        selectAppointment={selectAppointmentHandler}
                                     />
                                 ))
                             }
                         </>
                     ) : (
-                        <div>No any appointmentDates for today</div>
+                        <div className='text-center w-100 pt-5 text-muted'>
+                            <h5>No any appointmentDates for today</h5>
+                        </div>
                     )
                 }
             </div>

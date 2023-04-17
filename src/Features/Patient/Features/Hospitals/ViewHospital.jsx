@@ -44,7 +44,7 @@ export default function ViewHospital() {
 
   const avatarCard = (doctor, index) => {
     return (
-      <div className="col-lg-4 col-md-3 col-12 my-3 doctor-detail-box cursor-hover d-flex " key={index} onClick={() => (navigate(`/patient/view-doctor/${btoa(doctor?._id)}`))}>
+      <div className="col-lg-4 col-md-3 col-12 my-3 doctor-detail-box d-flex " key={index} onClick={() => (navigate(`/patient/view-doctor/${btoa(doctor?._id)}`))}>
         <div className="dpt-doctor-img-container">
           <Avatar
             src={doctor?.profileImg}
@@ -54,8 +54,8 @@ export default function ViewHospital() {
           />
         </div>
         <div className="dpt-doctor-info ml-2">
-          <h5 className="font-weight-bold">{`${doctor?.fName} ${doctor?.lName}`}</h5>
-          <h6>{doctor?.email}</h6>
+          <h5 className="font-weight-bold doctor-name break-line-1">{`${doctor?.fName} ${doctor?.lName}`}</h5>
+          <h6 className="break-line-1">{doctor?.email}</h6>
         </div>
       </div>
     )

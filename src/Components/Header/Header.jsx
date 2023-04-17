@@ -14,7 +14,7 @@ import useLogin from "./Hooks/useLogin.jsx";
 import { findMe } from "./Services/userServices.jsx";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
-import { FaSignOutAlt, FaUserAlt, FaUserLock } from "react-icons/fa";
+import { FaSignOutAlt, FaUserAlt, FaUnlockAlt } from "react-icons/fa";
 import logo from "../../Assets/Logos/Logo.png";
 import PasswordModal from "./Components/PasswordModal";
 
@@ -148,7 +148,7 @@ export default function Header() {
                       className="btn-logout py-2 px-4 align-items-center d-flex"
                       onClick={chnagePasswordHandler}
                     >
-                      <FaUserLock size={20} className="mr-2" />
+                      <FaUnlockAlt size={20} className="mr-2" />
                       Change Password
                     </button>
                     <hr className="my-2" />

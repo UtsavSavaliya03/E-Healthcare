@@ -61,8 +61,9 @@ export default function GeneratePrescription(props) {
         if (!patient) {
             navigate(-1);
         }
-        fetchLaboratories()
 
+        fetchLaboratories();
+        
         return () => {
             setMedicineData([]);
         };

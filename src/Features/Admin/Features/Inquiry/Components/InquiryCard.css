@@ -30,20 +30,24 @@
 
 .inquiry-collapse-container .unread-status-tag {
     text-align: center;
-    border: 2px solid orange;
-    color: orange;
+    background-color: #a0a0a0;
     border-radius: 5px;
     display: inline;
     padding: 2px 5px;
+    letter-spacing: 1px;
+    color: white;
+    font-weight: 600;
 }
 
 .inquiry-collapse-container .read-status-tag {
     text-align: center;
-    border: 2px solid rgb(0, 216, 0);
-    color: rgb(0, 216, 0);
+    background-color: #7fcb55;
     border-radius: 5px;
     display: inline;
     padding: 2px 5px;
+    letter-spacing: 1px;
+    color: white;
+    font-weight: 600;
 }
 
 .btn-container button:focus {

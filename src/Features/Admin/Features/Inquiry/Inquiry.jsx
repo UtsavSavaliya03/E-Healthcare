@@ -21,13 +21,14 @@ export default function Inquiry() {
   };
 
   const fetchInquiryHandler = async () => {
-
+    setLoading(true);
     const headers = {
       'Authorization': token
     }
-
+    
     const inquiry = await fetchInquiry(headers, alignment);
     setInquiries(inquiry?.data)
+    setLoading(false);
   }
 
   useEffect(() => {
