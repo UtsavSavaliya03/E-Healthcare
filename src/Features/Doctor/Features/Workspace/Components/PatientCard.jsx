@@ -42,8 +42,8 @@ export default function PatientCard(props) {
                         <p className='m-0 d-inline ml-5'>{patient?.age}</p>
                     </div>
                     <div className='d-flex'>
-                        <p className='m-0'>Address:</p>
-                        <p className='m-0 ml-3 break-line-2'>{patient?.addressLine}</p>
+                        <p className='m-0 font-weight-bold mr-3'>Address:</p>
+                        <p className='m-0 patient-address'>{patient?.addressLine}</p>
                     </div>
                 </div>
             </div>

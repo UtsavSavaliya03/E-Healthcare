@@ -95,7 +95,7 @@ export default function PasswordModal() {
     return (
         <>
             <Dialog
-                style={{ zIndex: 0 }}
+                style={{ zIndex: 1 }}
                 PaperProps={{
                     sx: {
                         minWidth: 500,
@@ -176,7 +176,7 @@ export default function PasswordModal() {
                     </DialogActions>
                 </form>
             </Dialog>
-            <Backdrop sx={{ zIndex: 1 }} open={isLoading}>
+            <Backdrop sx={{ zIndex: 3 }} open={isLoading}>
                 <Spinner />
             </Backdrop>
         </>

@@ -182,7 +182,7 @@ export default function InquiryCard(props) {
                             </p>
                         ) : (
                             <p className='m-0 read-status-tag'>
-                                Read
+                                Answered
                             </p>
                         )
                     }

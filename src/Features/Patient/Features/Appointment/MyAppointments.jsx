@@ -14,14 +14,22 @@ export default function MyAppointments() {
   const [appointments, setAppointments] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
 
+  const sortDates = (appointments) => {
+    const sortedObjectsArray = [...appointments].sort((a, b) => new Date(a?.appointmentData?.appointmentDate) - new Date(b?.appointmentData?.appointmentDate));
+    return sortedObjectsArray;
+  }
+
   const fetchAppointmentHandle = async () => {
     setIsLoading(true);
     const headers = {
       'Authorization': token
     }
     const appointments = await fetchAppointmentsByUser(user?._id, headers);
-    setAppointments(appointments?.data);
-    setIsLoading(false);
+
+    if (appointments?.status) {
+      setAppointments(sortDates(appointments?.data));
+      setIsLoading(false);
+    }
   }
 
   useEffect(() => {
@@ -39,15 +47,14 @@ export default function MyAppointments() {
       <hr className='mx-3' />
       {
         isLoading ? (
-          <div className='w-100 d-flex justify-content-center mt-5 pt-5'>
-            <Spinner/>
+          <div className='d-flex justify-content-center pt-5 mt-5'>
+            <Spinner />
           </div>
         ) : (
-          <div>
+          <div className='mb-3'>
             {
               appointments?.length > 0 ? (
                 <AppointmentCard appointments={appointments} />
-
               ) : (
                 <h4 className='text-center text-muted w-100 py-5'>No Appointment</h4>
               )

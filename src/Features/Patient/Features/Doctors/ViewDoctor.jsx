@@ -187,8 +187,8 @@ export default function ViewDoctor() {
           <Spinner />
         </div>
       ) : (
-        <div className="add-doctore-container py-lg-4 px-lg-5 py-3 px-3">
-          <div className="pb-4">
+        <div className="add-doctore-container pt-lg-4 px-lg-5 py-3 px-3">
+          <div>
             <div className="view-doctore-profile">
               <div className="row py-4">
                 <div className="col-sm-12 col-lg-2 py-2 px-5">

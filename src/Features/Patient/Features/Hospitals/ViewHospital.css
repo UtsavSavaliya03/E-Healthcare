@@ -37,14 +37,17 @@
   width: 40%;
   border-radius: 50%;
 }
+
 .btn-delete-hospital:focus {
   outline: none;
 }
-.btn-delete-hospital{
+
+.btn-delete-hospital {
   background-color: rgb(255, 210, 218) !important;
   color: rgb(255, 0, 81) !important;
 }
-.btn-edit-hospital{
+
+.btn-edit-hospital {
   background-color: rgb(210, 210, 255) !important;
   color: blue !important;
 }
@@ -53,10 +56,23 @@
   opacity: 0;
   transition: opacity 0.8s;
 }
+
 .view-hospital-card:hover .hospital-action-btn-container {
   opacity: 1;
   transition: opacity 0.8s;
-} 
-.cursor-hover{
+}
+
+.doctor-detail-box {
   cursor: pointer;
+}
+
+.doctor-name {
+  letter-spacing: 0px;
+  transition: letter-spacing 0.5s;
+}
+
+.doctor-detail-box:hover .doctor-name {
+  color: #0b8fdc;
+  letter-spacing: 0.5px;
+  transition: letter-spacing 0.5s;
 }
