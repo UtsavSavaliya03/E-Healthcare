@@ -20,13 +20,14 @@ export default function Newsletter() {
       .required("No Message provided"),
   });
 
-  const newsletterReplyHandler = async (mailContent) => {
+  const newsletterReplyHandler = async (mailContent, { resetForm }) => {
     const headers = {
       'Authorization': token,
     };
     const newsletters = await sendMail(mailContent, headers);
     if (newsletters.status) {
       alert.alert("success", "Done!", "Newsletter sent successfully!");
+      resetForm();
     }
   };
 
@@ -51,8 +52,7 @@ export default function Newsletter() {
             initialValues={{ subject: "", message: "" }}
             validationSchema={NewsletterSchema}
             onSubmit={async (values, { resetForm }) => {
-              newsletterReplyHandler(values);
-              resetForm();
+              newsletterReplyHandler(values, { resetForm });
             }}
           >
             {({ errors, touched }) => (
