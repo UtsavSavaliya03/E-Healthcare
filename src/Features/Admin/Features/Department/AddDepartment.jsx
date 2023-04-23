@@ -235,7 +235,7 @@ export default function AddDepartment() {
   return (
     <div>
       <Helmet>
-        <title>Department | Health Horizon</title>
+        <title>Add Department | Health Horizon</title>
       </Helmet>
       <div className='add-department-container py-4 px-5'>
         <AddDepartmentForm />

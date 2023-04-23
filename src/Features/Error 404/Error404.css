@@ -1,0 +1,12 @@
+.error404-container {
+    height: 100vh;
+    width: 100vw;
+    position: absolute;
+    top: 0;
+    z-index: 6 !important;
+    background-color: white;
+    background-image: url('../../Assets/Backgrounds/Error\ Page\ not\ Found.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+}

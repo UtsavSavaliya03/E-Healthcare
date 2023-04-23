@@ -73,7 +73,7 @@ export default function LaboratoryList() {
   return (
     <div className='main-hospital-container px-lg-5 py-4'>
       <Helmet>
-        <title>Laboratory | Health Horizon</title>
+        <title>Laboratories | Health Horizon</title>
       </Helmet>
       <Backdrop
         sx={{ zIndex: 1 }}

@@ -15,7 +15,7 @@ export default function Appointment() {
   const [isLoading, setIsLoading] = useState(false);
 
   const sortDates = (appointments) => {
-    const sortedObjectsArray = [...appointments].sort((a, b) => new Date(a?.appointmentDate) - new Date(b?.appointmentDate));
+    const sortedObjectsArray = [...appointments].sort((a, b) => new Date(b?.appointmentDate) - new Date(a?.appointmentDate));
     return sortedObjectsArray;
   }
 

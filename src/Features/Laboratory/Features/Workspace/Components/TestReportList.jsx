@@ -20,6 +20,10 @@ export default function TestReportList() {
   const [isLoading, setIsLoading] = useState(false);
   const [isLoadingBackdrop, setIsLoadingBackdrop] = useState(false);
 
+  const sortDates = (reports) => {
+    const sortedObjectsArray = [...reports].sort((a, b) => new Date(b?.createdAt) - new Date(a?.createdAt));
+    return sortedObjectsArray;
+  }
 
   const fetchTestReportsHandler = async () => {
     setIsLoading(true);
@@ -32,7 +36,7 @@ export default function TestReportList() {
     };
 
     const reportResponse = await fetchTestReportsByLaboratory(laboratory?._id, headers);
-    setReports(reportResponse?.data);
+    setReports(sortDates(reportResponse?.data));
     setIsLoading(false);
   }
 

@@ -15,6 +15,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import Alert from '../../../../Components/Common/Alert/SweetAlert.jsx';
 import Backdrop from "@mui/material/Backdrop";
 import Notificaion from '../../../../Components/Common/Notification/Notification.jsx';
+import { Helmet } from "react-helmet";
 let State = require('country-state-city').State;
 let City = require('country-state-city').City;
 
@@ -92,7 +93,7 @@ export default function ViewLaboratory() {
     const headers = {
       'Authorization': token
     }
-    
+
     const laboratory = await updateLaboratories(laboratoryId, params, headers);
     notification.notify(laboratory?.status, laboratory?.message);
     if (laboratory?.status) {
@@ -309,6 +310,9 @@ export default function ViewLaboratory() {
 
   return (
     <div className="p-4 view-hospital-container">
+      <Helmet>
+        <title>{Laboratory.name || 'Laboratory'} | Health Horizon</title>
+      </Helmet>
       {isLoading ? (
         <div className="spinner-container">
           <Spinner />

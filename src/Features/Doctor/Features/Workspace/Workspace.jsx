@@ -6,7 +6,6 @@ import TabContext from '@material-ui/lab/TabContext';
 import TabList from '@material-ui/lab/TabList';
 import TabPanel from '@material-ui/lab/TabPanel';
 import PatientsList from './Components/PatientsList.jsx';
-import PrescriptionList from './Components/PrescriptionsList.jsx';
 import AppointmentList from './Components/AppointmentList';
 
 export default function Workspace() {
@@ -20,7 +19,7 @@ export default function Workspace() {
   return (
     <div className='workspace-container'>
       <Helmet>
-        <title>Doctor | Workspace</title>
+        <title>Workspace | Doctor</title>
         <meta name="description" content="Helmet application" />
       </Helmet>
       <div className='workspace-card'>
@@ -28,16 +27,12 @@ export default function Workspace() {
           <TabList onChange={handleTabChange} className='p-4'>
             <Tab label="patients" value="patients" />
             <Tab label="today's appointments" value="appointment" />
-            <Tab label="prescriptions" value="prescriptions" />
           </TabList>
           <TabPanel value="patients" className='px-0'>
             <PatientsList handleTabChange={handleTabChange} />
           </TabPanel>
           <TabPanel value="appointment" className='px-0'>
             <AppointmentList handleTabChange={handleTabChange} />
-          </TabPanel>
-          <TabPanel value="prescriptions" className='px-0'>
-            <PrescriptionList />
           </TabPanel>
         </TabContext>
       </div>

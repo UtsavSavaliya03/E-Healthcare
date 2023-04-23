@@ -239,7 +239,7 @@ export default function AddHospital() {
   return (
     <>
       <Helmet>
-        <title>Hospital | Health Horizon</title>
+        <title>Add Hospital | Health Horizon</title>
       </Helmet>
       <div className='add-hospital-container px-5 py-4'>
         <AddHospitalForm />

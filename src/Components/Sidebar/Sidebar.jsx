@@ -24,8 +24,10 @@ const Sidebar = ({ children }) => {
       setSidebarData(doctorSidebarData);
     } else if (userRole === 2) {
       setSidebarData(laboratorySidebarData);
-    } else {
+    } else if (userRole === 3) {
       setSidebarData(patientSidebarData);
+    } else {
+      setSidebarData([]);
     }
   }, [user])
 

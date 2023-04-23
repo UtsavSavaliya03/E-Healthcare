@@ -9,6 +9,7 @@ import { Spinner } from "../../../../Components/Common/Spinners/Spinners.jsx";
 import Backdrop from "@mui/material/Backdrop";
 import IconButton from '@mui/material/IconButton';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import { Helmet } from 'react-helmet';
 
 export default function Patients() {
 
@@ -180,6 +181,9 @@ export default function Patients() {
 
     return (
         <div className='patients-list-container'>
+            <Helmet>
+                <title>Patients | Health Horizon</title>
+            </Helmet>
             {
                 selectedPatient ? (
                     <>

@@ -16,14 +16,14 @@ export default class Notification extends Component {
         )
     }
 
-    confirmBox = (title, text, { deleteHandler }) => {
+    confirmBox = (title, text, { deleteHandler }, confirmBtnText) => {
         Swal.fire(
             {
                 icon: 'warning',
                 showCancelButton: true,
                 cancelButtonColor: '#0b8fdc',
                 confirmButtonColor: '#d33',
-                confirmButtonText: 'Delete',
+                confirmButtonText:  confirmBtnText || 'Delete',
                 title: title,
                 text: text,
             }

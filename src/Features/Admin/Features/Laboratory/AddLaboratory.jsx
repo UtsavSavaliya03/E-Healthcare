@@ -282,7 +282,7 @@ export default function AddLaboratory() {
   return (
     <>
       <Helmet>
-        <title>Laboratory | Health Horizon</title>
+        <title>Add Laboratory | Health Horizon</title>
       </Helmet>
       <Backdrop sx={{ zIndex: 1 }} open={isLoading}>
         <Spinner />

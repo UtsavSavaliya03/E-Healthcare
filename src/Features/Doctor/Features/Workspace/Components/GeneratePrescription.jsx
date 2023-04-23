@@ -63,7 +63,7 @@ export default function GeneratePrescription(props) {
         }
 
         fetchLaboratories();
-        
+
         return () => {
             setMedicineData([]);
         };
@@ -139,8 +139,7 @@ export default function GeneratePrescription(props) {
 
                 await updateAppointmentById(props.appointmentId, param, headers);
             }
-
-            props.handleClosePatient(true, "prescriptions");
+            navigate('/doctor/prescriptions');
         }
     };
 

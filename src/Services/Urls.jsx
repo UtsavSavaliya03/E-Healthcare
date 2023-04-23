@@ -128,6 +128,9 @@ export const TestReportUrls = {
     fetchTestReportsByLaboratory: (id) => {
         return baseUrl + `/testReport/laboratory/${id}`;
     },
+    fetchTestReportsByDoctor: (id) => {
+        return baseUrl + `/testReport/doctor/${id}`;
+    },
 }
 
 
@@ -221,9 +224,6 @@ export const AppointmentUrls = {
     updateAppointmentById: (id) => {
         return baseUrl + `/appointment/${id}`;
     },
-    fetchDoctorPatientsData: (id) => {
-        return baseUrl + `/services/doctor/patient/${id}`;
-    },
     fetchAppointmentsByDate: () => {
         return baseUrl + `/appointment/date`;
     },
@@ -232,6 +232,9 @@ export const AppointmentUrls = {
 export const ServicesUrls = {
     fetchLaboratoryReportData: (laboratoryId) => {
         return baseUrl + `/services/laboratory/report/${laboratoryId}`;
+    },
+    fetchDoctorPatientsData: (id) => {
+        return baseUrl + `/services/doctor/${id}`;
     },
     fetchAdminDashboardData: () => {
         return baseUrl + `/services/admin/dashboard`;

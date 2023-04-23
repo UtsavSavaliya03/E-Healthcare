@@ -3,6 +3,7 @@ import './Profile.css';
 import { useRecoilValue } from 'recoil';
 import { userState } from '../../../../Store/globalState';
 import LaboratoryIcon from "../../../../Assets/Icons/LaboratoryIcon.png";
+import { Helmet } from 'react-helmet';
 
 export default function Profile() {
 
@@ -10,6 +11,10 @@ export default function Profile() {
 
   return (
     <div className='py-3 px-4'>
+      <Helmet>
+        <title>My Account | Laboratory</title>
+        <meta name="description" content="Helmet application" />
+      </Helmet>
       <div className="row m-0 view-hospital-card">
         <div className="col-12 text-center pt-5 pb-3">
           <div className="pl-2">

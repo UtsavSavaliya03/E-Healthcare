@@ -19,6 +19,7 @@ import departmentProfilePicture from '../../../../Assets/Icons/user.png';
 import backgroundPicture from '../../../../Assets/Backgrounds/bg-dpt.jpg';
 import { TextField, FormControlLabel, RadioGroup, FormLabel, Radio, FormControl } from '@mui/material';
 import { updateDepartment } from '../../Services/departmentServices.jsx';
+import { Helmet } from 'react-helmet';
 
 export default function ViewDepartment() {
 
@@ -170,7 +171,7 @@ export default function ViewDepartment() {
     }
     if (backgroundImg !== departmentDetails?.backgroundImg) {
       if (backgroundPicture === backgroundImg) {
-        formData.append("removeBg",true);
+        formData.append("removeBg", true);
       } else {
         formData.append("backgroundImg", departmentBackgroundImgFile);
       }
@@ -331,6 +332,9 @@ export default function ViewDepartment() {
 
   return (
     <div className='department-container p-4'>
+      <Helmet>
+        <title>{departmentDetails?.name || 'Department'} | Health Horizon</title>
+      </Helmet>
       {isLoading ? (
         <div className='spinner-container'>
           <Spinner />

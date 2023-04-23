@@ -951,7 +951,7 @@ export default function ViewDoctor() {
   return (
     <div>
       <Helmet>
-        <title>Doctor | Health Horizon</title>
+        <title>{`Dr. ${doctor?.fName} ${doctor?.lName}` || 'Doctor'} | Health Horizon</title>
       </Helmet>
       <Backdrop sx={{ zIndex: 1 }} open={isLoadingUpdate}>
         <Spinner />
