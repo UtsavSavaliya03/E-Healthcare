@@ -12,7 +12,7 @@ import {
   sidebarStateAtom,
   selectedDoctorStateAtom
 } from "../../../../Store/globalState.jsx";
-import { useRecoilValue, useRecoilState } from "recoil";
+import { useRecoilValue, useSetRecoilState } from "recoil";
 import { Spinner } from "../../../../Components/Common/Spinners/Spinners.jsx";
 import { Helmet } from "react-helmet";
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
@@ -27,7 +27,7 @@ export default function ViewDoctor() {
   const [doctor, setDoctor] = useState({});
   const [isLoading, setIsLoading] = useState(true);
   const [profileImg, setProfileImg] = useState(profilePicture);
-  const [selectedDoctor, setSelectedDoctor] = useRecoilState(selectedDoctorStateAtom);
+  const setSelectedDoctor = useSetRecoilState(selectedDoctorStateAtom);
 
   const bookAppointmentHandler = () => {
     setSelectedDoctor(doctor);
@@ -180,7 +180,7 @@ export default function ViewDoctor() {
   return (
     <div>
       <Helmet>
-        <title>Doctor | Health Horizon</title>
+        <title>{`Dr. ${doctor?.fName} ${doctor?.lName}` || 'Doctor'} | Health Horizon</title>
       </Helmet>
       {isLoading ? (
         <div className="spinner-container">

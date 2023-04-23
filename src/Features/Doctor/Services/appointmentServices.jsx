@@ -1,5 +1,5 @@
 import AxiosService from "../../../Services/AxiosServices.jsx";
-import { AppointmentUrls } from '../../../Services/Urls.jsx';
+import { AppointmentUrls, ServicesUrls } from '../../../Services/Urls.jsx';
 
 const axiosService = new AxiosService();
 
@@ -21,7 +21,7 @@ export const updateAppointmentById = async (id, status, header) => {
 }
 export const fetchDoctorPatientsData = async (id, header) => {
 
-    const patientsResponse = await axiosService.get(AppointmentUrls.fetchDoctorPatientsData(id), header);
+    const patientsResponse = await axiosService.get(ServicesUrls.fetchDoctorPatientsData(id), header);
 
     if (patientsResponse?.data || patientsResponse?.response?.data) {
         return patientsResponse?.data || patientsResponse?.response.data;

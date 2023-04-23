@@ -6,15 +6,11 @@ import { fetchHospitalById } from "../../Services/hospitalServices.jsx";
 import { useState } from "react";
 import Avatar from "react-avatar";
 import { Spinner } from "../../../../Components/Common/Spinners/Spinners.jsx";
-import Alert from '../../../../Components/Common/Alert/SweetAlert.jsx';
-import Backdrop from "@mui/material/Backdrop";
-import Notificaion from '../../../../Components/Common/Notification/Notification.jsx';
+import { Helmet } from "react-helmet";
 
 
 export default function ViewHospital() {
-  const alert = new Alert();
   const location = useLocation();
-  const notification = new Notificaion;
   const navigate = useNavigate();
   const pathArray = location.pathname.split("/");
   const token = localStorage.getItem("token") || null;
@@ -22,8 +18,6 @@ export default function ViewHospital() {
   const [hospitals, setHospitals] = useState([]);
   const [doctors, setDoctors] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [isDeleteLoading, setIsDeleteLoading] = useState(false);
-
 
   const fetchHospitalHandler = async () => {
     setIsLoading(true);
@@ -63,6 +57,9 @@ export default function ViewHospital() {
 
   return (
     <div className="p-4 view-hospital-container">
+      <Helmet>
+        <title>{hospitals.name || 'Hospital'} | Health Horizon</title>
+      </Helmet>
       {isLoading ? (
         <div className="spinner-container">
           <Spinner />
@@ -138,12 +135,6 @@ export default function ViewHospital() {
           </div>
         </>
       )}
-      <Backdrop
-        sx={{ zIndex: 1 }}
-        open={isDeleteLoading}
-      >
-        <Spinner />
-      </Backdrop>
     </div>
   );
 }

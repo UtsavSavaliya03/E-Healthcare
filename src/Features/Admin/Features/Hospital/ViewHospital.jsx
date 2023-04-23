@@ -17,6 +17,7 @@ import Alert from '../../../../Components/Common/Alert/SweetAlert.jsx';
 import Backdrop from "@mui/material/Backdrop";
 import Notificaion from '../../../../Components/Common/Notification/Notification.jsx';
 import { updateHospital } from '../../Services/hospitalServices.jsx';
+import { Helmet } from "react-helmet";
 let State = require('country-state-city').State;
 let City = require('country-state-city').City;
 
@@ -332,6 +333,9 @@ export default function ViewHospital() {
 
   return (
     <div className="p-4 view-hospital-container">
+      <Helmet>
+        <title>{hospitals?.name || 'Hospital'} | Health Horizon</title>
+      </Helmet>
       {isLoading ? (
         <div className="spinner-container">
           <Spinner />

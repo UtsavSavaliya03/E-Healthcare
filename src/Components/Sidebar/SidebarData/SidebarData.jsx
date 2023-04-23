@@ -53,7 +53,7 @@ export const patientSidebarData = [
   },
   {
     path: "patient/my-prescriptions",
-    name: "My Prescription",
+    name: "My Prescriptions",
     icon: <FaFilePrescription />,
   },
   {
@@ -78,6 +78,16 @@ export const doctorSidebarData = [
     path: "doctor/appointments",
     name: "My Appointment",
     icon: <FaCalendarDay />,
+  },
+  {
+    path: "doctor/prescriptions",
+    name: "Prescriptions",
+    icon: <FaFilePrescription />,
+  },
+  {
+    path: "doctor/reports",
+    name: "Reports",
+    icon: <FaFileMedical />,
   },
 ]
 export const laboratorySidebarData = [

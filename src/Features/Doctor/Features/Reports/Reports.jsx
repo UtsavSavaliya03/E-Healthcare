@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import './MyReports.css';
+import './Reports.css';
 import { useRecoilValue } from "recoil";
 import { userState } from '../../../../Store/globalState.jsx';
-import { fetchTestReportsByUser } from '../../Services/userServices.jsx';
+import { fetchTestReportsByDoctor } from '../../Services/reportServices.jsx';
 import IconButton from '@mui/material/IconButton';
 import { Spinner } from '../../../../Components/Common/Spinners/Spinners.jsx';
 import VisibilityIcon from '@mui/icons-material/Visibility';
@@ -11,7 +11,7 @@ import moment from 'moment';
 import TestReportDownloader from '../../../../Components/Common/TestReport/TestReportDownloader.jsx';
 import { Helmet } from 'react-helmet';
 
-export default function MyReports() {
+export default function Reports() {
 
   const testReportsServices = new TestReportDownloader();
   const user = useRecoilValue(userState);
@@ -35,7 +35,7 @@ export default function MyReports() {
       'Authorization': token,
     };
 
-    const reportResponse = await fetchTestReportsByUser(user?._id, headers);
+    const reportResponse = await fetchTestReportsByDoctor(user?._id, headers);
     setReports(sortDates(reportResponse?.data));
     setIsLoading(false);
   }
@@ -51,6 +51,7 @@ export default function MyReports() {
           <thead>
             <tr className="text-light">
               <th className="pre-heading">Serial No</th>
+              <th className="pre-heading">Patient Name</th>
               <th className="pre-heading">Laboratory Name</th>
               <th className="pre-heading">Test Type</th>
               <th className="pre-heading">Test Date</th>
@@ -65,6 +66,7 @@ export default function MyReports() {
                   < >
                     <tr key={index} className='border-blur'>
                       <td data-title="No" className='pt-3'>{index + 1}</td>
+                      <td data-title="No" className='pt-3'>{`${report?.patient?.fName} ${report?.patient?.lName}`}</td>
                       <td data-title="Hospital Name" className="break-line1 pt-3">{`${report?.laboratory?.name}`}</td>
                       <td data-title="Doctor Name" className='pt-3'>{`${report?.type}`}</td>
                       <td data-title="Appointment Date" className='pt-3'>{moment(report?.createdAt).format('LLLL')}</td>
@@ -96,9 +98,10 @@ export default function MyReports() {
   return (
     <div className='prescription-list-container'>
       <Helmet>
-        <title>My Reports | Health Horizon</title>
+        <title>Reports | Doctor</title>
+        <meta name="description" content="Helmet application" />
       </Helmet>
-      <h2 className='text-blue py-4 px-md-4'>My Reports</h2>
+      <h2 className='text-blue py-4 px-md-4'>Test Reports</h2>
       {
         isLoading ? (
           <div className='d-flex justify-content-center pt-5 mt-5'>

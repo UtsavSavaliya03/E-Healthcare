@@ -40,3 +40,9 @@
   border-top-right-radius: 10px;
   border-bottom-right-radius: 10px;
 }
+.cancel-apt-btn{
+  padding: 1px 5px;
+  letter-spacing: 1px;
+  outline: none;
+  font-weight: bold;
+}

@@ -15,7 +15,7 @@ export default function Appointment() {
   const [isLoading, setIsLoading] = useState(false);
 
   const sortDates = (appointments) => {
-    const sortedObjectsArray = [...appointments].sort((a, b) => new Date(a?.appointmentDate) - new Date(b?.appointmentDate));
+    const sortedObjectsArray = [...appointments].sort((a, b) => new Date(b?.appointmentDate) - new Date(a?.appointmentDate));
     return sortedObjectsArray;
   }
 
@@ -41,7 +41,7 @@ export default function Appointment() {
   return (
     <div className='appointment-container'>
       <Helmet>
-        <title>My Appointments | Health Horizon</title>
+        <title>Appointments | Health Horizon</title>
       </Helmet>
       <div className="section-title pt-4">
         <h2 className='font-weight-bold pl-4'>Appointments</h2>

@@ -22,10 +22,6 @@ export default function PatientsList(props) {
   const [isLoadingBackdrop, setIsLoadingBackdrop] = useState(false);
   const [isSearched, setIsSearched] = useState(false);
 
-  const handleClosePatient = (e, prescriptions) => {
-    props.handleTabChange(e, prescriptions);
-  }
-
   const searchHandler = async () => {
     if (searchValue.length <= 0) {
       return;
@@ -188,7 +184,7 @@ export default function PatientsList(props) {
                 <ArrowBackIcon />
               </IconButton>
             </div>
-            <GeneratePrescription patient={selectedPatient} handleClosePatient={handleClosePatient} />
+            <GeneratePrescription patient={selectedPatient} />
           </>
         ) : (
           renderPatientsComponent()

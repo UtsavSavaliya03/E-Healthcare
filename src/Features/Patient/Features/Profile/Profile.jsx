@@ -18,6 +18,7 @@ import { updatePatient } from '../../../Patient/Services/userServices.jsx';
 import { genderData } from "../../../../Constant/ProfileDetails/GenderDetails.jsx";
 import { Spinner } from "../../../../Components/Common/Spinners/Spinners.jsx";
 import Backdrop from "@mui/material/Backdrop";
+import { Helmet } from 'react-helmet';
 let State = require("country-state-city").State;
 let City = require("country-state-city").City;
 
@@ -174,6 +175,9 @@ export default function Profile() {
 
   return (
     <div className='py-3 px-4 user-account-container'>
+      <Helmet>
+        <title>My Account | Health Horizon</title>
+      </Helmet>
       <div className='profile-card fade-in'>
         <div className='d-flex justify-content-between align-items-center'>
           <h3 className='text-blue p-4 m-0'>My Account</h3>

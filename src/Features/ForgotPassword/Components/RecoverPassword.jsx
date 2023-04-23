@@ -54,7 +54,7 @@ export default function RecoverPassword(props) {
             <div className='d-flex justify-content-center py-1'>
                 <div className="horizontal-separator"></div>
             </div>
-            <p className="welcome-message">Please type the verification code sent to {user?.email || 'your registered email address'}.</p>
+            <p className="welcome-message">Please type the verification code sent to {user?.email || 'your registered email address'}</p>
             <Formik
                 initialValues={{ otp: '', userPwd: '', userConfirmPwd: '' }}
                 validationSchema={resetPasswordSchema}

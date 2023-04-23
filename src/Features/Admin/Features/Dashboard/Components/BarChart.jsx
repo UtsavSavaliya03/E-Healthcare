@@ -1,7 +1,6 @@
 import { useTheme } from "@mui/material";
 import { ResponsiveBar } from "@nivo/bar";
 import { tokens } from "../../../../../Services/theme.js";
-import { mockBarData as data } from "../../../../../Constant/Admin/mockData.js";
 
 const BarChart = ({ isDashboard = false, barData = {} }) => {
   const theme = useTheme();
@@ -9,9 +8,8 @@ const BarChart = ({ isDashboard = false, barData = {} }) => {
 
   return (
     <ResponsiveBar
-      data={data}
+      data={barData}
       theme={{
-        // added
         axis: {
           domain: {
             line: {

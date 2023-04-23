@@ -704,7 +704,7 @@ export default function AddDoctors() {
   return (
     <>
       <Helmet>
-        <title>Doctor | Health Horizon</title>
+        <title>Add Doctor | Health Horizon</title>
       </Helmet>
       <Backdrop sx={{ zIndex: 1 }} open={isLoading}>
         <Spinner />

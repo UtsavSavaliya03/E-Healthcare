@@ -19,10 +19,6 @@ export default function AppointmentList(props) {
     const [selectedPatient, setSelectedPatient] = useState(null);
     const [appointmentId, setAppointmentId] = useState('');
 
-    const handleClosePatient = (e, prescriptions) => {
-        props.handleTabChange(e, prescriptions);
-    }
-
     const fetchAppointmentHandler = async () => {
         setIsLoading(true);
 
@@ -77,7 +73,7 @@ export default function AppointmentList(props) {
                         </>
                     ) : (
                         <div className='text-center w-100 pt-5 text-muted'>
-                            <h5>No any appointmentDates for today</h5>
+                            <h5>No appointments for today</h5>
                         </div>
                     )
                 }
@@ -104,7 +100,7 @@ export default function AppointmentList(props) {
                                             <ArrowBackIcon />
                                         </IconButton>
                                     </div>
-                                    <GeneratePrescription patient={selectedPatient} handleClosePatient={handleClosePatient} appointmentId={appointmentId} />
+                                    <GeneratePrescription patient={selectedPatient} appointmentId={appointmentId} />
                                 </div>
                             ) : (
                                 renderAppointments()

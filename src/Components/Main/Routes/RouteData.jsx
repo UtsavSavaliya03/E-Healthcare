@@ -30,6 +30,8 @@ import Doctor from '../../../Features/Doctor/Doctor.jsx';
 import DoctorDashboard from '../../../Features/Doctor/Features/Dashboard/Dashboard.jsx';
 import Workspace from '../../../Features/Doctor/Features/Workspace/Workspace.jsx';
 import DoctorAppointmentList from '../../../Features/Doctor/Features/Appointment/Appointment.jsx';
+import DoctorPrescriptionList from '../../../Features/Doctor/Features/Prescriptions/Prescriptions.jsx';
+import DoctorReportstList from '../../../Features/Doctor/Features/Reports/Reports.jsx';
 import DoctorProfile from '../../../Features/Doctor/Features/Profile/Profile.jsx';
 
 /* --------- Laboratory Components --------- */
@@ -190,6 +192,14 @@ export const routeData = [
             {
                 path: "appointments",
                 element: DoctorAppointmentList,
+            },
+            {
+                path: "prescriptions",
+                element: DoctorPrescriptionList,
+            },
+            {
+                path: "reports",
+                element: DoctorReportstList,
             },
             {
                 path: "my-account",

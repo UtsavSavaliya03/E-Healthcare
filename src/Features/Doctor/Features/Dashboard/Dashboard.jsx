@@ -5,10 +5,6 @@ import Header from "./Components//Header";
 import LineChart from "./Components/LineChart.jsx";
 import "./Dashboard.css";
 import DoctorDashboardVector from "../../../../Assets/Icons/Doctor-dashboard-vector.png";
-import { styled } from "@mui/material/styles";
-import LinearProgress, {
-  linearProgressClasses,
-} from "@mui/material/LinearProgress";
 import IconButton from "@mui/material/IconButton";
 import CheckIcon from "@mui/icons-material/Check";
 import ClearIcon from "@mui/icons-material/Clear";
@@ -31,19 +27,6 @@ const Dashboard = () => {
   const [totalConsultedPatients, setTotalConsultedPatients] = useState([]);
   const [totalAppointments, setTotalAppointments] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
-
-
-  const BorderLinearProgress = styled(LinearProgress)(({ theme }) => ({
-    height: 10,
-    borderRadius: 5,
-    [`&.${linearProgressClasses.colorPrimary}`]: {
-      backgroundColor: colors.grey[800],
-    },
-    [`& .${linearProgressClasses.bar}`]: {
-      borderRadius: 5,
-      backgroundColor: colors.blueAccent[500],
-    },
-  }));
 
   const fetchAppointmentsHandler = async (status) => {
     const headers = {
@@ -72,7 +55,8 @@ const Dashboard = () => {
   }
   const acceptAppointment = async (id, status) => {
     const param = {
-      'status': status
+      status: status,
+      type: "Doctor"
     }
     const headers = {
       'Authorization': token
@@ -92,7 +76,8 @@ const Dashboard = () => {
   }
   const rejectAppointment = async (id, status) => {
     const param = {
-      'status': status
+      status: status,
+      type: "Doctor"
     }
     const headers = {
       'Authorization': token
@@ -113,8 +98,7 @@ const Dashboard = () => {
     };
     const patientsDataResponse = await fetchDoctorPatientsData(user?._id, headers);
     if (patientsDataResponse?.status) {
-      // setPatientsData([{ id: "Patients", color: tokens().blueAccent[500], data: patientsDataResponse?.data?.totalConsultedPatientData }, { id: "Appointments", color: tokens().greenAccent[500], data: patientsDataResponse?.data?.totalAppointmentsData }]);
-      setPatientsData([{ id: "Appointments", color: tokens().greenAccent[500], data: patientsDataResponse?.data?.totalAppointmentsData }]);
+      setPatientsData([{ id: "Patients", color: tokens().blueAccent[500], data: patientsDataResponse?.data?.totalConsultedPatientData }, { id: "Appointments", color: tokens().greenAccent[500], data: patientsDataResponse?.data?.totalAppointmentsData }]);
       setTotalAppointments(patientsDataResponse?.data?.totalAppointments);
       setTotalConsultedPatients(patientsDataResponse?.data?.totalConsultedPatient);
     }
@@ -125,13 +109,14 @@ const Dashboard = () => {
     fetchAppointmentsHandler(0)
     /* --- Status - 1 for approved --- */
     fetchApprovedAppointmentsHandler(1)
-    fetchDoctorPatientsDataHandler()
+
+    fetchDoctorPatientsDataHandler();
   }, [])
 
   return (
     <Box p="20px" sx={{ backgroundColor: "white", width: "100%" }} className="doctor-dashboard-container">
       <Helmet>
-        <title>Doctor | Dashboard</title>
+        <title>Dashboard | Doctor</title>
         <meta name="description" content="Helmet application" />
       </Helmet>
 
@@ -456,9 +441,11 @@ const Dashboard = () => {
                         variant="h5"
                         fontWeight="600"
                       >
-                        {approvedAppointment?.patient?.patientId}                      </Typography>
+                        {approvedAppointment?.patient?.patientId}
+                      </Typography>
                       <Typography color={colors.grey[100]}>
-                        {`${approvedAppointment?.patient?.fName} ${approvedAppointment?.patient?.lName}`}                       </Typography>
+                        {`${approvedAppointment?.patient?.fName} ${approvedAppointment?.patient?.lName}`}
+                      </Typography>
                     </Box>
                     <Box color={colors.grey[100]}>{moment(approvedAppointment.appointmentDate).format("LL")}</Box>
                     <Box color={colors.grey[100]}>{approvedAppointment.appointmentTime}</Box>

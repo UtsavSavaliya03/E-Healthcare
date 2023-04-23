@@ -55,7 +55,7 @@ export default function AppointmentCard(props) {
                                     />
                                     <p className="h4 m-0 pt-3 text-center font-weight-bold">{appointment?.patient?.fName}</p>
                                     <p className="h4 m-0 text-center font-weight-bold">{appointment?.patient?.lName}</p>
-                                    <p className="h5 m-0 pt-2 text-center text-secondary">{appointment?.doctor?.department?.name}</p>
+                                    <p className="h5 m-0 pt-2 text-center break-line-1 text-secondary">{appointment?.doctor?.department?.name}</p>
                                     <p className="h6 m-0 pt-2 text-center text-secondary">+91 {appointment?.patient?.mobileNo}</p>
                                 </div>
                                 <div className="col-7 admin-appointment-card-info text-center d-flex flex-column align-items-center justify-content-center text-light">

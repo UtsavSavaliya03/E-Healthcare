@@ -43,7 +43,7 @@ export default function ForgotPassword() {
   return (
     <>
       <Helmet>
-        <title>Recover Password | Health Horizon</title>
+        <title>Forgot Password | Health Horizon</title>
         <meta name="description" content="Helmet application" />
       </Helmet>
 

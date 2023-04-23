@@ -1,13 +1,15 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './AppointmentCard.css';
 import Avatar from 'react-avatar';
 import moment from 'moment';
-
+import { updateAppointmentById } from '../../../../Doctor/Services/appointmentServices.jsx';
+import Alert from '../../../../../Components/Common/Alert/SweetAlert.jsx';
 
 export default function AppointmentCard(props) {
 
-    const { appointments } = props;
-
+    const alert = new Alert();
+    const { appointment } = props;
+    const [status, setStatus] = useState(appointment?.appointmentData?.status);
     const displayAppointmentStatus = (status) => {
         if (status == 0) {
             return (
@@ -35,42 +37,59 @@ export default function AppointmentCard(props) {
             )
         }
     }
+    const token = localStorage.getItem("token") || null;
 
+    const deleteHandler = async () => {
+        const param = {
+            status: 3
+        }
+        const headers = {
+            'Authorization': token
+        }
+
+        const updatedAppointment = await updateAppointmentById(appointment?.appointmentData?._id, param, headers)
+        if (updatedAppointment?.status) {
+            setStatus(3);
+        }
+    }
+
+    const openCancelPopup = () => {
+        alert.confirmBox('Are you sure?', "You won't be able to revert this!", { deleteHandler }, 'Confirm')
+    }
 
     return (
-        <div className='row m-0'>
-            {
-                appointments?.map((appointment, index) => (
-                    <div className='col-lg-4 col-md-6' key={index}>
-                        <div className="admin-appointment-container my-3">
-                            <div className="admin-appointment-card-container row m-0">
-                                <div className="admin-appointment-card-preview col-5">
-                                    <>{displayAppointmentStatus(appointment?.appointmentData?.status)}</>
-                                    <Avatar
-                                        className='d-block mb-1 mt-5 mx-auto'
-                                        round
-                                        size='100'
-                                        name={`${appointment?.doctor?.fName} ${appointment?.doctor?.lName}`}
-                                        src={appointment?.doctor?.profileImg}
-                                    />
-                                    <p className="h4 m-0 pt-3 text-center font-weight-bold">Dr. {appointment?.doctor?.fName}</p>
-                                    <p className="h4 m-0 text-center font-weight-bold">{appointment?.doctor?.lName}</p>
-                                    <p className="h5 m-0 pt-2 text-center text-secondary">{appointment?.doctor?.department?.name}</p>
-                                    <p className="h6 m-0 pt-2 text-center text-secondary">+91 {appointment?.doctor?.mobileNo}</p>
-                                </div>
-                                <div className="admin-appointment-card-info text-center d-flex flex-column align-items-center justify-content-center text-light col-7">
-                                    <p className="h4 m-0 font-weight-bold">{appointment?.doctor?.hospital?.name}</p>
-                                    <p className="h5 m-0 pt-1">+91 {appointment?.doctor?.hospital?.mobileNo}</p>
-                                    <p className="h6 pt-4 m-0">Appointment Date :</p>
-                                    <p className="h5 m-0 font-weight-bold pt-2">{moment(new Date(appointment?.appointmentData?.appointmentDate)).format('LL')}</p>
-                                    <p className="h6 pt-3 m-0">Appointment Time :</p>
-                                    <p className="h5 m-0 font-weight-bold pt-2">{appointment?.appointmentData?.appointmentTime}</p>
-                                </div>
-                            </div>
-                        </div>
+        <div className='col-lg-4 col-md-6'>
+            <div className="admin-appointment-container my-3">
+                <div className="admin-appointment-card-container row m-0">
+                    <div className="admin-appointment-card-preview col-5">
+                        <>{displayAppointmentStatus(status)}</>
+                        <Avatar
+                            className='d-block mb-1 mt-5 mx-auto'
+                            round
+                            size='100'
+                            name={`${appointment?.doctor?.fName} ${appointment?.doctor?.lName}`}
+                            src={appointment?.doctor?.profileImg}
+                        />
+                        <p className="h4 m-0 pt-3 text-center font-weight-bold">Dr. {appointment?.doctor?.fName}</p>
+                        <p className="h4 m-0 text-center font-weight-bold">{appointment?.doctor?.lName}</p>
+                        <p className="h5 m-0 pt-2 text-center text-secondary break-line-1">{appointment?.doctor?.department?.name}</p>
+                        <p className="h6 m-0 pt-2 text-center text-secondary">+91 {appointment?.doctor?.mobileNo}</p>
                     </div>
-                ))
-            }
+                    <div className={`admin-appointment-card-info text-center d-flex flex-column text-light col-7 ${(status == 2 || status == 3) ? 'justify-content-center align-items-center' : ''}`}>
+                        <div className={`text-right w-100 mb-4 ${(status == 2 || status == 3) ? 'd-none' : ''}`}>
+                            <button className='cancel-apt-btn btn text-danger' onClick={openCancelPopup} >
+                                Cancel
+                            </button>
+                        </div>
+                        <p className="h4 m-0 font-weight-bold">{appointment?.doctor?.hospital?.name}</p>
+                        <p className="h5 m-0 pt-1">+91 {appointment?.doctor?.hospital?.mobileNo}</p>
+                        <p className="h6 pt-4 m-0">Appointment Date :</p>
+                        <p className="h5 m-0 font-weight-bold pt-2">{moment(new Date(appointment?.appointmentData?.appointmentDate)).format('LL')}</p>
+                        <p className="h6 pt-3 m-0">Appointment Time :</p>
+                        <p className="h5 m-0 font-weight-bold pt-2">{appointment?.appointmentData?.appointmentTime}</p>
+                    </div>
+                </div>
+            </div>
         </div>
     )
 }

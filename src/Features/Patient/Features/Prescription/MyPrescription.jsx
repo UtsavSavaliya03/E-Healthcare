@@ -9,6 +9,7 @@ import VisibilityIcon from '@mui/icons-material/Visibility';
 import DownloadIcon from '@mui/icons-material/Download';
 import moment from 'moment';
 import PrescriptionDownloader from '../../../../Components/Common/Prescription/PrescriptionDownloader.jsx';
+import { Helmet } from 'react-helmet';
 
 export default function MyPrescription() {
 
@@ -17,6 +18,11 @@ export default function MyPrescription() {
   const token = localStorage.getItem("token") || null;
   const [prescriptions, setPrescriptions] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+
+  const sortDates = (prescriptionData) => {
+    const sortedObjectsArray = [...prescriptionData].sort((a, b) => new Date(b?.prescription?.createdAt) - new Date(a?.prescription?.createdAt));
+    return sortedObjectsArray;
+  }
 
   const fetchPrescriptionHandler = async () => {
     setIsLoading(true);
@@ -30,7 +36,7 @@ export default function MyPrescription() {
     };
 
     const prescriptionResponse = await fetchPrescription(user?._id, headers);
-    setPrescriptions(prescriptionResponse?.data);
+    setPrescriptions(sortDates(prescriptionResponse?.data));
 
     setIsLoading(false);
   }
@@ -89,6 +95,9 @@ export default function MyPrescription() {
 
   return (
     <div className='prescription-list-container'>
+      <Helmet>
+        <title>My Prescriptions | Health Horizon</title>
+      </Helmet>
       <h2 className='text-blue py-4 px-md-4'>My Prescriptions</h2>
       {
         isLoading ? (

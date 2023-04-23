@@ -1,13 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { Box, Typography, useTheme } from "@mui/material";
 import { tokens } from "../../../../Services/theme.js";
-import { mockTransactions } from "../../../../Constant/Admin/mockData.js";
 import { FaMicroscope, FaUserAlt, FaStethoscope, FaHospitalAlt } from 'react-icons/fa';
 import Header from "./Components/Header.jsx";
 import LineChart from "./Components/LineChart.jsx";
 import BarChart from "./Components/BarChart.jsx";
 import StatBox from "./Components/StatBox.jsx";
-import ProgressCircle from "./Components/ProgressCircle.jsx";
 import "./Dashboard.css";
 import { Helmet } from "react-helmet";
 import { fetchAdminDashboardData } from '../../Services/dashboardServices.jsx'
@@ -42,7 +40,7 @@ export default function Dashboard() {
       setTotalPatients(adminData?.data?.totalPatients)
       setActivePatients(adminData?.data?.activePatients)
       setLineData([{ id: "Patients", color: tokens().blueAccent[500], data: adminData?.data?.patientsData }, { id: "Doctors", color: tokens().greenAccent[500], data: adminData?.data?.doctorsData }])
-      setBarData([{ id: "Hospitals", hospitalsColor: tokens().blueAccent[500], data:adminData?.data?.hospitalsData}, { id: "Laboratories", laboratoriesColor: tokens().greenAccent[500], data: adminData?.data?.laboratoriesData}])
+      setBarData(adminData?.data?.hospitalsAndLaboratoriesData)
       
       setIsLoading(false)
     }

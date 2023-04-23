@@ -7,6 +7,7 @@ import { useRecoilValue } from "recoil";
 import { userState } from '../../../../Store/globalState.jsx';
 import { Spinner } from '../../../../Components/Common/Spinners/Spinners.jsx';
 
+
 export default function MyAppointments() {
   const user = useRecoilValue(userState);
 
@@ -15,7 +16,7 @@ export default function MyAppointments() {
   const [isLoading, setIsLoading] = useState(false);
 
   const sortDates = (appointments) => {
-    const sortedObjectsArray = [...appointments].sort((a, b) => new Date(a?.appointmentData?.appointmentDate) - new Date(b?.appointmentData?.appointmentDate));
+    const sortedObjectsArray = [...appointments].sort((a, b) => new Date(b?.appointmentData?.appointmentDate) - new Date(a?.appointmentData?.appointmentDate));
     return sortedObjectsArray;
   }
 
@@ -54,7 +55,13 @@ export default function MyAppointments() {
           <div className='mb-3'>
             {
               appointments?.length > 0 ? (
-                <AppointmentCard appointments={appointments} />
+                <div className='row m-0'>
+                  {
+                    appointments?.map((appointment) => (
+                      <AppointmentCard appointment={appointment} />
+                    ))
+                  }
+                </div>
               ) : (
                 <h4 className='text-center text-muted w-100 py-5'>No Appointment</h4>
               )

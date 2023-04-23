@@ -18,7 +18,7 @@ export default function Workspace() {
   return (
     <div className='workspace-container'>
       <Helmet>
-        <title>Laboratory | Workspace</title>
+        <title>Workspace | Laboratory</title>
         <meta name="description" content="Helmet application" />
       </Helmet>
       <div className='workspace-card'>

@@ -9,7 +9,6 @@ import VisibilityIcon from '@mui/icons-material/Visibility';
 import DownloadIcon from '@mui/icons-material/Download';
 import moment from 'moment';
 import PrescriptionDownloader from '../../../../../Components/Common/Prescription/PrescriptionDownloader';
-import Backdrop from "@mui/material/Backdrop";
 
 export default function PrescriptionsList() {
 
@@ -18,7 +17,11 @@ export default function PrescriptionsList() {
   const token = localStorage.getItem("token") || null;
   const [prescriptions, setPrescriptions] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-  const [isLoadingBackdrop, setIsLoadingBackdrop] = useState(false);
+
+  const sortDates = (prescriptionData) => {
+    const sortedObjectsArray = [...prescriptionData].sort((a, b) => new Date(b?.prescription?.createdAt) - new Date(a?.prescription?.createdAt));
+    return sortedObjectsArray;
+  }
 
   const fetchPrescriptionHandler = async () => {
     setIsLoading(true);
@@ -31,7 +34,7 @@ export default function PrescriptionsList() {
     };
 
     const prescriptionResponse = await fetchPrescription(doctor?._id, headers);
-    setPrescriptions(prescriptionResponse?.data);
+    setPrescriptions(sortDates(prescriptionResponse?.data));
     setIsLoading(false);
   }
 
@@ -107,12 +110,6 @@ export default function PrescriptionsList() {
           </div>
         )
       }
-      <Backdrop
-        sx={{ zIndex: 1 }}
-        open={isLoadingBackdrop}
-      >
-        <Spinner />
-      </Backdrop>
     </div>
   )
 }

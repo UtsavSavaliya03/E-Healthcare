@@ -4,6 +4,7 @@ import { useRecoilValue } from 'recoil';
 import { userState } from '../../../../Store/globalState';
 import moment from 'moment';
 import Avatar from 'react-avatar';
+import { Helmet } from 'react-helmet';
 
 export default function Profile() {
 
@@ -11,6 +12,10 @@ export default function Profile() {
 
   return (
     <div className='py-3 px-4 profile-container'>
+      <Helmet>
+                <title>My Account | Doctor</title>
+                <meta name="description" content="Helmet application" />
+            </Helmet>
       <div className='profile-card fade-in'>
         <h3 className='text-blue p-4 m-0'>My Account</h3>
         <hr className='m-0' />
