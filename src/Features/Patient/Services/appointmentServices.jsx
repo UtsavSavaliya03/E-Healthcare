@@ -21,7 +21,15 @@ export const fetchAppointmentsByUser = async (id, header) => {
 }
 export const fetchAppointmentsByDate = async (params, header) => {
 
-    const appointmentsResponse = await axiosService.post(AppointmentUrls.fetchAppointmentsByDate(),params, header);
+    const appointmentsResponse = await axiosService.post(AppointmentUrls.fetchAppointmentsByDate(), params, header);
+
+    if (appointmentsResponse?.data || appointmentsResponse?.response?.data) {
+        return appointmentsResponse?.data || appointmentsResponse?.response.data;
+    }
+}
+export const fetchNonEmptyAppointmentSlots = async (params, header) => {
+
+    const appointmentsResponse = await axiosService.post(AppointmentUrls.fetchNonEmptyAppointmentSlots(), params, header);
 
     if (appointmentsResponse?.data || appointmentsResponse?.response?.data) {
         return appointmentsResponse?.data || appointmentsResponse?.response.data;

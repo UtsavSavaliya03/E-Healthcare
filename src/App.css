@@ -1,6 +1,6 @@
 @import url('./Assets/Bootstrap/bootstrap.min.css');
 
-button:focus{
+button:focus {
   outline: none;
 }
 
@@ -42,4 +42,10 @@ input[type=number] {
 
 button:disabled {
   cursor: not-allowed !important;
+}
+
+/* -------- Remove outline from sweet alert box ------- */
+
+.swal2-close:focus {
+  outline: none !important;
 }
