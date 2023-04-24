@@ -4,12 +4,20 @@ import Avatar from 'react-avatar';
 import moment from 'moment';
 import { updateAppointmentById } from '../../../../Doctor/Services/appointmentServices.jsx';
 import Alert from '../../../../../Components/Common/Alert/SweetAlert.jsx';
+import {
+    selectedDoctorStateAtom
+} from "../../../../../Store/globalState.jsx";
+import { useSetRecoilState } from "recoil";
+import { useNavigate } from 'react-router-dom';
 
 export default function AppointmentCard(props) {
 
     const alert = new Alert();
+    const navigate = useNavigate();
     const { appointment } = props;
     const [status, setStatus] = useState(appointment?.appointmentData?.status);
+    const setSelectedDoctor = useSetRecoilState(selectedDoctorStateAtom);
+
     const displayAppointmentStatus = (status) => {
         if (status == 0) {
             return (
@@ -39,7 +47,7 @@ export default function AppointmentCard(props) {
     }
     const token = localStorage.getItem("token") || null;
 
-    const deleteHandler = async () => {
+    const cancelAppointmentHandler = async () => {
         const param = {
             status: 3
         }
@@ -53,8 +61,13 @@ export default function AppointmentCard(props) {
         }
     }
 
+    const rescheduleAppointmentHandler = () => {
+        setSelectedDoctor({ ...appointment?.doctor, appointmentId: appointment?.appointmentData?._id });
+        navigate('/patient/book-appointment');
+    }
+
     const openCancelPopup = () => {
-        alert.confirmBox('Are you sure?', "You won't be able to revert this!", { deleteHandler }, 'Confirm')
+        alert.manageAppointmentBox('Are you sure?', "You won't be able to revert this!", { cancelAppointmentHandler }, { rescheduleAppointmentHandler })
     }
 
     return (

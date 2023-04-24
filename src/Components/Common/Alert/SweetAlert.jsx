@@ -16,20 +16,42 @@ export default class Notification extends Component {
         )
     }
 
-    confirmBox = (title, text, { deleteHandler }, confirmBtnText) => {
+    confirmBox = (title, text, { deleteHandler }) => {
         Swal.fire(
             {
                 icon: 'warning',
                 showCancelButton: true,
                 cancelButtonColor: '#0b8fdc',
                 confirmButtonColor: '#d33',
-                confirmButtonText:  confirmBtnText || 'Delete',
+                confirmButtonText: 'Delete',
                 title: title,
                 text: text,
             }
         ).then((result) => {
             if (result.isConfirmed) {
                 deleteHandler();
+            }
+        })
+    }
+
+    manageAppointmentBox = (title, text, { cancelAppointmentHandler }, { rescheduleAppointmentHandler }) => {
+        Swal.fire(
+            {
+                icon: 'warning',
+                showCloseButton: true,
+                showCancelButton: true,
+                cancelButtonColor: '#0b8fdc',
+                confirmButtonColor: '#d33',
+                confirmButtonText:  'Yes, Cancel It',
+                cancelButtonText:  'Reschedule',
+                title: title,
+                text: text,
+            }
+        ).then((result) => {
+            if (result.isConfirmed) {
+                cancelAppointmentHandler();
+            } else if(result?.dismiss == 'cancel') {
+                rescheduleAppointmentHandler();
             }
         })
     }

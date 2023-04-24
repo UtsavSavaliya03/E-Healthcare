@@ -19,7 +19,7 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import Backdrop from "@mui/material/Backdrop";
 import { AppointmentTimeData } from '../../../../Constant/OurFacilities/Appointment/AppointmentTime.jsx';
 import moment from "moment/moment";
-import { bookAppointment, fetchAppointmentsByDate } from '../../Services/appointmentServices.jsx';
+import { bookAppointment, fetchNonEmptyAppointmentSlots } from '../../Services/appointmentServices.jsx';
 import { useNavigate } from "react-router-dom";
 import Notificaion from '../../../../Components/Common/Notification/Notification.jsx';
 import { Helmet } from "react-helmet";
@@ -97,7 +97,7 @@ export default function BookAppointment() {
     })
   }, []);
 
-  const fetchAppointmentsByDateHandler = async (appoinmentDate) => {
+  const fetchNonEmptyAppointmentSlotsHandler = async (appoinmentDate) => {
     const token = localStorage.getItem("token") || null
 
     const headers = {
@@ -110,7 +110,7 @@ export default function BookAppointment() {
     }
 
     if (selectedDoctor) {
-      const appointmentsResponse = await fetchAppointmentsByDate(params, headers)
+      const appointmentsResponse = await fetchNonEmptyAppointmentSlots(params, headers)
       if (appointmentsResponse?.status) {
         setNonEmptySlot(appointmentsResponse?.data);
         setTimeSlots(AppointmentTimeData);
@@ -119,7 +119,7 @@ export default function BookAppointment() {
   }
 
   useEffect(() => {
-    fetchAppointmentsByDateHandler(appoinmentDate)
+    fetchNonEmptyAppointmentSlotsHandler(appoinmentDate)
   }, [appoinmentDate, selectedDoctor])
 
   const timeHandler = (hour, hourLabel) => {
@@ -192,6 +192,7 @@ export default function BookAppointment() {
       'Authorization': token
     }
     const params = {
+      appoinmentId: selectedDoctor?.appointmentId,
       patient: user._id,
       doctor: selectedDoctor._id,
       appointmentDate: moment(appoinmentDate).format('YYYY/MM/DD'),

@@ -227,6 +227,9 @@ export const AppointmentUrls = {
     fetchAppointmentsByDate: () => {
         return baseUrl + `/appointment/date`;
     },
+    fetchNonEmptyAppointmentSlots: () => {
+        return baseUrl + `/appointment/nonEmptySlot`;
+    },
 }
 
 export const ServicesUrls = {
