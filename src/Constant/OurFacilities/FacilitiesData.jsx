@@ -1,5 +1,5 @@
 import FacilityCardPrescriptionLogo from "../../Assets/Icons/Facility-card-prescription.png";
-import FacilityCardDebitcardLogo from "../../Assets/Icons/Facility-card-debitcard.png";
+import FacilityCardCalendarLogo from "../../Assets/Icons/Facility-card-calendar.png";
 import FacilityCardHeartLogo from "../../Assets/Icons/Facility-card-heart.png";
 import FacilityCardLocationLogo from "../../Assets/Icons/Facility-card-location.png";
 
@@ -10,9 +10,9 @@ export const facilitiesData = [
         "image": FacilityCardPrescriptionLogo
     },
     { 
-        "title": "Secured Payment Service",
-        "description": "Ensures secure payment transactions, protecting patients' financial information during healthcare purchase transactions",
-        "image": FacilityCardDebitcardLogo
+        "title": "Schedule Your Visit Online",
+        "description": "Efficiently book appointments and plan your visit online with our expert doctor's team nearest to your location ",
+        "image": FacilityCardCalendarLogo
     },
     { 
         "title": "Quality Medical Checkup",

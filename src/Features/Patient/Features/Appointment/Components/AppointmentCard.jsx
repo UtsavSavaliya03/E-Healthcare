@@ -9,6 +9,8 @@ import {
 } from "../../../../../Store/globalState.jsx";
 import { useSetRecoilState } from "recoil";
 import { useNavigate } from 'react-router-dom';
+import { IconButton } from '@mui/material';
+import EditIcon from '@mui/icons-material/Edit';
 
 export default function AppointmentCard(props) {
 
@@ -90,9 +92,13 @@ export default function AppointmentCard(props) {
                     </div>
                     <div className={`admin-appointment-card-info text-center d-flex flex-column text-light col-7 ${(status == 2 || status == 3) ? 'justify-content-center align-items-center' : ''}`}>
                         <div className={`text-right w-100 mb-4 ${(status == 2 || status == 3) ? 'd-none' : ''}`}>
-                            <button className='cancel-apt-btn btn text-danger' onClick={openCancelPopup} >
-                                Cancel
-                            </button>
+                            <IconButton
+                                size="small"
+                                className='btn-edit-appointment'
+                                onClick={openCancelPopup}
+                            >
+                                <EditIcon fontSize="small" />
+                            </IconButton>
                         </div>
                         <p className="h4 m-0 font-weight-bold">{appointment?.doctor?.hospital?.name}</p>
                         <p className="h5 m-0 pt-1">+91 {appointment?.doctor?.hospital?.mobileNo}</p>
